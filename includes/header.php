@@ -44,13 +44,13 @@ $flashMessages = get_flash_messages();
                     <ul class="sidebar-links">
                         <li>
                             <a href="<?= base_url('dashboard.php') ?>" class="sidebar-link <?= $activeNav === 'dashboard' ? 'active' : '' ?>" <?= $activeNav === 'dashboard' ? 'aria-current="page"' : '' ?>>
-                                <span class="sidebar-link-mark" aria-hidden="true">01</span>
+                                <svg class="sidebar-link-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4.5 4.5h6v6h-6zM13.5 4.5h6v6h-6zM4.5 13.5h6v6h-6zM13.5 13.5h6v6h-6z"/></svg>
                                 <span>Dashboard</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?= base_url('reports.php') ?>" class="sidebar-link <?= $activeNav === 'reports' ? 'active' : '' ?>" <?= $activeNav === 'reports' ? 'aria-current="page"' : '' ?>>
-                                <span class="sidebar-link-mark" aria-hidden="true">02</span>
+                                <svg class="sidebar-link-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M5 19V12M12 19V5M19 19V9M3.5 19.5h17"/></svg>
                                 <span>Reports</span>
                             </a>
                         </li>
@@ -62,25 +62,25 @@ $flashMessages = get_flash_messages();
                     <ul class="sidebar-links">
                         <li>
                             <a href="<?= base_url('transactions.php') ?>" class="sidebar-link <?= $activeNav === 'transactions' ? 'active' : '' ?>" <?= $activeNav === 'transactions' ? 'aria-current="page"' : '' ?>>
-                                <span class="sidebar-link-mark" aria-hidden="true">03</span>
+                                <svg class="sidebar-link-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M6 3.5h12A1.5 1.5 0 0 1 19.5 5v15l-2.5-1.5-2.5 1.5-2.5-1.5-2.5 1.5-2.5-1.5-2.5 1.5V5A1.5 1.5 0 0 1 6 3.5zM8.5 8h7M8.5 12h7M8.5 16h4"/></svg>
                                 <span>Transactions</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?= base_url('budgets.php') ?>" class="sidebar-link <?= $activeNav === 'budgets' ? 'active' : '' ?>" <?= $activeNav === 'budgets' ? 'aria-current="page"' : '' ?>>
-                                <span class="sidebar-link-mark" aria-hidden="true">04</span>
+                                <svg class="sidebar-link-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4.5 6.5h15A1.5 1.5 0 0 1 21 8v9.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h13M3 10h18M16.5 14h.01"/></svg>
                                 <span>Budgets</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?= base_url('categories.php') ?>" class="sidebar-link <?= $activeNav === 'categories' ? 'active' : '' ?>" <?= $activeNav === 'categories' ? 'aria-current="page"' : '' ?>>
-                                <span class="sidebar-link-mark" aria-hidden="true">05</span>
+                                <svg class="sidebar-link-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4.5 4.5h6v6h-6zM13.5 4.5h6v6h-6zM4.5 13.5h6v6h-6zM13.5 13.5h6v6h-6z"/></svg>
                                 <span>Categories</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?= base_url('payment-methods.php') ?>" class="sidebar-link <?= $activeNav === 'payment-methods' ? 'active' : '' ?>" <?= $activeNav === 'payment-methods' ? 'aria-current="page"' : '' ?>>
-                                <span class="sidebar-link-mark" aria-hidden="true">06</span>
+                                <svg class="sidebar-link-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><rect x="2.75" y="5.25" width="18.5" height="13.5" rx="2"/><path d="M3 9.5h18M6.5 14.5h3.5"/></svg>
                                 <span>Payment methods</span>
                             </a>
                         </li>
@@ -99,7 +99,7 @@ $flashMessages = get_flash_messages();
                 <form action="<?= base_url('logout.php') ?>" method="POST" class="sidebar-signout-form">
                     <?= csrf_field() ?>
                     <button type="submit" class="sidebar-signout">
-                        <span aria-hidden="true">↗</span>
+                        <svg class="sidebar-signout-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg>
                         <span>Sign out</span>
                     </button>
                 </form>
@@ -117,7 +117,7 @@ $flashMessages = get_flash_messages();
                     aria-controls="app-sidebar"
                     aria-expanded="false"
                 >
-                    <span aria-hidden="true">☰</span>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
                 </button>
                 <a href="<?= base_url('dashboard.php') ?>" class="mobile-appbar-brand">Spendly</a>
                 <span class="mobile-appbar-context"><?= e($pageTitle ?? 'Overview') ?></span>
