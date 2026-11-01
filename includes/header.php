@@ -106,7 +106,7 @@ $flashMessages = get_flash_messages();
             </div>
         </aside>
 
-        <button type="button" class="sidebar-backdrop" aria-label="Close navigation menu" tabindex="-1"></button>
+        <button type="button" class="sidebar-backdrop" aria-label="Close navigation menu" aria-hidden="true" tabindex="-1"></button>
 
         <div class="app-workspace">
             <header class="mobile-appbar">

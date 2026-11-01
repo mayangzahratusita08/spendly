@@ -42,8 +42,35 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && document.body.classList.contains('sidebar-open')) {
+      if (!document.body.classList.contains('sidebar-open')) {
+        return;
+      }
+
+      if (event.key === 'Escape') {
         setSidebarOpen(false);
+        return;
+      }
+
+      // Keep keyboard focus inside the mobile navigation drawer.
+      if (event.key === 'Tab' && window.matchMedia('(max-width: 980px)').matches) {
+        var focusableItems = sidebar.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        var firstItem = focusableItems[0];
+        var lastItem = focusableItems[focusableItems.length - 1];
+
+        if (!firstItem || !lastItem) {
+          event.preventDefault();
+          return;
+        }
+
+        if (event.shiftKey && document.activeElement === firstItem) {
+          event.preventDefault();
+          lastItem.focus();
+        } else if (!event.shiftKey && document.activeElement === lastItem) {
+          event.preventDefault();
+          firstItem.focus();
+        }
       }
     });
 
