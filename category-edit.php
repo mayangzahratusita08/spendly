@@ -89,20 +89,23 @@ require_once __DIR__ . '/includes/header.php';
 
             <div class="form-group">
                 <label class="form-label">Category Type <span class="required">*</span></label>
-                <div class="type-selector">
-                    <label class="type-pill <?= $formData['type'] === 'expense' ? 'active-expense' : '' ?>">
-                        <input type="radio" name="type" value="expense" <?= $formData['type'] === 'expense' ? 'checked' : '' ?>>
-                        Expense
-                    </label>
-                    <label class="type-pill <?= $formData['type'] === 'income' ? 'active-income' : '' ?>">
-                        <input type="radio" name="type" value="income" <?= $formData['type'] === 'income' ? 'checked' : '' ?> <?= ($usage['transactions'] > 0 || $usage['budgets'] > 0) ? 'disabled' : '' ?>>
-                        Income
-                    </label>
-                </div>
-                <?php if (isset($errors['type'])): ?><div class="form-feedback"><?= e($errors['type']) ?></div><?php endif; ?>
                 <?php if ($usage['transactions'] > 0 || $usage['budgets'] > 0): ?>
-                    <div class="form-hint">The category type is locked because financial records reference this category.</div>
+                    <input type="hidden" name="type" value="<?= e($formData['type']) ?>">
+                    <span class="badge badge-<?= e($formData['type']) ?>"><?= e(ucfirst($formData['type'])) ?></span>
+                    <div class="form-hint">The category type is locked because financial records reference this category. You can still rename or recolor it.</div>
+                <?php else: ?>
+                    <div class="type-selector">
+                        <label class="type-pill <?= $formData['type'] === 'expense' ? 'active-expense' : '' ?>">
+                            <input type="radio" name="type" value="expense" <?= $formData['type'] === 'expense' ? 'checked' : '' ?>>
+                            Expense
+                        </label>
+                        <label class="type-pill <?= $formData['type'] === 'income' ? 'active-income' : '' ?>">
+                            <input type="radio" name="type" value="income" <?= $formData['type'] === 'income' ? 'checked' : '' ?>>
+                            Income
+                        </label>
+                    </div>
                 <?php endif; ?>
+                <?php if (isset($errors['type'])): ?><div class="form-feedback"><?= e($errors['type']) ?></div><?php endif; ?>
             </div>
 
             <div class="form-group">

@@ -273,13 +273,14 @@ require_once __DIR__ . '/includes/header.php';
 
     <!-- Right Column: Account Seeded Defaults & Milestone Status -->
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        <!-- Configured Categories Card -->
+        <!-- User Categories Card -->
         <div class="card">
             <div class="card-header">
                 <div>
-                    <h2 class="card-title">Default Categories</h2>
-                    <p class="card-subtitle">Automatically seeded upon registration</p>
+                    <h2 class="card-title">Your Categories</h2>
+                    <p class="card-subtitle">Manage how your income and expenses are organized.</p>
                 </div>
+                <a href="<?= base_url('categories.php') ?>" class="btn btn-secondary btn-sm">Manage</a>
             </div>
 
             <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
@@ -293,13 +294,14 @@ require_once __DIR__ . '/includes/header.php';
             </div>
         </div>
 
-        <!-- Configured Payment Methods Card -->
+        <!-- User Payment Methods Card -->
         <div class="card">
             <div class="card-header">
                 <div>
-                    <h2 class="card-title">Default Payment Methods</h2>
-                    <p class="card-subtitle">Labels ready for your records</p>
+                    <h2 class="card-title">Your Payment Methods</h2>
+                    <p class="card-subtitle">Manage the payment labels used in transactions.</p>
                 </div>
+                <a href="<?= base_url('payment-methods.php') ?>" class="btn btn-secondary btn-sm">Manage</a>
             </div>
 
             <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem;">
