@@ -330,7 +330,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
             <section class="dashboard-panel setup-panel">
                 <div class="dashboard-section-heading">
                     <div>
-                        <p class="dashboard-section-kicker">PAYMENT</p>
+                        <p class="dashboard-section-kicker">Payment</p>
                         <h2>Payment methods</h2>
                     </div>
                     <a href="<?= base_url('payment-methods.php') ?>" class="text-action">Manage</a>
