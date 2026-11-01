@@ -13,31 +13,31 @@ $user = current_user();
 $userId = (int) $user['id'];
 $pdo = get_db_connection();
 
-// Current month date boundaries
+// Current month date boundaries (always calculated from the 1st of the month)
 $startOfMonth = date('Y-m-01');
-$startOfNextMonth = date('Y-m-01', strtotime('first day of next month'));
+$startOfNextMonth = date('Y-m-d', strtotime($startOfMonth . ' +1 month'));
 
 // 1. Current Balance: all-time income minus all-time expenses
-$balanceStmt = $pdo->prepare('
+$balanceStmt = $pdo->prepare("
     SELECT COALESCE(
-        SUM(CASE WHEN type = "income" THEN amount ELSE -amount END),
+        SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END),
         0
     ) AS current_balance
     FROM transactions
     WHERE user_id = :user_id
-');
+");
 $balanceStmt->execute([':user_id' => $userId]);
 $currentBalance = (float) $balanceStmt->fetchColumn();
 
 // 2. Monthly Income: current month
-$incomeStmt = $pdo->prepare('
+$incomeStmt = $pdo->prepare("
     SELECT COALESCE(SUM(amount), 0) AS monthly_income
     FROM transactions
     WHERE user_id = :user_id
-      AND type = "income"
+      AND type = 'income'
       AND transaction_date >= :start_date
       AND transaction_date < :end_date
-');
+");
 $incomeStmt->execute([
     ':user_id'    => $userId,
     ':start_date' => $startOfMonth,
@@ -46,14 +46,14 @@ $incomeStmt->execute([
 $monthlyIncome = (float) $incomeStmt->fetchColumn();
 
 // 3. Monthly Expenses: current month
-$expenseStmt = $pdo->prepare('
+$expenseStmt = $pdo->prepare("
     SELECT COALESCE(SUM(amount), 0) AS monthly_expense
     FROM transactions
     WHERE user_id = :user_id
-      AND type = "expense"
+      AND type = 'expense'
       AND transaction_date >= :start_date
       AND transaction_date < :end_date
-');
+");
 $expenseStmt->execute([
     ':user_id'    => $userId,
     ':start_date' => $startOfMonth,
@@ -111,7 +111,10 @@ require_once __DIR__ . '/includes/header.php';
             <h1>Hello, <?= e($user['full_name']) ?></h1>
             <p>Here is your financial summary for <?= date('F Y') ?>.</p>
         </div>
-        <span class="milestone-badge">Milestone 1 Foundation</span>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary btn-sm">+ Add Transaction</a>
+            <span class="milestone-badge">Milestone 2 Transactions Active</span>
+        </div>
     </div>
 </div>
 
@@ -143,6 +146,11 @@ require_once __DIR__ . '/includes/header.php';
                 <h2 class="card-title">Recent Transactions</h2>
                 <p class="card-subtitle">Your latest financial activity</p>
             </div>
+            <?php if (!empty($recentTransactions)): ?>
+                <div>
+                    <a href="<?= base_url('transactions.php') ?>" class="btn btn-secondary btn-sm">View All</a>
+                </div>
+            <?php endif; ?>
         </div>
 
         <?php if (empty($recentTransactions)): ?>
@@ -150,8 +158,9 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="empty-state-icon">&#128203;</div>
                 <h3>No transactions recorded yet</h3>
                 <p>
-                    Your account is clean and ready. In Milestone 2, you will be able to record, edit, and filter your daily income and expenses here.
+                    Start tracking your spending! Click the button below to record your first income or expense.
                 </p>
+                <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary btn-sm">Record First Transaction</a>
             </div>
         <?php else: ?>
             <div style="overflow-x: auto;">
@@ -163,17 +172,23 @@ require_once __DIR__ . '/includes/header.php';
                             <th style="padding: 0.6rem 0.5rem;">Method</th>
                             <th style="padding: 0.6rem 0.5rem;">Description</th>
                             <th style="padding: 0.6rem 0.5rem; text-align: right;">Amount</th>
+                            <th style="padding: 0.6rem 0.5rem; text-align: center;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($recentTransactions as $tx): ?>
                             <tr style="border-bottom: 1px solid var(--color-border);">
-                                <td style="padding: 0.6rem 0.5rem;"><?= format_date($tx['transaction_date']) ?></td>
+                                <td style="padding: 0.6rem 0.5rem; white-space: nowrap;"><?= format_date($tx['transaction_date']) ?></td>
                                 <td style="padding: 0.6rem 0.5rem;"><?= e($tx['category_name'] ?? 'Uncategorized') ?></td>
-                                <td style="padding: 0.6rem 0.5rem;"><?= e($tx['payment_method_name'] ?? '-') ?></td>
-                                <td style="padding: 0.6rem 0.5rem;"><?= e($tx['description'] ?? '-') ?></td>
-                                <td style="padding: 0.6rem 0.5rem; text-align: right; font-weight: 600; color: <?= $tx['type'] === 'income' ? 'var(--color-income)' : 'var(--color-expense)' ?>;">
+                                <td style="padding: 0.6rem 0.5rem; color: var(--color-text-muted);"><?= e($tx['payment_method_name'] ?? '-') ?></td>
+                                <td style="padding: 0.6rem 0.5rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?= e($tx['description'] ?? '-') ?></td>
+                                <td style="padding: 0.6rem 0.5rem; text-align: right; font-weight: 600; white-space: nowrap; color: <?= $tx['type'] === 'income' ? 'var(--color-income)' : 'var(--color-expense)' ?>;">
                                     <?= ($tx['type'] === 'income' ? '+' : '-') . ' ' . format_currency($tx['amount']) ?>
+                                </td>
+                                <td style="padding: 0.6rem 0.5rem; text-align: center; white-space: nowrap;">
+                                    <a href="<?= base_url('transaction-edit.php?id=' . (int) $tx['id']) ?>" class="btn-action edit" title="Edit">
+                                        Edit
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

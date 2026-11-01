@@ -602,3 +602,176 @@ a:hover {
   vertical-align: middle;
   margin-left: 0.5rem;
 }
+
+/* --------------------------------------------------------------------------
+   Filter Form & Grid
+   -------------------------------------------------------------------------- */
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .filter-grid {
+    grid-template-columns: 1fr 1.5fr 1fr 1fr auto;
+    align-items: flex-end;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Data Table
+   -------------------------------------------------------------------------- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.885rem;
+}
+
+.data-table th {
+  background-color: var(--color-surface-subtle);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.data-table td {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.data-table tbody tr:hover {
+  background-color: #fafaf8;
+}
+
+/* --------------------------------------------------------------------------
+   Badges
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge-income {
+  background-color: var(--color-income-bg);
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-expense {
+  background-color: var(--color-expense-bg);
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* --------------------------------------------------------------------------
+   Action Buttons in Tables
+   -------------------------------------------------------------------------- */
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.775rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  color: var(--color-text-main);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btn-action:hover {
+  text-decoration: none;
+}
+
+.btn-action.edit:hover {
+  background-color: var(--color-surface-subtle);
+  border-color: #cbd5e1;
+  color: var(--color-primary);
+}
+
+.btn-action.delete {
+  color: #b91c1c;
+}
+
+.btn-action.delete:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+/* --------------------------------------------------------------------------
+   Type Selector Pills (Create / Edit Form)
+   -------------------------------------------------------------------------- */
+.type-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.type-pill {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.15s ease;
+}
+
+.type-pill input[type="radio"] {
+  display: none;
+}
+
+.type-pill.active-expense {
+  background-color: var(--color-expense-bg);
+  border-color: #f87171;
+  color: #991b1b;
+  font-weight: 600;
+}
+
+.type-pill.active-income {
+  background-color: var(--color-income-bg);
+  border-color: #34d399;
+  color: #065f46;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Input with Prefix (e.g. "Rp")
+   -------------------------------------------------------------------------- */
+.input-prefix-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.input-with-prefix {
+  padding-left: 2.75rem !important;
+}
+

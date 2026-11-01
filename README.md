@@ -4,7 +4,7 @@
 > **Target Environment:** XAMPP (Apache + MySQL / MariaDB + PHP 8.x)  
 > **Language:** English  
 > **Initial Currency:** IDR (Rp)  
-> **Milestone Status:** **Milestone 1 — Foundation Completed**
+> **Milestone Status:** **Milestone 2 — Transaction Management Completed**
 
 Spendly is a lightweight, responsive web application designed for personal income and expense tracking, category budgeting, and financial summaries. Built with native PHP, MySQL, vanilla JavaScript, and modern semantic CSS without external frameworks, it is clean, easy to run locally, and simple to explain for a school final project presentation.
 
@@ -20,9 +20,7 @@ Spendly is a lightweight, responsive web application designed for personal incom
 
 ---
 
-## 2. Milestone 1 — Implemented Features
-
-Milestone 1 establishes the rock-solid security and data architecture for the project:
+## 2. Milestone 1 — Foundation
 
 - [x] **Relational Database Schema:** 5 normalized tables (`users`, `categories`, `payment_methods`, `transactions`, `budgets`) with strict foreign keys, unique constraints, and indexes.
 - [x] **Secure Database Connection:** PDO singleton with exception error mode, prepared statements, and custom error screens that hide raw SQL credentials and errors.
@@ -41,10 +39,45 @@ Milestone 1 establishes the rock-solid security and data architecture for the pr
   - **IDOR Protection:** All queries strictly scoped by the authenticated session user ID.
   - **Authentication Guard:** Reusable `require_login()` and `require_guest()` middleware functions.
   - **Secret Hygiene:** `config/database.php` is ignored by Git; committed repository only contains `config/database.example.php`.
-- [x] **Truthful Empty-State UI:**
-  - Clean, responsive dashboard displaying actual database calculations.
-  - Displays `Rp 0` and honest empty states for fresh accounts without mock/fake financial figures.
-  - Highlights seeded categories and payment methods for verification.
+
+---
+
+## 3. Milestone 2 — Transaction Management (New)
+
+Milestone 2 activates complete financial transaction management:
+
+- [x] **Create Transactions (`transaction-create.php`):**
+  - Record income or expense transactions with positive amounts (`DECIMAL(14,2)`).
+  - Dynamic UI synchronization: Category dropdown automatically displays only categories matching the selected transaction type (Income vs. Expense).
+  - Optional payment method selection from the user's seeded payment methods.
+  - Date picker defaulting to the current date (`YYYY-MM-DD`).
+  - Optional description/note (max 255 characters).
+- [x] **Read & Filter Transaction History (`transactions.php`):**
+  - Chronological transaction log, newest first (`ORDER BY transaction_date DESC, id DESC`).
+  - Multi-parameter filtering:
+    - By Type (`All`, `Income`, `Expense`).
+    - By Category (user-scoped categories).
+    - By Date range (`start_date` to `end_date`).
+  - Live summary ribbon calculating matching transaction count, filtered income, and filtered expenses.
+  - Colored transaction amounts (`+ Rp ...` in green for income, `- Rp ...` in red for expenses) and category indicator dots.
+- [x] **Edit Transactions (`transaction-edit.php`):**
+  - Pre-filled edit form with existing transaction details.
+  - Strict ownership validation: prevents editing transactions belonging to other users.
+- [x] **Delete Transactions with Confirmation (`transaction-delete.php`):**
+  - Dedicated POST action protected with CSRF verification (rejects GET requests).
+  - Interactive browser confirmation prompt before deletion.
+  - Scoped strictly to authenticated `user_id`.
+- [x] **Live Dashboard Integration (`dashboard.php`):**
+  - **Current Balance:** Live calculation: `SUM(all income) - SUM(all expenses)`.
+  - **Monthly Income:** Live sum of income records for the current calendar month.
+  - **Monthly Expenses:** Live sum of expense records for the current calendar month.
+  - **Recent Transactions:** Displays the 5 latest transactions with direct "Edit" links and a "View All" shortcut.
+  - Truthful transitions from empty state to populated records as soon as transactions are added.
+- [x] **Strict Server-Side Validation & Security:**
+  - Verifies that the chosen category exists, belongs to the current user, and its `type` strictly matches the transaction `type`.
+  - Verifies payment method ownership.
+  - Rejects zero or negative amounts.
+  - All database reads and writes use PDO prepared statements.
 
 ---
 
@@ -170,6 +203,7 @@ spendly/
 │   ├── csrf.php                # CSRF token generation and validation helpers
 │   ├── db.php                  # PDO connection manager with graceful error screens
 │   ├── functions.php           # Security helpers (e()), currency formatting (IDR), flash messages
+│   ├── transactions.php        # Transaction database operations and input validation
 │   ├── header.php              # Shared header layout with responsive navigation & flash alerts
 │   └── footer.php              # Shared footer layout and JS inclusion
 ├── dashboard.php               # Protected dashboard with real DB aggregates and empty states
@@ -177,6 +211,10 @@ spendly/
 ├── login.php                   # Sign-in form with server validation & CSRF
 ├── logout.php                  # Safe session destruction action
 ├── register.php                # Registration form with DB transaction seeding & CSRF
+├── transactions.php            # Transaction history listing, search & multi-parameter filtering
+├── transaction-create.php      # Form to record income/expense with type-synced categories
+├── transaction-edit.php        # Form to modify existing transaction with strict ownership check
+├── transaction-delete.php      # Action to delete transaction with CSRF & ownership validation
 ├── .gitignore                  # Excludes local secrets (config/database.php), logs, OS files
 └── README.md                   # Project documentation and setup guide
 ```

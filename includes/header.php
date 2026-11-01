@@ -42,6 +42,11 @@ $flashMessages = get_flash_messages();
                                 Dashboard
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= base_url('transactions.php') ?>" class="nav-link <?= $activeNav === 'transactions' ? 'active' : '' ?>">
+                                Transactions
+                            </a>
+                        </li>
                     </ul>
                     <div class="nav-user">
                         <span class="user-badge"><?= e($user['full_name'] ?? 'Account') ?></span>
