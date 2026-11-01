@@ -140,24 +140,19 @@ The savings rate is calculated as `(income - expenses) / income × 100`. It is n
 
 ---
 
-## 7. Design System v1
+## 7. Design System
 
-Spendly uses a Material-inspired component foundation with a restrained translucent navigation treatment.
+Spendly uses a **Material 3-inspired component foundation** with semantic color roles, tonal surfaces, rounded controls, a persistent navigation drawer, and restrained elevation.
 
-- **Base surfaces:** white content surfaces on a soft neutral page background.
-- **Brand:** forest/sage green for primary actions and navigation states.
-- **Financial semantics:** green for income, red for expenses, amber for warnings.
-- **Typography:** system-first sans-serif stack with Inter when available; financial figures use tabular-friendly numeric presentation.
-- **Shape:** consistent 8px controls, 10–12px cards, and restrained borders.
-- **Elevation:** subtle surface separation; avoid decorative shadows.
-- **Translucency:** limited to the authenticated application sidebar, mobile sidebar drawer, and guest header. Forms, tables, cards, and financial figures remain opaque for readability.
-- **Interaction:** visible keyboard focus, reduced-motion support, and small purposeful transitions.
-- **Navigation:** authenticated pages use a persistent desktop sidebar and an accessible mobile drawer; guest authentication pages use a compact header.
-- **Dashboard:** redesigned around clear financial metrics, compact budget tracking, recent activity, and account setup summaries.
+- **Color roles:** forest-green primary, primary and secondary containers, neutral surface containers, and distinct income, expense, warning, and information roles.
+- **Surface hierarchy:** white cards and data surfaces on a softly tinted application canvas; deeper tonal containers provide grouping without excessive borders.
+- **Typography:** system-first Roboto / Inter / sans-serif stack, clear heading levels, and tabular-friendly financial figures.
+- **Shape:** pill buttons and navigation indicators, 10px inputs, and 16px cards.
+- **Navigation:** icon-led desktop sidebar with an accessible mobile drawer; translucent treatment is reserved for navigation.
+- **Interaction:** visible keyboard focus, selected and disabled states, short transitions, and reduced-motion support.
+- **Dashboard:** three tonal financial metrics, compact budget tracking, recent activity, and account setup summaries.
 
-No external UI framework, font CDN, or chart dependency is required.
-
----
+The full token map and component guidance live in `design-system.md`. No external UI framework, font CDN, icon package, or chart dependency is required.
 
 ## 8. Database Schema Overview
 
