@@ -1239,3 +1239,365 @@ a:hover {
     min-width: 62px;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Analytics & Reports
+   -------------------------------------------------------------------------- */
+.report-page-heading {
+  margin-bottom: 1.25rem;
+}
+
+.report-filter-card {
+  margin-bottom: 1.5rem;
+  padding: 1.1rem 1.25rem;
+}
+
+.report-month-form {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.report-month-form .form-group {
+  min-width: 220px;
+}
+
+.report-reset-link {
+  color: var(--color-text-muted);
+  padding: 0.55rem 0.25rem;
+}
+
+.report-period-caption {
+  font-size: 0.78rem;
+  margin: 0.75rem 0 0;
+}
+
+.report-summary-cards {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .report-summary-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1000px) {
+  .report-summary-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.report-section {
+  min-width: 0;
+  margin-bottom: 1.25rem;
+}
+
+.report-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.report-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.report-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.report-legend-income {
+  background: var(--color-primary);
+}
+
+.report-legend-expense {
+  background: #e87979;
+}
+
+.trend-chart {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 1.25rem 0.25rem 0;
+  min-height: 260px;
+}
+
+.trend-month {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.trend-month > strong {
+  color: var(--color-text-main);
+}
+
+.trend-bars {
+  height: 205px;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.trend-bar-column {
+  height: 100%;
+  flex: 1 1 0;
+  max-width: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 0;
+}
+
+.trend-bar-value {
+  display: none;
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.trend-bar-track {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: transparent;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.trend-bar {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  border-radius: 5px 5px 0 0;
+  transition: opacity 0.15s ease;
+}
+
+.trend-bar:hover {
+  opacity: 0.75;
+}
+
+.trend-bar-income {
+  background: var(--color-primary);
+}
+
+.trend-bar-expense {
+  background: #e87979;
+}
+
+.report-chart-footnote {
+  margin: 0.85rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.report-empty-state {
+  padding: 1.5rem 1rem;
+}
+
+.report-two-column {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .report-two-column {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.breakdown-item {
+  min-width: 0;
+}
+
+.breakdown-item-heading,
+.breakdown-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.breakdown-item-heading {
+  font-size: 0.85rem;
+}
+
+.breakdown-item-heading > strong {
+  white-space: nowrap;
+}
+
+.breakdown-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.breakdown-dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+}
+
+.breakdown-track {
+  width: 100%;
+  height: 7px;
+  margin-top: 0.45rem;
+  background: var(--color-surface-subtle);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.breakdown-track > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  min-width: 0;
+}
+
+.breakdown-meta {
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  margin-top: 0.3rem;
+}
+
+.report-insight {
+  border-top: 1px solid var(--color-border);
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.report-insight strong {
+  color: var(--color-text-main);
+}
+
+.report-simple-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.report-simple-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.report-simple-row:first-child {
+  padding-top: 0;
+}
+
+.report-simple-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.report-simple-row > span {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.report-simple-row > span strong {
+  font-size: 0.85rem;
+}
+
+.report-simple-row small {
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+}
+
+.report-simple-row > strong {
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+
+.budget-performance-summary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.budget-performance-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.budget-performance-summary strong {
+  font-size: 0.95rem;
+}
+
+.report-footer-note {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  margin: 0.25rem 0 1rem;
+}
+
+@media (min-width: 540px) {
+  .budget-performance-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .report-month-form {
+    align-items: stretch;
+  }
+
+  .report-month-form .form-group {
+    width: 100%;
+  }
+
+  .report-month-form .btn {
+    flex: 1;
+  }
+
+  .trend-chart {
+    gap: 0.2rem;
+  }
+
+  .trend-bars {
+    gap: 0.18rem;
+  }
+
+  .report-legend {
+    margin-top: 0.4rem;
+  }
+}
