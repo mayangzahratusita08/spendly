@@ -40,7 +40,7 @@ $flashMessages = get_flash_messages();
 
             <nav class="sidebar-navigation" aria-label="Primary navigation">
                 <div class="sidebar-nav-group">
-                    <p class="sidebar-section-label">OVERVIEW</p>
+                    <p class="sidebar-section-label">Overview</p>
                     <ul class="sidebar-links">
                         <li>
                             <a href="<?= base_url('dashboard.php') ?>" class="sidebar-link <?= $activeNav === 'dashboard' ? 'active' : '' ?>" <?= $activeNav === 'dashboard' ? 'aria-current="page"' : '' ?>>
@@ -58,7 +58,7 @@ $flashMessages = get_flash_messages();
                 </div>
 
                 <div class="sidebar-nav-group">
-                    <p class="sidebar-section-label">MANAGE</p>
+                    <p class="sidebar-section-label">Manage</p>
                     <ul class="sidebar-links">
                         <li>
                             <a href="<?= base_url('transactions.php') ?>" class="sidebar-link <?= $activeNav === 'transactions' ? 'active' : '' ?>" <?= $activeNav === 'transactions' ? 'aria-current="page"' : '' ?>>
@@ -135,19 +135,6 @@ $flashMessages = get_flash_messages();
             </div>
         </header>
         <div class="app-workspace app-workspace-guest">
-    <?php endif; ?>
-
-    <?php if ($loggedIn): ?>
-        <header class="workspace-topbar">
-            <div class="workspace-topbar-inner">
-                <h1 class="workspace-topbar-title"><?= e($pageTitle ?? 'Overview') ?></h1>
-                <div class="workspace-topbar-meta">
-                    <span>Personal finance</span>
-                    <span aria-hidden="true"> · </span>
-                    <time datetime="<?= e(date('Y-m-d')) ?>"><?= e(date('l, j F Y')) ?></time>
-                </div>
-            </div>
-        </header>
     <?php endif; ?>
 
     <main class="app-main">
