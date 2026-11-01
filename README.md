@@ -4,7 +4,7 @@
 > **Target Environment:** XAMPP (Apache + MySQL / MariaDB + PHP 8.x)  
 > **Language:** English  
 > **Initial Currency:** IDR (Rp)  
-> **Milestone Status:** **Milestone 2 — Transaction Management Completed**
+> **Milestone Status:** **Milestone 3 — Budget Management Implemented**
 
 Spendly is a lightweight, responsive web application designed for personal income and expense tracking, category budgeting, and financial summaries. Built with native PHP, MySQL, vanilla JavaScript, and modern semantic CSS without external frameworks, it is clean, easy to run locally, and simple to explain for a school final project presentation.
 
@@ -81,7 +81,29 @@ Milestone 2 activates complete financial transaction management:
 
 ---
 
-## 3. Database Schema Overview
+## 4. Milestone 3 — Budget Management
+
+Milestone 3 activates monthly expense budgets using the existing `budgets` table. No database migration is required.
+
+- [x] Create one budget per expense category and calendar month.
+- [x] Edit the category, month, or amount limit of an existing budget.
+- [x] Delete a budget without deleting or changing transaction records.
+- [x] Calculate actual expense totals from transactions in the selected month.
+- [x] Show each category's spending progress, remaining amount, and over-budget status.
+- [x] Display a three-category budget snapshot on the dashboard.
+- [x] Enforce expense-category ownership, unique user/category/month combinations, CSRF protection, and user-scoped CRUD operations.
+- [x] Preserve IDR decimal values using the existing `DECIMAL(14,2)` database column.
+
+Budget status rules:
+- **On track:** below 80% of the limit.
+- **Near limit:** 80% through 100% of the limit.
+- **Over budget:** actual spending is greater than the limit.
+
+The budget summary includes only categories with a budget configured for the selected month. Expenses in unbudgeted categories are not included in the tracked spending total.
+
+---
+
+## 5. Database Schema Overview
 
 The database `spendly_db` contains five tables:
 
@@ -115,7 +137,7 @@ The database `spendly_db` contains five tables:
 
 ---
 
-## 4. XAMPP Local Setup Instructions
+## 6. XAMPP Local Setup Instructions
 
 Follow these step-by-step instructions to run Spendly on your computer using XAMPP:
 
@@ -183,7 +205,7 @@ Follow these step-by-step instructions to run Spendly on your computer using XAM
 
 ---
 
-## 5. Project Directory Structure
+## 7. Project Directory Structure
 
 ```text
 spendly/
@@ -204,6 +226,7 @@ spendly/
 │   ├── db.php                  # PDO connection manager with graceful error screens
 │   ├── functions.php           # Security helpers (e()), currency formatting (IDR), flash messages
 │   ├── transactions.php        # Transaction database operations and input validation
+│   ├── budgets.php             # Monthly budget database operations and validation
 │   ├── header.php              # Shared header layout with responsive navigation & flash alerts
 │   └── footer.php              # Shared footer layout and JS inclusion
 ├── dashboard.php               # Protected dashboard with real DB aggregates and empty states
@@ -215,13 +238,17 @@ spendly/
 ├── transaction-create.php      # Form to record income/expense with type-synced categories
 ├── transaction-edit.php        # Form to modify existing transaction with strict ownership check
 ├── transaction-delete.php      # Action to delete transaction with CSRF & ownership validation
+├── budgets.php                  # Monthly budget overview and progress
+├── budget-create.php            # Create a category budget
+├── budget-edit.php              # Edit a category budget
+├── budget-delete.php            # POST-only budget deletion with CSRF protection
 ├── .gitignore                  # Excludes local secrets (config/database.php), logs, OS files
 └── README.md                   # Project documentation and setup guide
 ```
 
 ---
 
-## 6. School Presentation Talking Points
+## 8. School Presentation Talking Points
 
 If presenting this project to a teacher or examiner:
 1. **Security-First Foundation:** Explain that passwords are never stored in plain text (`password_hash` with bcrypt), every query uses PDO prepared statements to block SQL injection, CSRF tokens prevent cross-site request forgery, and `htmlspecialchars()` stops cross-site scripting (XSS).
