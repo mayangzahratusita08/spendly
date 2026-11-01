@@ -52,6 +52,16 @@ $flashMessages = get_flash_messages();
                                 Budgets
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= base_url('categories.php') ?>" class="nav-link <?= $activeNav === 'categories' ? 'active' : '' ?>">
+                                Categories
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= base_url('payment-methods.php') ?>" class="nav-link <?= $activeNav === 'payment-methods' ? 'active' : '' ?>">
+                                Payment Methods
+                            </a>
+                        </li>
                     </ul>
                     <div class="nav-user">
                         <span class="user-badge"><?= e($user['full_name'] ?? 'Account') ?></span>
