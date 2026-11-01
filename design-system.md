@@ -2,7 +2,7 @@
 
 **Direction:** A Material 3-inspired personal-finance application built with semantic HTML and CSS.  
 **Brand source color:** Spendly forest green.  
-**Implementation:** Native PHP-rendered HTML, semantic CSS custom properties, inline SVG icons, and vanilla JavaScript.
+**Implementation:** Native PHP-rendered HTML, official Material Web components, Material 3 system color roles, semantic CSS, and vanilla JavaScript.
 
 This system is based on Material 3's coordinated color, typography, shape, elevation, and component foundations. It is not a collection of rounded cards: the same semantic roles and component rules govern the navigation drawer, app bar, financial summaries, fields, buttons, tables, and status communication.
 
@@ -173,7 +173,8 @@ Shape communicates component role. Cards and fields are not full pills. Buttons 
 
 ## 9. Implementation constraints
 
-- No CSS framework, icon package, remote font, or chart library is introduced.
+- Use official `@material/web` components for supported controls, bundled selectively with esbuild.
+- Do not introduce a frontend framework or replace PHP-rendered pages.
 - PHP business logic, queries, validation, authentication, CSRF protection, and ownership checks are outside the scope of UI changes.
 - Keep shared token and component styles in `assets/css/app.css`.
 - Keep reusable navigation and app-bar markup in `includes/header.php`.
