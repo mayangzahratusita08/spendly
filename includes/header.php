@@ -23,6 +23,7 @@ $flashMessages = get_flash_messages();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?></title>
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
+    <script type="module" src="<?= base_url('assets/js/material-web.bundle.js') ?>"></script>
 </head>
 <body>
 <div class="app-shell <?= $loggedIn ? 'app-shell-authenticated' : 'app-shell-guest' ?>">
