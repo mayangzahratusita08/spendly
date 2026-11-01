@@ -14,6 +14,6 @@ require_once __DIR__ . '/functions.php';
     </div><!-- /.app-workspace -->
 </div><!-- /.app-shell -->
 
-<script src="<?= base_url('assets/js/app.js') ?>"></script>
+<script src="<?= base_url('assets/js/app.js') ?>?v=<?= e((string) $appAssetVersion) ?>"></script>
 </body>
 </html>
