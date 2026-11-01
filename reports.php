@@ -127,7 +127,7 @@ require_once __DIR__ . '/includes/header.php';
             <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary btn-sm">Add Transaction</a>
         </div>
     <?php else: ?>
-        <div class="trend-chart" role="img" aria-label="Bar chart comparing income and expenses over six months">
+        <div class="trend-chart" role="group" aria-label="Bar chart comparing income and expenses over six months">
             <?php foreach ($trends as $trend): ?>
                 <?php
                     $incomeValue = (float) $trend['income'];
@@ -140,13 +140,13 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="trend-bar-column">
                             <span class="trend-bar-value"><?= format_currency($incomeValue) ?></span>
                             <div class="trend-bar-track">
-                                <span class="trend-bar trend-bar-income" style="height: <?= e((string) $incomeHeight) ?>%;"></span>
+                                <span class="trend-bar trend-bar-income" title="<?= e($trend['label'] . ' income: ' . format_currency($incomeValue)) ?>" aria-label="<?= e($trend['label'] . ' income: ' . format_currency($incomeValue)) ?>" tabindex="0" style="height: <?= e((string) $incomeHeight) ?>%;"></span>
                             </div>
                         </div>
                         <div class="trend-bar-column">
                             <span class="trend-bar-value"><?= format_currency($expenseValue) ?></span>
                             <div class="trend-bar-track">
-                                <span class="trend-bar trend-bar-expense" style="height: <?= e((string) $expenseHeight) ?>%;"></span>
+                                <span class="trend-bar trend-bar-expense" title="<?= e($trend['label'] . ' expenses: ' . format_currency($expenseValue)) ?>" aria-label="<?= e($trend['label'] . ' expenses: ' . format_currency($expenseValue)) ?>" tabindex="0" style="height: <?= e((string) $expenseHeight) ?>%;"></span>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             <?php endforeach; ?>
         </div>
-        <div class="report-chart-footnote">Each month uses the same scale. Hover or focus a bar to view its exact amount.</div>
+        <div class="report-chart-footnote">Each month uses the same vertical scale. Hover over or focus a bar to read its exact amount.</div>
     <?php endif; ?>
 </section>
 

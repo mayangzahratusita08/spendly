@@ -103,7 +103,7 @@ function get_report_monthly_trends(PDO $pdo, int $userId, string $selectedMonth)
 
         $result[] = [
             'month' => $key,
-            'label' => $month->format('M'),
+            'label' => $month->format('M y'),
             'income' => (string) ($row['total_income'] ?? '0.00'),
             'expenses' => (string) ($row['total_expenses'] ?? '0.00'),
         ];

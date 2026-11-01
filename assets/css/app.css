@@ -1398,6 +1398,11 @@ a:hover {
   opacity: 0.75;
 }
 
+.trend-bar:focus {
+  outline: 2px solid var(--color-text-main);
+  outline-offset: 2px;
+}
+
 .trend-bar-income {
   background: var(--color-primary);
 }

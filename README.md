@@ -265,6 +265,7 @@ spendly/
 │   ├── transactions.php        # Transaction database operations and input validation
 │   ├── budgets.php             # Monthly budget database operations and validation
 │   ├── catalog.php             # Category and payment method CRUD operations
+│   ├── reports.php             # Monthly analytics query helpers
 │   ├── header.php              # Shared header layout with responsive navigation & flash alerts
 │   └── footer.php              # Shared footer layout and JS inclusion
 ├── dashboard.php               # Protected dashboard with real DB aggregates and empty states
