@@ -4,6 +4,56 @@
    ========================================================================== */
 
 :root {
+  /* Official Material Web system color roles */
+  --md-sys-color-primary: #416b50;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d7ead9;
+  --md-sys-color-on-primary-container: #163a23;
+  --md-sys-color-secondary: #526451;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #dce8d7;
+  --md-sys-color-on-secondary-container: #344b38;
+  --md-sys-color-tertiary: #755847;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #f1dfd2;
+  --md-sys-color-on-tertiary-container: #2b170b;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+  --md-sys-color-background: #f7f9f6;
+  --md-sys-color-on-background: #1b1f1b;
+  --md-sys-color-surface: #f7f9f6;
+  --md-sys-color-on-surface: #1b1f1b;
+  --md-sys-color-surface-variant: #e5ebe4;
+  --md-sys-color-on-surface-variant: #444b44;
+  --md-sys-color-outline: #717971;
+  --md-sys-color-outline-variant: #c2cbc2;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #30352f;
+  --md-sys-color-inverse-on-surface: #eff2ec;
+  --md-sys-color-inverse-primary: #bce0c1;
+  --md-sys-color-surface-dim: #d8e0d8;
+  --md-sys-color-surface-bright: #f7faf7;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f1f4ef;
+  --md-sys-color-surface-container: #ebf0ea;
+  --md-sys-color-surface-container-high: #e5ebe4;
+  --md-sys-color-surface-container-highest: #dfe6de;
+  --md-outlined-text-field-container-shape: 8px;
+  --md-outlined-text-field-focus-outline-color: var(--md-sys-color-primary);
+  --md-outlined-text-field-input-text-color: var(--md-sys-color-on-surface);
+  --md-outlined-text-field-label-text-color: var(--md-sys-color-on-surface-variant);
+  --md-outlined-text-field-outline-color: var(--md-sys-color-outline);
+  --md-outlined-text-field-input-text-font: 400 1rem/1.5 var(--font-sans);
+  --md-outlined-text-field-label-text-font: 400 1rem/1.5 var(--font-sans);
+  --md-outlined-select-text-field-container-shape: 8px;
+  --md-outlined-select-text-field-outline-color: var(--md-sys-color-outline);
+  --md-linear-progress-track-height: 8px;
+  --md-linear-progress-track-shape: 8px;
+  --md-linear-progress-active-indicator-height: 8px;
+
   /* Core surfaces */
   --color-bg: #f6f8f6;
   --color-surface: #ffffff;
@@ -3893,3 +3943,15 @@ textarea:focus-visible {
   background: var(--md-surface-container-lowest);
   color: var(--md-on-surface-variant);
 }
+
+/* Material Web components are the source of truth for these controls. */
+md-outlined-text-field {
+  display: block;
+  width: 100%;
+  --md-outlined-text-field-container-shape: 8px;
+}
+md-outlined-text-field::part(field) { min-width: 0; }
+md-filled-button,
+md-outlined-button,
+md-text-button { --md-filled-button-container-shape: 999px; }
+.md-field-error { color: var(--md-sys-color-error); }
