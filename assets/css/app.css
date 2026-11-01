@@ -3886,3 +3886,38 @@ textarea:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Final icon and hierarchy corrections */
+.sidebar-link-icon,
+.sidebar-signout-icon,
+.sidebar-toggle svg {
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sidebar-link-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+}
+
+.sidebar-signout-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+
+.sidebar-toggle svg {
+  width: 24px;
+  height: 24px;
+}
+
+.sidebar-section-label {
+  text-transform: none;
+  letter-spacing: 0.4px;
+}
