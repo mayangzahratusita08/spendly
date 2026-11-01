@@ -1,6 +1,9 @@
 <?php
 /**
  * Spendly - Cross-Site Request Forgery (CSRF) Protection
+ *
+ * csrf.php is always loaded via auth.php, which requires functions.php first.
+ * safe_session_start() (defined in functions.php) is therefore always available here.
  */
 
 /**
@@ -10,9 +13,9 @@
  */
 function get_csrf_token(): string
 {
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+    // Use the application's canonical session-start routine so cookie
+    // parameters are always consistent, even after a session_destroy().
+    safe_session_start();
 
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -40,9 +43,8 @@ function csrf_field(): string
  */
 function verify_csrf_token(?string $token): bool
 {
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+    // Use the application's canonical session-start routine (see get_csrf_token above).
+    safe_session_start();
 
     if (empty($token) || empty($_SESSION['csrf_token'])) {
         return false;
