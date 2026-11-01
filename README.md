@@ -140,6 +140,17 @@ The savings rate is calculated as `(income - expenses) / income × 100`. It is n
 
 ---
 
+### Material Web asset build
+
+The application uses a selective bundle of official Material Web components. After cloning or updating the repository, install the pinned dependencies and generate the browser bundle:
+
+```bash
+npm install
+npm run build
+```
+
+This creates `assets/js/material-web.bundle.js`, which is loaded by the shared PHP header. Re-run the build after changing `assets/js/material-web.entry.js`. Node.js 20 or newer is required.
+
 ## 7. Design System
 
 Spendly follows a **Material 3-inspired design system** using a brand-derived forest-green color scheme, semantic surface roles, a disciplined typography scale, component-specific shapes, and clear interaction states.
