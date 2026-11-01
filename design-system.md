@@ -1,138 +1,180 @@
-# Spendly Material 3 Design System v2
+# Spendly Material 3 Design System
 
-**Direction:** Material 3-inspired, calm, tonal, and finance-first.  
-**Brand character:** Clear, considered, dependable, and quietly modern.  
-**Implementation:** Semantic CSS tokens and native HTML controls. No UI framework, icon package, font CDN, or chart dependency is required.
+**Direction:** A Material 3-inspired personal-finance application built with semantic HTML and CSS.  
+**Brand source color:** Spendly forest green.  
+**Implementation:** Native PHP-rendered HTML, official Material Web components, Material 3 system color roles, semantic CSS, and vanilla JavaScript.
+
+This system is based on Material 3's coordinated color, typography, shape, elevation, and component foundations. It is not a collection of rounded cards: the same semantic roles and component rules govern the navigation drawer, app bar, financial summaries, fields, buttons, tables, and status communication.
+
+Reference: [Material 3](https://m3.material.io/) · [Material 3 theming and component guidance](https://developer.android.com/develop/ui/compose/designsystems/material3)
 
 ## 1. Design principles
 
-1. **Financial clarity comes first.** Amounts, dates, statuses, and transaction descriptions must remain easy to scan.
-2. **Use semantic color roles.** Components consume primary, surface, outline, error, and supporting roles instead of inventing page-specific colors.
-3. **Build hierarchy with tonal surfaces.** Use small changes in surface tone before adding borders, shadows, or decorative effects.
-4. **Keep actions predictable.** Filled buttons indicate the primary action, outlined buttons indicate secondary actions, and text actions stay visually quiet.
-5. **Use a consistent shape language.** Controls are comfortably rounded, cards have a larger radius, and navigation indicators use pill shapes.
-6. **Make state visible.** Hover, focus, selected, disabled, success, warning, and error states must be distinguishable.
-7. **Never rely on color alone.** Financial direction and budget status also use labels or signs.
-8. **Preserve readable data surfaces.** Tables, forms, and financial information remain opaque. Blur is limited to navigation surfaces.
-9. **Respect reduced motion.** Transitions are brief and nonessential; reduced-motion preferences remove them.
+1. **One coherent system.** Color, typography, shape, elevation, and component variants are designed as related foundations.
+2. **Semantic color, not decoration.** Use role pairs such as `primary / on-primary`, `primary-container / on-primary-container`, `surface-container / on-surface`, and `error-container / on-error-container`.
+3. **Surface hierarchy before shadow.** Separate content with tonal surface containers and outline variants. Reserve shadow for meaningful elevation.
+4. **Emphasis has levels.** Use filled buttons for the primary action, outlined or tonal buttons for secondary actions, and text actions for low-emphasis navigation.
+5. **Shape is component-specific.** Buttons and navigation indicators may be fully rounded; cards, fields, and data surfaces use measured corner treatments. Do not round every component identically.
+6. **Typography follows a scale.** Use clear display/headline/title/body/label roles and sentence case rather than relying on uppercase micro-labels.
+7. **Readable financial data.** Currency, dates, status labels, and table rows remain scannable, with tabular numerals for amounts.
+8. **Accessibility is structural.** Visible keyboard focus, sufficient contrast, semantic HTML, useful accessible names, and reduced-motion support are required.
 
-## 2. Color system
+## 2. Color scheme
 
-### Brand and surface roles
+Spendly uses a brand-derived forest-green key color with supporting secondary and tertiary roles. The values below are a practical light theme for the current application.
 
-| Role | Value | Use |
+### Primary, secondary, and tertiary roles
+
+| Role | Value | Usage |
 |---|---|---|
-| Page / surface | #F5F7F4 | Main application canvas |
-| Surface container lowest | #FFFFFF | Cards, forms, tables |
-| Surface container low | #F0F4EF | Subtle grouping, table headers |
-| Surface container | #EAF0E9 | Secondary tonal surfaces |
-| Surface container high | #E4EBE3 | Progress tracks and deeper surface separation |
-| Surface container highest | #DFE7DE | Stronger neutral grouping |
-| Primary | #386A4F | Main actions and active iconography |
-| On primary | #FFFFFF | Text and icons on primary |
-| Primary container | #DCEBDD | Selected navigation and balance card |
-| On primary container | #153B26 | Text and icons on primary container |
-| Secondary container | #E2EAE1 | Supporting financial metric surface |
-| Outline | #737D74 | Form outlines and visible boundaries |
-| Outline variant | #C4CEC4 | Dividers and low-emphasis borders |
-| Error | #B3261E | Expense values and destructive states |
-| Error container | #F9DEDB | Expense metric and error surfaces |
+| Primary | #416B50 | Filled actions, active states, prominent controls |
+| On primary | #FFFFFF | Content placed on primary |
+| Primary container | #D7EAD9 | Selected navigation and balance emphasis |
+| On primary container | #163A23 | Text/icons placed on primary container |
+| Secondary | #526451 | Supporting actions |
+| On secondary | #FFFFFF | Content placed on secondary |
+| Secondary container | #DCE8D7 | Navigation drawer selected state and supporting accents |
+| On secondary container | #344B38 | Selected navigation text/icons |
+| Tertiary | #755847 | Optional contrasting accent role |
+| On tertiary | #FFFFFF | Content placed on tertiary |
+| Tertiary container | #F1DFD2 | Account avatar surface |
+| On tertiary container | #2B170B | Avatar content |
 
-### Financial semantics
+### Surface roles
 
-| Role | Foreground | Container |
+| Role | Value | Usage |
 |---|---|---|
-| Income | #13795B | #DFF3E8 |
-| Expense | #B3261E | #F9DEDB |
-| Warning | #8A5A0A | #FCEFCF |
-| Information | #315F9B | #DCE8F8 |
+| Surface | #F7F9F6 | Application canvas |
+| Surface dim | #D8E0D8 | Deep neutral surface role |
+| Surface bright | #F7FAF7 | Bright neutral surface role |
+| Surface container lowest | #FFFFFF | Main cards, forms, tables |
+| Surface container low | #F1F4EF | Permanent navigation drawer and low-emphasis grouping |
+| Surface container | #EBF0EA | Budget panel and table headers |
+| Surface container high | #E5EBE4 | Progress tracks and hover grouping |
+| Surface container highest | #DFE6DE | Stronger neutral grouping |
+| On surface | #1B1F1B | Primary content |
+| On surface variant | #444B44 | Secondary content |
+| Outline | #717971 | Outlined fields and controls |
+| Outline variant | #C2CBC2 | Dividers and subtle component boundaries |
 
-Category colors remain user-configurable and are not replaced by the system palette.
+### Error roles
+
+| Role | Value | Usage |
+|---|---|---|
+| Error | #BA1A1A | Expense values, errors, destructive actions |
+| On error | #FFFFFF | Content placed on error |
+| Error container | #FFDAD6 | Expense and error surfaces |
+| On error container | #410002 | Content placed on error container |
+
+Income and budget-warning states use distinct semantic roles. User-defined category colors remain independent of the design-system palette.
 
 ## 3. Typography
 
-Use a system-first stack: Roboto when available, then Inter, followed by platform sans-serif fallbacks. Do not load a remote font.
+The target typeface is Roboto, with local system fallbacks. Do not load a remote font dependency.
 
-| Role | Typical size | Weight | Purpose |
-|---|---:|---:|---|
-| Page title | 28–35px | 600–650 | Current page context |
-| Section title | 17–18px | 600–650 | Panels and grouped content |
-| Body | 14–15px | 400 | Descriptions and regular content |
-| Label | 12–14px | 500–600 | Form labels and table headings |
-| Supporting | 12–13px | 400–500 | Captions and helper text |
-| Financial value | 24–30px | 650–700 | Balances and summaries |
+| Role | Size / line height | Weight | Typical usage |
+|---|---|---:|---|
+| Display small | 36 / 44px | 400 | Large page-level numeric emphasis when needed |
+| Headline large | 32 / 40px | 400 | Page heading |
+| Headline medium | 28 / 36px | 400 | Prominent secondary heading |
+| Headline small | 24 / 32px | 400 | Section emphasis |
+| Title large | 22 / 28px | 400 | Major panel or app-bar title |
+| Title medium | 16 / 24px | 500 | Card title and key list item |
+| Body large | 16 / 24px | 400 | Prominent content |
+| Body medium | 14 / 20px | 400 | Default application content |
+| Body small | 12 / 16px | 400 | Captions and metadata |
+| Label large | 14 / 20px | 500 | Button and control labels |
+| Label medium | 12 / 16px | 500 | Table headings, chips |
 
-Financial numbers use tabular numerals where supported. Uppercase section labels are reserved for short navigation and dashboard context labels.
+Use sentence case for navigation and section labels. Keep currency figures tabular and do not reduce body text below comfortable reading sizes.
 
-## 4. Shape and elevation
+## 4. Shape scale
 
-| Token | Value | Typical use |
+| Role | Radius | Usage |
 |---|---:|---|
-| Small | 10px | Inputs and compact controls |
-| Medium | 16px | Cards and panels |
-| Large | 24px | Larger dialog or prominent grouping |
-| Full | 999px | Buttons, chips, and navigation indicators |
+| Extra small | 4px | Dense text fields |
+| Small | 8px | Type selectors, compact action controls |
+| Medium | 12px | Cards and grouped panels |
+| Large | 16px | Navigation drawer destination indicator and larger component groupings |
+| Extra large | 24px | Optional prominent container |
+| Full | 999px | Buttons and chips where the component calls for a pill form |
 
-Elevation is deliberately restrained. The dashboard uses a near-flat card treatment with a subtle one-pixel shadow. Avoid stacked shadows, glowing edges, or decorative gradients.
+Shape communicates component role. Cards and fields are not full pills. Buttons are rounded by default, while compact table actions can remain outlined rectangles.
 
-## 5. Component rules
+## 5. Elevation and surfaces
 
-### Navigation
-- Desktop uses a persistent 264px navigation drawer.
-- Each destination has a consistent 20px outlined icon and label.
-- The active destination uses a full-width primary-container pill with on-primary-container content.
-- The account identity and sign-out action stay anchored at the bottom.
-- Tablet and mobile use the existing accessible slide-in drawer, backdrop, Escape handling, and focus management.
+- The application canvas uses `surface`.
+- The permanent navigation drawer uses `surface-container-low`.
+- Main cards and data surfaces use `surface-container-lowest`.
+- The budget overview uses `surface-container` as a grouped section.
+- Table headings and subdued supporting areas use tonal containers.
+- Shadows stay subtle. Avoid decorative stacked card shadows.
+- Translucent blur is not part of the authenticated app shell in this system; use solid tonal surfaces for more consistent hierarchy and readability.
+
+## 6. Components
+
+### App bar
+- Desktop uses the page-level heading as its primary title, avoiding a duplicate title bar above the content.
+- Mobile uses a 64px top app bar with a menu button and current page title.
+- The mobile app-bar surface uses the application surface role and a restrained bottom divider.
+
+### Navigation drawer
+- Desktop uses a 280px permanent drawer.
+- Mobile uses a modal slide-in drawer with the existing backdrop, Escape handling, and focus management.
+- Destination rows use 48px minimum height, 16px corner treatment, and 24px line icons.
+- The selected destination uses `secondary-container` and `on-secondary-container`, not a decorative accent bar.
+- Group labels use label-medium styling and sentence case.
 
 ### Buttons
-- Primary: filled primary surface, white label, full pill shape.
-- Secondary: outlined surface, neutral label, full pill shape.
-- Compact actions retain a 36px minimum height.
-- Hover and pressed states are perceptible without large movement or dramatic elevation.
+- Filled primary: main page action.
+- Outlined: secondary action.
+- Text: low-emphasis inline navigation.
+- Compact table actions use the small shape rather than the full button pill.
+- Hover, focus, pressed, and disabled states must remain visible and consistent.
 
-### Cards and dashboard metrics
-- Standard cards and panels use opaque white surfaces, a 16px radius, and outline-variant borders.
-- The current-balance metric uses the primary container.
-- Income uses a muted secondary container; expenses use the error container.
-- Budget status is shown with a tonal status chip and a labeled progress indicator.
+### Cards
+- Cards use medium shape and tonal or outlined separation.
+- Summary metrics use neutral containers, with the current balance receiving primary-container emphasis.
+- Income and expense are communicated by financial text roles, not by tinting every entire card.
 
-### Forms
-- Inputs use a 48px minimum touch target, white fill, 10px radius, and visible outline.
-- Focus uses a two-pixel primary outline without a heavy glow.
-- Validation messages remain adjacent to their relevant fields.
-- Native browser control behavior is preserved.
+### Text fields
+- Outlined fields use the extra-small shape and a 56px minimum height where the component is a standard text field.
+- Focus uses a 2px primary outline.
+- Validation uses error roles and remains adjacent to the field.
+- Native browser input behavior is preserved.
 
-### Tables and data
-- Headers use a low-tonal surface and compact but legible labels.
-- Row separators remain subtle.
-- Hover feedback does not obscure amounts or categories.
-- Currency values align consistently and use tabular numerals.
+### Chips and status
+- Chips use short, legible labels and appropriate tonal backgrounds.
+- Budget status is communicated using both text and color.
+- Category colors remain user-defined.
 
-### Alerts and status
-- Success, warning, error, and information use distinct tonal containers.
-- Status chips include text, not color alone.
-- Destructive actions use the error role only when relevant.
+### Tables and lists
+- Use clear column labels, 56px-or-comfortable row density, subtle dividers, and aligned monetary values.
+- Avoid excessive header decoration.
+- Hover feedback is low contrast and does not hide category or amount information.
 
-## 6. Layout and responsive behavior
+## 7. Layout and responsive behavior
 
-- Main content is centered within a maximum width of approximately 1320px.
-- Desktop dashboard uses three summary metrics, a full-width budget panel, then a wide activity area with a narrower account-setup column.
-- Tablet collapses the activity and setup columns into a single flow.
-- Mobile stacks metric cards and panels, keeps actions comfortably tappable, and permits horizontal scrolling for wide transaction tables.
-- The sidebar becomes a drawer at the existing 980px breakpoint.
+- Desktop application shell: 280px permanent drawer and flexible content workspace.
+- Content max width: 1440px.
+- Desktop dashboard: welcome heading and primary action, three metric summaries, a full-width budget overview, then activity plus account-setup panels.
+- Tablet: replace the permanent drawer with a modal drawer and collapse secondary dashboard columns.
+- Mobile: stack summary cards and dashboard panels, keep touch targets usable, and retain horizontal scrolling for wide transaction tables.
 
-## 7. Motion and accessibility
+## 8. Accessibility and motion
 
-- Use short color and surface transitions for interaction feedback.
-- Avoid animating financial values or delaying access to page content.
-- Keep keyboard focus visible on links, buttons, and fields.
-- Preserve semantic heading order, table headers, form labels, and accessible names.
-- Respect `prefers-reduced-motion`.
-- Validate text and control contrast during browser review when the rendered environment is available.
+- All interactive elements expose visible keyboard focus.
+- Form labels remain programmatically associated with their controls.
+- SVG navigation icons are decorative and hidden from assistive technology when an adjacent label is present.
+- Selected navigation uses `aria-current="page"`.
+- Progress components retain `role="progressbar"` and numeric ARIA values.
+- Reduced-motion preferences remove nonessential transitions and animations.
+- Color is never the only way income, expense, or budget state is communicated.
 
-## 8. Implementation constraints
+## 9. Implementation constraints
 
-- Do not introduce a frontend framework or external icon dependency.
-- Do not modify transaction calculations, authentication, database queries, CSRF handling, or ownership checks as part of visual refinements.
-- Keep content surfaces opaque; translucency remains limited to the application navigation shell.
-- Prefer shared CSS tokens and component selectors over page-specific inline styling.
+- Use official `@material/web` components for supported controls, bundled selectively with esbuild.
+- Do not introduce a frontend framework or replace PHP-rendered pages.
+- PHP business logic, queries, validation, authentication, CSRF protection, and ownership checks are outside the scope of UI changes.
+- Keep shared token and component styles in `assets/css/app.css`.
+- Keep reusable navigation and app-bar markup in `includes/header.php`.

@@ -115,21 +115,20 @@ require_once __DIR__ . '/includes/header.php';
 
             <!-- Amount -->
             <div class="form-group">
-                <label for="amount" class="form-label">Amount (IDR) <span class="required">*</span></label>
-                <div class="input-prefix-wrapper">
-                    <span class="input-prefix">Rp</span>
-                    <input
-                        type="number"
-                        id="amount"
-                        name="amount"
-                        class="form-control input-with-prefix <?= isset($errors['amount']) ? 'is-invalid' : '' ?>"
-                        step="0.01"
-                        min="1"
-                        value="<?= e($formData['amount']) ?>"
-                        required
-                    >
-                </div>
-                <div class="form-hint">Enter a positive number.</div>
+                <md-outlined-text-field
+                    id="amount"
+                    name="amount"
+                    label="Amount (IDR)"
+                    type="number"
+                    prefix-text="Rp"
+                    min="1"
+                    step="0.01"
+                    value="<?= e($formData['amount']) ?>"
+                    supporting-text="Enter a positive number."
+                    <?= isset($errors['amount']) ? 'error error-text="' . e($errors['amount']) . '"' : '' ?>
+                    required
+                    
+                ></md-outlined-text-field>
                 <?php if (isset($errors['amount'])): ?>
                     <div class="form-feedback"><?= e($errors['amount']) ?></div>
                 <?php endif; ?>
@@ -216,7 +215,7 @@ require_once __DIR__ . '/includes/header.php';
             </div>
 
             <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-                <button type="submit" class="btn btn-primary" style="flex: 1;">Update Transaction</button>
+                <md-filled-button type="submit" style="flex: 1;">Update Transaction</md-filled-button>
                 <a href="<?= base_url('transactions.php') ?>" class="btn btn-secondary">Cancel</a>
             </div>
         </form>

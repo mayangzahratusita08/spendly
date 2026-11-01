@@ -1,0 +1,19 @@
+{
+  "name": "spendly-frontend-assets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build tooling for Spendly's Material Web components.",
+  "scripts": {
+    "build": "npm run build:material",
+    "build:material": "esbuild assets/js/material-web.entry.js --bundle --format=esm --target=es2022 --minify --outfile=assets/js/material-web.bundle.js"
+  },
+  "dependencies": {
+    "@material/web": "2.5.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

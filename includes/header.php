@@ -23,6 +23,7 @@ $flashMessages = get_flash_messages();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?></title>
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
+    <script type="module" src="<?= base_url('assets/js/material-web.bundle.js') ?>"></script>
 </head>
 <body>
 <div class="app-shell <?= $loggedIn ? 'app-shell-authenticated' : 'app-shell-guest' ?>">
@@ -40,7 +41,7 @@ $flashMessages = get_flash_messages();
 
             <nav class="sidebar-navigation" aria-label="Primary navigation">
                 <div class="sidebar-nav-group">
-                    <p class="sidebar-section-label">OVERVIEW</p>
+                    <p class="sidebar-section-label">Overview</p>
                     <ul class="sidebar-links">
                         <li>
                             <a href="<?= base_url('dashboard.php') ?>" class="sidebar-link <?= $activeNav === 'dashboard' ? 'active' : '' ?>" <?= $activeNav === 'dashboard' ? 'aria-current="page"' : '' ?>>
@@ -58,7 +59,7 @@ $flashMessages = get_flash_messages();
                 </div>
 
                 <div class="sidebar-nav-group">
-                    <p class="sidebar-section-label">MANAGE</p>
+                    <p class="sidebar-section-label">Manage</p>
                     <ul class="sidebar-links">
                         <li>
                             <a href="<?= base_url('transactions.php') ?>" class="sidebar-link <?= $activeNav === 'transactions' ? 'active' : '' ?>" <?= $activeNav === 'transactions' ? 'aria-current="page"' : '' ?>>
@@ -119,8 +120,7 @@ $flashMessages = get_flash_messages();
                 >
                     <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
                 </button>
-                <a href="<?= base_url('dashboard.php') ?>" class="mobile-appbar-brand">Spendly</a>
-                <span class="mobile-appbar-context"><?= e($pageTitle ?? 'Overview') ?></span>
+                <span class="mobile-appbar-title"><?= e($pageTitle ?? 'Overview') ?></span>
             </header>
     <?php else: ?>
         <header class="guest-header">

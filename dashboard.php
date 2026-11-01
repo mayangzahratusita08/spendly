@@ -122,13 +122,16 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
 <div class="dashboard-page">
     <section class="dashboard-intro">
         <div class="dashboard-intro-copy">
-            <p class="dashboard-eyebrow">PERSONAL OVERVIEW</p>
+            <p class="dashboard-eyebrow">Personal overview</p>
             <h1>Welcome back, <?= e($user['full_name']) ?></h1>
             <p>Your financial picture for <?= date('F Y') ?>.</p>
         </div>
         <div class="dashboard-actions">
             <a href="<?= base_url('reports.php') ?>" class="btn btn-secondary">View reports</a>
-            <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary">+ Add transaction</a>
+            <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary">
+                <svg class="btn-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+                Add transaction
+            </a>
         </div>
     </section>
 
@@ -153,7 +156,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
     <section class="dashboard-panel budget-panel">
         <div class="dashboard-section-heading">
             <div>
-                <p class="dashboard-section-kicker">PLAN &amp; TRACK</p>
+                <p class="dashboard-section-kicker">Budget overview</p>
                 <h2>Monthly budgets</h2>
                 <p>Keep an eye on spending limits for <?= date('F Y') ?>.</p>
             </div>
@@ -223,7 +226,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
         <section class="dashboard-panel activity-panel">
             <div class="dashboard-section-heading">
                 <div>
-                    <p class="dashboard-section-kicker">LATEST ACTIVITY</p>
+                    <p class="dashboard-section-kicker">Recent activity</p>
                     <h2>Recent transactions</h2>
                     <p>Your latest income and expenses.</p>
                 </div>
@@ -287,7 +290,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
             <section class="dashboard-panel setup-panel">
                 <div class="dashboard-section-heading">
                     <div>
-                        <p class="dashboard-section-kicker">ORGANIZATION</p>
+                        <p class="dashboard-section-kicker">Your setup</p>
                         <h2>Your categories</h2>
                     </div>
                     <a href="<?= base_url('categories.php') ?>" class="text-action">Manage</a>
@@ -327,7 +330,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
             <section class="dashboard-panel setup-panel">
                 <div class="dashboard-section-heading">
                     <div>
-                        <p class="dashboard-section-kicker">PAYMENT</p>
+                        <p class="dashboard-section-kicker">Payment</p>
                         <h2>Payment methods</h2>
                     </div>
                     <a href="<?= base_url('payment-methods.php') ?>" class="text-action">Manage</a>

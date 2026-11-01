@@ -18,3 +18,7 @@ Thumbs.db
 
 # blueprint
 blueprint.md
+
+# Frontend build tooling
+node_modules/
+npm-debug.log*
