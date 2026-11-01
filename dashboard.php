@@ -322,9 +322,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
                         <p class="m3-eyebrow">ORGANIZE</p>
                         <h2 id="categories-title">Your categories</h2>
                     </div>
-                    <md-icon-button href="<?= base_url('categories.php') ?>" aria-label="Manage categories">
-                        <svg slot="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </md-icon-button>
+                    <md-text-button href="<?= base_url('categories.php') ?>">Manage</md-text-button>
                 </div>
                 <div class="m3-category-summary">
                     <div><strong><?= $incomeCategoryCount ?></strong><span>Income</span></div>
@@ -359,9 +357,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
                         <p class="m3-eyebrow">HOW YOU PAY</p>
                         <h2 id="payment-methods-title">Payment methods</h2>
                     </div>
-                    <md-icon-button href="<?= base_url('payment-methods.php') ?>" aria-label="Manage payment methods">
-                        <svg slot="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </md-icon-button>
+                    <md-text-button href="<?= base_url('payment-methods.php') ?>">Manage</md-text-button>
                 </div>
                 <?php if (empty($userPaymentMethods)): ?>
                     <p class="m3-muted-copy">No payment methods configured yet.</p>
