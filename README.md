@@ -145,7 +145,7 @@ The savings rate is calculated as `(income - expenses) / income × 100`. It is n
 Spendly follows a **Material 3-inspired design system** using a brand-derived forest-green color scheme, semantic surface roles, a disciplined typography scale, component-specific shapes, and clear interaction states.
 
 - **Foundations:** color roles, typography, shape, and tonal surface hierarchy.
-- **App shell:** permanent desktop navigation drawer, page-aware top app bar, and accessible mobile drawer.
+- **App shell:** permanent desktop navigation drawer, content-level page headings, and accessible mobile app bar and drawer.
 - **Components:** filled and outlined buttons, outlined fields, tonal cards, status chips, tables, and budget progress.
 - **Accessibility:** visible focus, semantic markup, clear financial states, and reduced-motion support.
 
