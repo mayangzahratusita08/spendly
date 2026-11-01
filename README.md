@@ -150,8 +150,9 @@ Spendly uses a Material-inspired component foundation with a restrained transluc
 - **Typography:** system-first sans-serif stack with Inter when available; financial figures use tabular-friendly numeric presentation.
 - **Shape:** consistent 8px controls, 10–12px cards, and restrained borders.
 - **Elevation:** subtle surface separation; avoid decorative shadows.
-- **Translucency:** limited to sticky navigation and navigation overlays. Forms, tables, cards, and financial figures remain opaque for readability.
+- **Translucency:** limited to the authenticated application sidebar, mobile sidebar drawer, and guest header. Forms, tables, cards, and financial figures remain opaque for readability.
 - **Interaction:** visible keyboard focus, reduced-motion support, and small purposeful transitions.
+- **Navigation:** authenticated pages use a persistent desktop sidebar and an accessible mobile drawer; guest authentication pages use a compact header.
 - **Dashboard:** redesigned around clear financial metrics, compact budget tracking, recent activity, and account setup summaries.
 
 No external UI framework, font CDN, or chart dependency is required.
@@ -284,7 +285,7 @@ spendly/
 │   ├── budgets.php             # Monthly budget database operations and validation
 │   ├── catalog.php             # Category and payment method CRUD operations
 │   ├── reports.php             # Monthly analytics query helpers
-│   ├── header.php              # Shared header layout with responsive navigation & flash alerts
+│   ├── header.php              # Shared sidebar shell, guest header, and flash alerts
 │   └── footer.php              # Shared footer layout and JS inclusion
 ├── dashboard.php               # Protected dashboard with real DB aggregates and refreshed design
 ├── design-system.md            # Spendly visual tokens, component rules, and glass usage guidelines

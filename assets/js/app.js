@@ -3,14 +3,57 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
-  // 1. Mobile Navigation Toggle
-  var navToggle = document.querySelector('.nav-toggle');
-  var navMenu = document.querySelector('.nav-menu');
+  // 1. Responsive Sidebar Drawer
+  var sidebarToggle = document.querySelector('.sidebar-toggle');
+  var sidebar = document.getElementById('app-sidebar');
+  var sidebarBackdrop = document.querySelector('.sidebar-backdrop');
 
-  if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function () {
-      var isOpen = navMenu.classList.toggle('is-open');
-      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  if (sidebarToggle && sidebar && sidebarBackdrop) {
+    var setSidebarOpen = function (isOpen) {
+      document.body.classList.toggle('sidebar-open', isOpen);
+      sidebarToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      sidebarToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      sidebarBackdrop.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+
+      if (isOpen) {
+        var firstLink = sidebar.querySelector('.sidebar-link');
+        if (firstLink && window.matchMedia('(max-width: 980px)').matches) {
+          firstLink.focus();
+        }
+      } else if (window.matchMedia('(max-width: 980px)').matches) {
+        sidebarToggle.focus();
+      }
+    };
+
+    sidebarToggle.addEventListener('click', function () {
+      setSidebarOpen(!document.body.classList.contains('sidebar-open'));
+    });
+
+    sidebarBackdrop.addEventListener('click', function () {
+      setSidebarOpen(false);
+    });
+
+    sidebar.querySelectorAll('.sidebar-link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        if (window.matchMedia('(max-width: 980px)').matches) {
+          setSidebarOpen(false);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && document.body.classList.contains('sidebar-open')) {
+        setSidebarOpen(false);
+      }
+    });
+
+    window.addEventListener('resize', function () {
+      if (!window.matchMedia('(max-width: 980px)').matches) {
+        document.body.classList.remove('sidebar-open');
+        sidebarToggle.setAttribute('aria-expanded', 'false');
+        sidebarToggle.setAttribute('aria-label', 'Open navigation menu');
+        sidebarBackdrop.setAttribute('aria-hidden', 'true');
+      }
     });
   }
 

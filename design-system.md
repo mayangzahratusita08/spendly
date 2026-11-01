@@ -10,7 +10,7 @@
 2. Use consistent components and spacing across pages.
 3. White remains the primary content surface.
 4. Green is the brand and action color, not decoration for every component.
-5. Translucency is reserved for navigation and floating navigation surfaces.
+5. Translucency is reserved for the authenticated sidebar, mobile sidebar drawer, and guest header.
 6. Tables, forms, cards, and financial values use opaque backgrounds.
 7. Motion is subtle, purposeful, and respects reduced-motion preferences.
 8. No decorative charts, fake metrics, or unnecessary iconography.
@@ -52,7 +52,7 @@
 
 ## 5. Glass treatment
 
-Use a translucent white surface with blur only for the sticky site navigation and navigation overlays.
+Use a translucent white surface with restrained blur for the persistent authenticated sidebar, its mobile drawer, and the compact guest header.
 
 Recommended treatment:
 - White at approximately 84–90% opacity.
@@ -71,8 +71,12 @@ Provide a nearly opaque white fallback when backdrop-filter is unavailable.
 
 ## 6. Layout
 
-- Main content max width: 1240px.
-- Header content max width: 1360px.
+- Desktop sidebar width: 264px.
+- Main content max width: 1320px.
+- Guest header content max width: 1240px.
+- Desktop: persistent left sidebar with grouped navigation and account controls at the bottom.
+- Tablet/mobile: sidebar becomes a slide-in drawer with backdrop, Escape-to-close, and body scroll lock.
+- Guest authentication pages: compact top header without the authenticated sidebar.
 - Desktop dashboard: three metric columns; activity and setup in a two-column layout.
 - Tablet: stack activity and setup as needed.
 - Mobile: single-column metrics and panels, horizontally scrollable transaction table.
