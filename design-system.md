@@ -114,9 +114,9 @@ Shape communicates component role. Cards and fields are not full pills. Buttons 
 ## 6. Components
 
 ### App bar
-- Desktop uses a 64px top app bar with current page title and concise date/context.
-- Mobile uses a 64px bar with a menu button and current page title.
-- App-bar surfaces use the application surface role and a restrained bottom divider.
+- Desktop uses the page-level heading as its primary title, avoiding a duplicate title bar above the content.
+- Mobile uses a 64px top app bar with a menu button and current page title.
+- The mobile app-bar surface uses the application surface role and a restrained bottom divider.
 
 ### Navigation drawer
 - Desktop uses a 280px permanent drawer.
