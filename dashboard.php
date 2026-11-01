@@ -71,6 +71,7 @@ $txStmt = $pdo->prepare('
         t.description,
         t.transaction_date,
         c.name AS category_name,
+        c.color AS category_color,
         p.name AS payment_method_name
     FROM transactions t
     LEFT JOIN categories c ON t.category_id = c.id
@@ -252,18 +253,9 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
                         <tbody>
                             <?php foreach ($recentTransactions as $tx): ?>
                                 <?php
-                                    $transactionCategoryColor = '#9ca3af';
-                                    if (!empty($tx['category_name'])) {
-                                        foreach ($userCategories as $knownCategory) {
-                                            if ($knownCategory['name'] === $tx['category_name']) {
-                                                $candidateColor = (string) ($knownCategory['color'] ?? '');
-                                                if (preg_match('/^#[0-9a-fA-F]{6}$/', $candidateColor)) {
-                                                    $transactionCategoryColor = $candidateColor;
-                                                }
-                                                break;
-                                            }
-                                        }
-                                    }
+                                    $transactionCategoryColor = preg_match('/^#[0-9a-fA-F]{6}$/', (string) ($tx['category_color'] ?? ''))
+                                        ? $tx['category_color']
+                                        : '#9ca3af';
                                 ?>
                                 <tr>
                                     <td class="table-date"><?= format_date($tx['transaction_date']) ?></td>
