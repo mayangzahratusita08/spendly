@@ -119,8 +119,7 @@ $flashMessages = get_flash_messages();
                 >
                     <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
                 </button>
-                <a href="<?= base_url('dashboard.php') ?>" class="mobile-appbar-brand">Spendly</a>
-                <span class="mobile-appbar-context"><?= e($pageTitle ?? 'Overview') ?></span>
+                <span class="mobile-appbar-title"><?= e($pageTitle ?? 'Overview') ?></span>
             </header>
     <?php else: ?>
         <header class="guest-header">
@@ -136,6 +135,19 @@ $flashMessages = get_flash_messages();
             </div>
         </header>
         <div class="app-workspace app-workspace-guest">
+    <?php endif; ?>
+
+    <?php if ($loggedIn): ?>
+        <header class="workspace-topbar">
+            <div class="workspace-topbar-inner">
+                <h1 class="workspace-topbar-title"><?= e($pageTitle ?? 'Overview') ?></h1>
+                <div class="workspace-topbar-meta">
+                    <span>Personal finance</span>
+                    <span aria-hidden="true"> · </span>
+                    <time datetime="<?= e(date('Y-m-d')) ?>"><?= e(date('l, j F Y')) ?></time>
+                </div>
+            </div>
+        </header>
     <?php endif; ?>
 
     <main class="app-main">
