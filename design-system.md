@@ -178,3 +178,19 @@ Shape communicates component role. Cards and fields are not full pills. Buttons 
 - PHP business logic, queries, validation, authentication, CSRF protection, and ownership checks are outside the scope of UI changes.
 - Keep shared token and component styles in `assets/css/app.css`.
 - Keep reusable navigation and app-bar markup in `includes/header.php`.
+
+
+## 10. Comprehensive dashboard implementation
+
+The dashboard uses the shared Material 3 roles and official Material Web button and linear-progress components.
+
+- The welcome region pairs the page headline with a monthly snapshot container.
+- The current balance uses the primary-container role; income and expense remain neutral surfaces with semantic icon and value treatments.
+- Budget progress uses md-linear-progress with determinate values normalized to the component's 0–1 range. Status is also expressed in text.
+- Recent transactions use a compact semantic list with category, date, payment method, and signed amount.
+- Category and payment-method summaries remain data-driven and show honest empty states.
+- All financial values continue to come from the existing PHP query results. No sample balances, fabricated transactions, or placeholder chart data are introduced.
+
+## 11. Asset cache invalidation
+
+The shared header and footer append the current local asset modification time to the CSS, Material Web bundle, and application-script URLs. This prevents browsers from continuing to use stale versions after a deployment or local stylesheet update. If the filesystem does not provide a modification time, a stable fallback version is used.
