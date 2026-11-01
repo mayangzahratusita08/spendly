@@ -142,17 +142,14 @@ The savings rate is calculated as `(income - expenses) / income × 100`. It is n
 
 ## 7. Design System
 
-Spendly uses a **Material 3-inspired component foundation** with semantic color roles, tonal surfaces, rounded controls, a persistent navigation drawer, and restrained elevation.
+Spendly follows a **Material 3-inspired design system** using a brand-derived forest-green color scheme, semantic surface roles, a disciplined typography scale, component-specific shapes, and clear interaction states.
 
-- **Color roles:** forest-green primary, primary and secondary containers, neutral surface containers, and distinct income, expense, warning, and information roles.
-- **Surface hierarchy:** white cards and data surfaces on a softly tinted application canvas; deeper tonal containers provide grouping without excessive borders.
-- **Typography:** system-first Roboto / Inter / sans-serif stack, clear heading levels, and tabular-friendly financial figures.
-- **Shape:** pill buttons and navigation indicators, 10px inputs, and 16px cards.
-- **Navigation:** icon-led desktop sidebar with an accessible mobile drawer; translucent treatment is reserved for navigation.
-- **Interaction:** visible keyboard focus, selected and disabled states, short transitions, and reduced-motion support.
-- **Dashboard:** three tonal financial metrics, compact budget tracking, recent activity, and account setup summaries.
+- **Foundations:** color roles, typography, shape, and tonal surface hierarchy.
+- **App shell:** permanent desktop navigation drawer, page-aware top app bar, and accessible mobile drawer.
+- **Components:** filled and outlined buttons, outlined fields, tonal cards, status chips, tables, and budget progress.
+- **Accessibility:** visible focus, semantic markup, clear financial states, and reduced-motion support.
 
-The full token map and component guidance live in `design-system.md`. No external UI framework, font CDN, icon package, or chart dependency is required.
+The full token and component specification is maintained in `design-system.md`. The implementation uses native PHP, HTML, CSS, inline SVG, and vanilla JavaScript without a UI framework, icon dependency, or remote font.
 
 ## 8. Database Schema Overview
 
