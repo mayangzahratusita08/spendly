@@ -6,6 +6,7 @@
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
+require_once __DIR__ . '/includes/budgets.php';
 
 require_login();
 
@@ -81,6 +82,9 @@ $txStmt = $pdo->prepare('
 $txStmt->execute([':user_id' => $userId]);
 $recentTransactions = $txStmt->fetchAll();
 
+// 4b. Monthly category budgets and actual expense totals
+$dashboardBudgets = get_user_budgets_for_month($pdo, $userId, $startOfMonth);
+
 // 5. User seeded categories & payment methods overview (Milestone 1 foundation check)
 $catStmt = $pdo->prepare('
     SELECT id, name, type, color
@@ -136,6 +140,75 @@ require_once __DIR__ . '/includes/header.php';
         <div class="summary-meta"><?= date('M Y') ?> total spending</div>
     </div>
 </div>
+
+
+<!-- Monthly Budget Overview -->
+<section class="card dashboard-budget-section">
+    <div class="card-header">
+        <div>
+            <h2 class="card-title">Monthly Budget Overview</h2>
+            <p class="card-subtitle">Your category spending limits for <?= date('F Y') ?>.</p>
+        </div>
+        <a href="<?= base_url('budgets.php') ?>" class="btn btn-secondary btn-sm">Manage Budgets</a>
+    </div>
+
+    <?php if (empty($dashboardBudgets)): ?>
+        <div class="empty-state" style="padding: 1.5rem 1rem;">
+            <div class="empty-state-icon">&#128176;</div>
+            <h3>No monthly budgets yet</h3>
+            <p>Create a budget for an expense category to start tracking how much you spend against your limit.</p>
+            <a href="<?= base_url('budget-create.php') ?>" class="btn btn-primary btn-sm">Create First Budget</a>
+        </div>
+    <?php else: ?>
+        <div class="dashboard-budget-grid">
+            <?php foreach (array_slice($dashboardBudgets, 0, 3) as $budget): ?>
+                <?php
+                    $limit = (float) $budget['amount_limit'];
+                    $spent = (float) $budget['amount_spent'];
+                    $percentage = $limit > 0 ? ($spent / $limit) * 100 : 0;
+                    $progressWidth = min(100, max(0, $percentage));
+                    $status = $spent > $limit ? 'over' : ($percentage >= 80 ? 'warning' : 'on-track');
+                    $categoryColor = preg_match('/^#[0-9a-fA-F]{6}$/', (string) $budget['category_color'])
+                        ? $budget['category_color']
+                        : '#9ca3af';
+                ?>
+                <div class="dashboard-budget-item">
+                    <div class="budget-card-heading">
+                        <div class="budget-category">
+                            <span class="budget-category-dot" style="background-color: <?= e($categoryColor) ?>;"></span>
+                            <h3><?= e($budget['category_name']) ?></h3>
+                        </div>
+                        <span class="budget-status budget-status--<?= e($status) ?>">
+                            <?= $status === 'over' ? 'Over' : ($status === 'warning' ? 'Near limit' : 'On track') ?>
+                        </span>
+                    </div>
+                    <div class="budget-amounts">
+                        <div>
+                            <span class="budget-muted-label">Spent</span>
+                            <strong><?= format_currency($spent) ?></strong>
+                        </div>
+                        <div class="budget-limit">
+                            <span class="budget-muted-label">Limit</span>
+                            <strong><?= format_currency($limit) ?></strong>
+                        </div>
+                    </div>
+                    <div class="budget-progress" role="progressbar" aria-label="<?= e($budget['category_name']) ?> budget usage" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= e((string) min(100, round($percentage))) ?>">
+                        <span class="budget-progress-fill budget-progress-fill--<?= e($status) ?>" style="width: <?= e((string) $progressWidth) ?>%;"></span>
+                    </div>
+                    <div class="budget-progress-meta">
+                        <strong><?= number_format($percentage, 1) ?>% used</strong>
+                        <span class="<?= ($limit - $spent) >= 0 ? 'budget-remaining' : 'budget-overage' ?>">
+                            <?= ($limit - $spent) >= 0 ? format_currency($limit - $spent) . ' left' : format_currency(abs($limit - $spent)) . ' over' ?>
+                        </span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php if (count($dashboardBudgets) > 3): ?>
+            <p class="card-subtitle" style="margin-top: 0.85rem;">Showing 3 of <?= count($dashboardBudgets) ?> category budgets.</p>
+        <?php endif; ?>
+    <?php endif; ?>
+</section>
 
 <!-- Dashboard Content Grid -->
 <div class="dashboard-sections">
