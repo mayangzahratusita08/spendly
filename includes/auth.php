@@ -9,27 +9,14 @@ require_once __DIR__ . '/csrf.php';
 /**
  * Initializes a secure session with recommended cookie parameters.
  *
+ * Delegates to safe_session_start() in functions.php (which is required above)
+ * so there is a single canonical session-start routine for the whole app.
+ *
  * @return void
  */
 function start_session_safe(): void
 {
-    if (session_status() === PHP_SESSION_ACTIVE) {
-        return;
-    }
-
-    $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-        || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
-
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path'     => '/',
-        'domain'   => '',
-        'secure'   => $isSecure,
-        'httponly' => true,
-        'samesite' => 'Lax',
-    ]);
-
-    session_start();
+    safe_session_start(); // Defined in functions.php
 }
 
 /**
