@@ -286,7 +286,8 @@ spendly/
 │   ├── reports.php             # Monthly analytics query helpers
 │   ├── header.php              # Shared header layout with responsive navigation & flash alerts
 │   └── footer.php              # Shared footer layout and JS inclusion
-├── dashboard.php               # Protected dashboard with real DB aggregates and empty states
+├── dashboard.php               # Protected dashboard with real DB aggregates and refreshed design
+├── design-system.md            # Spendly visual tokens, component rules, and glass usage guidelines
 ├── index.php                   # Entry router (redirects to dashboard or login)
 ├── login.php                   # Sign-in form with server validation & CSRF
 ├── logout.php                  # Safe session destruction action
