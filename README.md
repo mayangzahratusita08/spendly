@@ -6,7 +6,7 @@
 > **Initial Currency:** IDR (Rp)  
 > **Milestone Status:** **Milestone 6 — Design System v1 & Dashboard Redesign Implemented**
 
-Spendly is a lightweight, responsive web application designed for personal income and expense tracking, category budgeting, and financial summaries. Built with native PHP, MySQL, vanilla JavaScript, and modern semantic CSS without external frameworks, it is clean, easy to run locally, and simple to explain for a school final project presentation.
+Spendly is a lightweight, responsive web application designed for personal income and expense tracking, category budgeting, and financial summaries. Built with native PHP, MySQL, vanilla JavaScript, and selectively bundled Material Web components, it remains easy to run locally while using official Material 3 controls.
 
 ---
 
@@ -14,9 +14,9 @@ Spendly is a lightweight, responsive web application designed for personal incom
 
 - **Backend:** Native PHP (v8.0+ recommended), PDO MySQL with prepared statements and exception handling.
 - **Database:** MySQL 8.0+ or MariaDB 10.4+ (InnoDB engine, `utf8mb4` charset).
-- **Frontend:** Semantic HTML5, modern responsive CSS (warm neutral theme, sage green accents), and vanilla JavaScript.
+- **Frontend:** PHP-rendered semantic HTML, Material Web (Web Components), Material 3 system tokens, modern responsive CSS, and vanilla JavaScript.
 - **Local Server:** XAMPP on Windows, macOS, or Linux.
-- **External Dependencies:** Zero external libraries or Composer packages.
+- **Frontend dependencies:** `@material/web` 2.5.0 and `esbuild` 0.28.2. Generated component bundle is committed under `assets/js/`.
 
 ---
 
@@ -149,7 +149,7 @@ Spendly follows a **Material 3-inspired design system** using a brand-derived fo
 - **Components:** filled and outlined buttons, outlined fields, tonal cards, status chips, tables, and budget progress.
 - **Accessibility:** visible focus, semantic markup, clear financial states, and reduced-motion support.
 
-The full token and component specification is maintained in `design-system.md`. The implementation uses native PHP, HTML, CSS, inline SVG, and vanilla JavaScript without a UI framework, icon dependency, or remote font.
+The full token and component specification is maintained in `design-system.md`. The implementation uses native PHP, HTML, CSS, vanilla JavaScript, and selectively bundled official Material Web components. PHP remains responsible for routing, rendering, validation, authentication, CSRF, and data access.
 
 ## 8. Database Schema Overview
 
