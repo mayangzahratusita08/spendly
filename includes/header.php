@@ -62,6 +62,11 @@ $flashMessages = get_flash_messages();
                                 Payment Methods
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= base_url('reports.php') ?>" class="nav-link <?= $activeNav === 'reports' ? 'active' : '' ?>">
+                                Reports
+                            </a>
+                        </li>
                     </ul>
                     <div class="nav-user">
                         <span class="user-badge"><?= e($user['full_name'] ?? 'Account') ?></span>

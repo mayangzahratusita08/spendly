@@ -4,7 +4,7 @@
 > **Target Environment:** XAMPP (Apache + MySQL / MariaDB + PHP 8.x)  
 > **Language:** English  
 > **Initial Currency:** IDR (Rp)  
-> **Milestone Status:** **Milestone 4 — Categories & Payment Methods Implemented**
+> **Milestone Status:** **Milestone 5 — Analytics & Reports Implemented**
 
 Spendly is a lightweight, responsive web application designed for personal income and expense tracking, category budgeting, and financial summaries. Built with native PHP, MySQL, vanilla JavaScript, and modern semantic CSS without external frameworks, it is clean, easy to run locally, and simple to explain for a school final project presentation.
 
@@ -122,7 +122,25 @@ Existing transactions keep their linked category/payment method IDs when labels 
 
 ---
 
-## 6. Database Schema Overview
+## 6. Milestone 5 — Analytics & Reports
+
+Milestone 5 provides a read-only monthly financial report calculated from the authenticated user's saved transactions.
+
+- [x] Month selector with validation and current-month shortcut.
+- [x] Monthly income, expenses, net cash flow, transaction count, and savings rate.
+- [x] Six-month income-versus-expense trend ending in the selected month.
+- [x] Expense breakdown by category with amounts, transaction counts, and percentage share.
+- [x] Income source breakdown by category.
+- [x] Expense totals grouped by payment method, including an Unspecified group.
+- [x] Budget performance summary for the selected month.
+- [x] Honest empty states when no transactions or budgets exist.
+- [x] User-scoped PDO queries; no schema migration or external chart library required.
+
+The savings rate is calculated as `(income - expenses) / income × 100`. It is not shown when the selected month has no income. Payment method analysis includes expense transactions only. Budget performance includes only expense categories with a budget configured for the selected month.
+
+---
+
+## 7. Database Schema Overview
 
 The database `spendly_db` contains five tables:
 
@@ -156,7 +174,7 @@ The database `spendly_db` contains five tables:
 
 ---
 
-## 7. XAMPP Local Setup Instructions
+## 8. XAMPP Local Setup Instructions
 
 Follow these step-by-step instructions to run Spendly on your computer using XAMPP:
 
@@ -224,7 +242,7 @@ Follow these step-by-step instructions to run Spendly on your computer using XAM
 
 ---
 
-## 8. Project Directory Structure
+## 9. Project Directory Structure
 
 ```text
 spendly/
@@ -247,6 +265,7 @@ spendly/
 │   ├── transactions.php        # Transaction database operations and input validation
 │   ├── budgets.php             # Monthly budget database operations and validation
 │   ├── catalog.php             # Category and payment method CRUD operations
+│   ├── reports.php             # Monthly analytics query helpers
 │   ├── header.php              # Shared header layout with responsive navigation & flash alerts
 │   └── footer.php              # Shared footer layout and JS inclusion
 ├── dashboard.php               # Protected dashboard with real DB aggregates and empty states
@@ -270,13 +289,14 @@ spendly/
 ├── payment-method-create.php    # Create a payment method
 ├── payment-method-edit.php      # Rename a payment method
 ├── payment-method-delete.php    # Protected payment method deletion
+├── reports.php                   # Monthly analytics and financial reports
 ├── .gitignore                  # Excludes local secrets (config/database.php), logs, OS files
 └── README.md                   # Project documentation and setup guide
 ```
 
 ---
 
-## 9. School Presentation Talking Points
+## 10. School Presentation Talking Points
 
 If presenting this project to a teacher or examiner:
 1. **Security-First Foundation:** Explain that passwords are never stored in plain text (`password_hash` with bcrypt), every query uses PDO prepared statements to block SQL injection, CSRF tokens prevent cross-site request forgery, and `htmlspecialchars()` stops cross-site scripting (XSS).

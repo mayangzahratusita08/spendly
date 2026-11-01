@@ -115,7 +115,8 @@ require_once __DIR__ . '/includes/header.php';
             <h1>Hello, <?= e($user['full_name']) ?></h1>
             <p>Here is your financial summary for <?= date('F Y') ?>.</p>
         </div>
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+            <a href="<?= base_url('reports.php') ?>" class="btn btn-secondary btn-sm">View Reports</a>
             <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary btn-sm">+ Add Transaction</a>
         </div>
     </div>
