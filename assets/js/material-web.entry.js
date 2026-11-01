@@ -11,12 +11,3 @@ import '@material/web/textfield/outlined-text-field.js';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
 import '@material/web/progress/linear-progress.js';
-
-import { styles as typeScaleStyles } from '@material/web/typography/md-typescale-styles.js';
-
-if ('adoptedStyleSheets' in Document.prototype && typeScaleStyles?.styleSheet) {
-  document.adoptedStyleSheets = [
-    ...document.adoptedStyleSheets,
-    typeScaleStyles.styleSheet,
-  ];
-}
