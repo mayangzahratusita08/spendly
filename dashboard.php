@@ -85,7 +85,7 @@ $recentTransactions = $txStmt->fetchAll();
 // 4b. Monthly category budgets and actual expense totals
 $dashboardBudgets = get_user_budgets_for_month($pdo, $userId, $startOfMonth);
 
-// 5. User seeded categories & payment methods overview (Milestone 1 foundation check)
+// 5. Current user categories and payment methods for dashboard shortcuts
 $catStmt = $pdo->prepare('
     SELECT id, name, type, color
     FROM categories
@@ -117,7 +117,6 @@ require_once __DIR__ . '/includes/header.php';
         </div>
         <div style="display: flex; align-items: center; gap: 0.75rem;">
             <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary btn-sm">+ Add Transaction</a>
-            <span class="milestone-badge">Milestone 2 Transactions Active</span>
         </div>
     </div>
 </div>
