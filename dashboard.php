@@ -109,210 +109,249 @@ $activeNav = 'dashboard';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<div class="dashboard-header">
-    <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-        <div>
-            <h1>Hello, <?= e($user['full_name']) ?></h1>
-            <p>Here is your financial summary for <?= date('F Y') ?>.</p>
-        </div>
-        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-            <a href="<?= base_url('reports.php') ?>" class="btn btn-secondary btn-sm">View Reports</a>
-            <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary btn-sm">+ Add Transaction</a>
-        </div>
-    </div>
-</div>
+<?php
+$incomeCategoryCount = count(array_filter($userCategories, static function ($category) {
+    return $category['type'] === 'income';
+}));
+$expenseCategoryCount = count(array_filter($userCategories, static function ($category) {
+    return $category['type'] === 'expense';
+}));
+?>
 
-<!-- Financial Summary Cards -->
-<div class="summary-cards">
-    <div class="summary-card">
-        <div class="summary-label">Current Balance</div>
-        <div class="summary-value"><?= format_currency($currentBalance) ?></div>
-        <div class="summary-meta">All-time net balance</div>
-    </div>
-    <div class="summary-card">
-        <div class="summary-label">Monthly Income</div>
-        <div class="summary-value income"><?= format_currency($monthlyIncome) ?></div>
-        <div class="summary-meta"><?= date('M Y') ?> total earnings</div>
-    </div>
-    <div class="summary-card">
-        <div class="summary-label">Monthly Expenses</div>
-        <div class="summary-value expense"><?= format_currency($monthlyExpense) ?></div>
-        <div class="summary-meta"><?= date('M Y') ?> total spending</div>
-    </div>
-</div>
-
-
-<!-- Monthly Budget Overview -->
-<section class="card dashboard-budget-section">
-    <div class="card-header">
-        <div>
-            <h2 class="card-title">Monthly Budget Overview</h2>
-            <p class="card-subtitle">Your category spending limits for <?= date('F Y') ?>.</p>
+<div class="dashboard-page">
+    <section class="dashboard-intro">
+        <div class="dashboard-intro-copy">
+            <p class="dashboard-eyebrow">PERSONAL OVERVIEW</p>
+            <h1>Welcome back, <?= e($user['full_name']) ?></h1>
+            <p>Your financial picture for <?= date('F Y') ?>.</p>
         </div>
-        <a href="<?= base_url('budgets.php') ?>" class="btn btn-secondary btn-sm">Manage Budgets</a>
-    </div>
-
-    <?php if (empty($dashboardBudgets)): ?>
-        <div class="empty-state" style="padding: 1.5rem 1rem;">
-            <div class="empty-state-icon">&#128176;</div>
-            <h3>No monthly budgets yet</h3>
-            <p>Create a budget for an expense category to start tracking how much you spend against your limit.</p>
-            <a href="<?= base_url('budget-create.php') ?>" class="btn btn-primary btn-sm">Create First Budget</a>
+        <div class="dashboard-actions">
+            <a href="<?= base_url('reports.php') ?>" class="btn btn-secondary">View reports</a>
+            <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary">+ Add transaction</a>
         </div>
-    <?php else: ?>
-        <div class="dashboard-budget-grid">
-            <?php foreach (array_slice($dashboardBudgets, 0, 3) as $budget): ?>
-                <?php
-                    $limit = (float) $budget['amount_limit'];
-                    $spent = (float) $budget['amount_spent'];
-                    $percentage = $limit > 0 ? ($spent / $limit) * 100 : 0;
-                    $progressWidth = min(100, max(0, $percentage));
-                    $status = $spent > $limit ? 'over' : ($percentage >= 80 ? 'warning' : 'on-track');
-                    $categoryColor = preg_match('/^#[0-9a-fA-F]{6}$/', (string) $budget['category_color'])
-                        ? $budget['category_color']
-                        : '#9ca3af';
-                ?>
-                <div class="dashboard-budget-item">
-                    <div class="budget-card-heading">
-                        <div class="budget-category">
-                            <span class="budget-category-dot" style="background-color: <?= e($categoryColor) ?>;"></span>
-                            <h3><?= e($budget['category_name']) ?></h3>
-                        </div>
-                        <span class="budget-status budget-status--<?= e($status) ?>">
-                            <?= $status === 'over' ? 'Over' : ($status === 'warning' ? 'Near limit' : 'On track') ?>
-                        </span>
-                    </div>
-                    <div class="budget-amounts">
-                        <div>
-                            <span class="budget-muted-label">Spent</span>
-                            <strong><?= format_currency($spent) ?></strong>
-                        </div>
-                        <div class="budget-limit">
-                            <span class="budget-muted-label">Limit</span>
-                            <strong><?= format_currency($limit) ?></strong>
-                        </div>
-                    </div>
-                    <div class="budget-progress" role="progressbar" aria-label="<?= e($budget['category_name']) ?> budget usage" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= e((string) min(100, round($percentage))) ?>">
-                        <span class="budget-progress-fill budget-progress-fill--<?= e($status) ?>" style="width: <?= e((string) $progressWidth) ?>%;"></span>
-                    </div>
-                    <div class="budget-progress-meta">
-                        <strong><?= number_format($percentage, 1) ?>% used</strong>
-                        <span class="<?= ($limit - $spent) >= 0 ? 'budget-remaining' : 'budget-overage' ?>">
-                            <?= ($limit - $spent) >= 0 ? format_currency($limit - $spent) . ' left' : format_currency(abs($limit - $spent)) . ' over' ?>
-                        </span>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-        <?php if (count($dashboardBudgets) > 3): ?>
-            <p class="card-subtitle" style="margin-top: 0.85rem;">Showing 3 of <?= count($dashboardBudgets) ?> category budgets.</p>
-        <?php endif; ?>
-    <?php endif; ?>
-</section>
+    </section>
 
-<!-- Dashboard Content Grid -->
-<div class="dashboard-sections">
-    <!-- Left Column: Transactions / Empty State -->
-    <div class="card">
-        <div class="card-header">
+    <section class="dashboard-metrics" aria-label="Financial summary">
+        <article class="metric-card metric-card-balance">
+            <div class="metric-label">Current balance</div>
+            <div class="metric-value"><?= format_currency($currentBalance) ?></div>
+            <div class="metric-caption">All-time net balance</div>
+        </article>
+        <article class="metric-card">
+            <div class="metric-label">Monthly income</div>
+            <div class="metric-value metric-value-income"><?= format_currency($monthlyIncome) ?></div>
+            <div class="metric-caption"><?= date('F Y') ?> · Total earnings</div>
+        </article>
+        <article class="metric-card">
+            <div class="metric-label">Monthly expenses</div>
+            <div class="metric-value metric-value-expense"><?= format_currency($monthlyExpense) ?></div>
+            <div class="metric-caption"><?= date('F Y') ?> · Total spending</div>
+        </article>
+    </section>
+
+    <section class="dashboard-panel budget-panel">
+        <div class="dashboard-section-heading">
             <div>
-                <h2 class="card-title">Recent Transactions</h2>
-                <p class="card-subtitle">Your latest financial activity</p>
+                <p class="dashboard-section-kicker">PLAN &amp; TRACK</p>
+                <h2>Monthly budgets</h2>
+                <p>Keep an eye on spending limits for <?= date('F Y') ?>.</p>
             </div>
-            <?php if (!empty($recentTransactions)): ?>
-                <div>
-                    <a href="<?= base_url('transactions.php') ?>" class="btn btn-secondary btn-sm">View All</a>
-                </div>
-            <?php endif; ?>
+            <a href="<?= base_url('budgets.php') ?>" class="text-action">Manage budgets <span aria-hidden="true">↗</span></a>
         </div>
 
-        <?php if (empty($recentTransactions)): ?>
-            <div class="empty-state">
-                <div class="empty-state-icon">&#128203;</div>
-                <h3>No transactions recorded yet</h3>
-                <p>
-                    Start tracking your spending! Click the button below to record your first income or expense.
-                </p>
-                <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary btn-sm">Record First Transaction</a>
+        <?php if (empty($dashboardBudgets)): ?>
+            <div class="dashboard-inline-empty">
+                <div>
+                    <strong>No budgets set for this month</strong>
+                    <p>Create a limit for an expense category to track your spending.</p>
+                </div>
+                <a href="<?= base_url('budget-create.php') ?>" class="btn btn-secondary btn-sm">Create a budget</a>
             </div>
         <?php else: ?>
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
-                    <thead>
-                        <tr style="border-bottom: 1px solid var(--color-border); color: var(--color-text-muted);">
-                            <th style="padding: 0.6rem 0.5rem;">Date</th>
-                            <th style="padding: 0.6rem 0.5rem;">Category</th>
-                            <th style="padding: 0.6rem 0.5rem;">Method</th>
-                            <th style="padding: 0.6rem 0.5rem;">Description</th>
-                            <th style="padding: 0.6rem 0.5rem; text-align: right;">Amount</th>
-                            <th style="padding: 0.6rem 0.5rem; text-align: center;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($recentTransactions as $tx): ?>
-                            <tr style="border-bottom: 1px solid var(--color-border);">
-                                <td style="padding: 0.6rem 0.5rem; white-space: nowrap;"><?= format_date($tx['transaction_date']) ?></td>
-                                <td style="padding: 0.6rem 0.5rem;"><?= e($tx['category_name'] ?? 'Uncategorized') ?></td>
-                                <td style="padding: 0.6rem 0.5rem; color: var(--color-text-muted);"><?= e($tx['payment_method_name'] ?? '-') ?></td>
-                                <td style="padding: 0.6rem 0.5rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?= e($tx['description'] ?? '-') ?></td>
-                                <td style="padding: 0.6rem 0.5rem; text-align: right; font-weight: 600; white-space: nowrap; color: <?= $tx['type'] === 'income' ? 'var(--color-income)' : 'var(--color-expense)' ?>;">
-                                    <?= ($tx['type'] === 'income' ? '+' : '-') . ' ' . format_currency($tx['amount']) ?>
-                                </td>
-                                <td style="padding: 0.6rem 0.5rem; text-align: center; white-space: nowrap;">
-                                    <a href="<?= base_url('transaction-edit.php?id=' . (int) $tx['id']) ?>" class="btn-action edit" title="Edit">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <div class="dashboard-budget-list">
+                <?php foreach (array_slice($dashboardBudgets, 0, 4) as $budget): ?>
+                    <?php
+                        $limit = (float) $budget['amount_limit'];
+                        $spent = (float) $budget['amount_spent'];
+                        $percentage = $limit > 0 ? ($spent / $limit) * 100 : 0;
+                        $progressWidth = min(100, max(0, $percentage));
+                        $status = $spent > $limit ? 'over' : ($percentage >= 80 ? 'warning' : 'on-track');
+                        $categoryColor = preg_match('/^#[0-9a-fA-F]{6}$/', (string) $budget['category_color'])
+                            ? $budget['category_color']
+                            : '#9ca3af';
+                    ?>
+                    <article class="dashboard-budget-row">
+                        <div class="dashboard-budget-row-main">
+                            <div class="dashboard-budget-name">
+                                <span class="dashboard-category-dot" style="background-color: <?= e($categoryColor) ?>;"></span>
+                                <strong><?= e($budget['category_name']) ?></strong>
+                                <span class="dashboard-budget-status dashboard-budget-status--<?= e($status) ?>">
+                                    <?= $status === 'over' ? 'Over budget' : ($status === 'warning' ? 'Near limit' : 'On track') ?>
+                                </span>
+                            </div>
+                            <div class="dashboard-budget-amount">
+                                <strong><?= format_currency($spent) ?></strong>
+                                <span>of <?= format_currency($limit) ?></span>
+                            </div>
+                        </div>
+                        <div class="dashboard-progress-track" role="progressbar"
+                             aria-label="<?= e($budget['category_name']) ?> budget usage"
+                             aria-valuemin="0" aria-valuemax="100"
+                             aria-valuenow="<?= e((string) min(100, round($percentage))) ?>">
+                            <span class="dashboard-progress-fill dashboard-progress-fill--<?= e($status) ?>"
+                                  style="width: <?= e((string) $progressWidth) ?>%;"></span>
+                        </div>
+                        <div class="dashboard-budget-meta">
+                            <span><?= number_format($percentage, 1) ?>% used</span>
+                            <strong class="<?= ($limit - $spent) >= 0 ? 'text-positive' : 'text-negative' ?>">
+                                <?= ($limit - $spent) >= 0
+                                    ? format_currency($limit - $spent) . ' remaining'
+                                    : format_currency(abs($limit - $spent)) . ' over' ?>
+                            </strong>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
             </div>
+            <?php if (count($dashboardBudgets) > 4): ?>
+                <div class="dashboard-panel-footnote">Showing 4 of <?= count($dashboardBudgets) ?> budgets.</div>
+            <?php endif; ?>
         <?php endif; ?>
-    </div>
+    </section>
 
-    <!-- Right Column: Account Seeded Defaults & Milestone Status -->
-    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        <!-- User Categories Card -->
-        <div class="card">
-            <div class="card-header">
+    <div class="dashboard-content-grid">
+        <section class="dashboard-panel activity-panel">
+            <div class="dashboard-section-heading">
                 <div>
-                    <h2 class="card-title">Your Categories</h2>
-                    <p class="card-subtitle">Manage how your income and expenses are organized.</p>
+                    <p class="dashboard-section-kicker">LATEST ACTIVITY</p>
+                    <h2>Recent transactions</h2>
+                    <p>Your latest income and expenses.</p>
                 </div>
-                <a href="<?= base_url('categories.php') ?>" class="btn btn-secondary btn-sm">Manage</a>
+                <a href="<?= base_url('transactions.php') ?>" class="text-action">View all <span aria-hidden="true">↗</span></a>
             </div>
 
-            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
-                <?php foreach ($userCategories as $cat): ?>
-                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.2rem 0.55rem; background: var(--color-surface-subtle); border-radius: 9999px; font-size: 0.775rem; color: var(--color-text-main); border: 1px solid var(--color-border);">
-                        <span style="width: 8px; height: 8px; border-radius: 50%; background-color: <?= e($cat['color'] ?? '#9ca3af') ?>;"></span>
-                        <?= e($cat['name']) ?>
-                        <small style="color: var(--color-text-muted); font-size: 0.7rem;">(<?= e($cat['type']) ?>)</small>
-                    </span>
-                <?php endforeach; ?>
-            </div>
-        </div>
-
-        <!-- User Payment Methods Card -->
-        <div class="card">
-            <div class="card-header">
-                <div>
-                    <h2 class="card-title">Your Payment Methods</h2>
-                    <p class="card-subtitle">Manage the payment labels used in transactions.</p>
+            <?php if (empty($recentTransactions)): ?>
+                <div class="dashboard-empty-state">
+                    <div class="dashboard-empty-mark" aria-hidden="true">↗</div>
+                    <strong>No transactions yet</strong>
+                    <p>Your recent financial activity will appear here once you add a transaction.</p>
+                    <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary btn-sm">Record a transaction</a>
                 </div>
-                <a href="<?= base_url('payment-methods.php') ?>" class="btn btn-secondary btn-sm">Manage</a>
-            </div>
+            <?php else: ?>
+                <div class="dashboard-table-wrap">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Method</th>
+                                <th scope="col" class="table-numeric">Amount</th>
+                                <th scope="col"><span class="visually-hidden">Actions</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recentTransactions as $tx): ?>
+                                <?php
+                                    $transactionCategoryColor = '#9ca3af';
+                                    if (!empty($tx['category_name'])) {
+                                        foreach ($userCategories as $knownCategory) {
+                                            if ($knownCategory['name'] === $tx['category_name']) {
+                                                $candidateColor = (string) ($knownCategory['color'] ?? '');
+                                                if (preg_match('/^#[0-9a-fA-F]{6}$/', $candidateColor)) {
+                                                    $transactionCategoryColor = $candidateColor;
+                                                }
+                                                break;
+                                            }
+                                        }
+                                    }
+                                ?>
+                                <tr>
+                                    <td class="table-date"><?= format_date($tx['transaction_date']) ?></td>
+                                    <td>
+                                        <span class="table-category">
+                                            <i class="dashboard-category-dot" style="background-color: <?= e($transactionCategoryColor) ?>;"></i>
+                                            <?= e($tx['category_name'] ?? 'Uncategorized') ?>
+                                        </span>
+                                    </td>
+                                    <td class="table-description"><?= e($tx['description'] ?: '—') ?></td>
+                                    <td class="table-muted"><?= e($tx['payment_method_name'] ?? '—') ?></td>
+                                    <td class="table-numeric">
+                                        <strong class="<?= $tx['type'] === 'income' ? 'text-positive' : 'text-negative' ?>">
+                                            <?= ($tx['type'] === 'income' ? '+' : '−') . ' ' . format_currency($tx['amount']) ?>
+                                        </strong>
+                                    </td>
+                                    <td class="table-action">
+                                        <a href="<?= base_url('transaction-edit.php?id=' . (int) $tx['id']) ?>" class="table-edit-link">Edit</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </section>
 
-            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem;">
-                <?php foreach ($userPaymentMethods as $pm): ?>
-                    <li style="display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0.65rem; background: var(--color-surface-subtle); border-radius: var(--radius-sm); font-size: 0.85rem;">
-                        <span><?= e($pm['name']) ?></span>
-                        <span style="color: var(--color-text-muted); font-size: 0.75rem;">Active</span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+        <aside class="dashboard-side-stack" aria-label="Account setup">
+            <section class="dashboard-panel setup-panel">
+                <div class="dashboard-section-heading">
+                    <div>
+                        <p class="dashboard-section-kicker">ORGANIZATION</p>
+                        <h2>Your categories</h2>
+                    </div>
+                    <a href="<?= base_url('categories.php') ?>" class="text-action">Manage</a>
+                </div>
+
+                <div class="setup-counts">
+                    <div>
+                        <strong><?= $incomeCategoryCount ?></strong>
+                        <span>Income</span>
+                    </div>
+                    <div>
+                        <strong><?= $expenseCategoryCount ?></strong>
+                        <span>Expense</span>
+                    </div>
+                </div>
+
+                <?php if (empty($userCategories)): ?>
+                    <p class="setup-empty-text">No categories configured yet.</p>
+                <?php else: ?>
+                    <div class="setup-category-list">
+                        <?php foreach ($userCategories as $cat): ?>
+                            <?php
+                                $setupCategoryColor = preg_match('/^#[0-9a-fA-F]{6}$/', (string) ($cat['color'] ?? ''))
+                                    ? $cat['color']
+                                    : '#9ca3af';
+                            ?>
+                            <div class="setup-category-item">
+                                <span class="dashboard-category-dot" style="background-color: <?= e($setupCategoryColor) ?>;"></span>
+                                <span><?= e($cat['name']) ?></span>
+                                <small><?= $cat['type'] === 'income' ? 'Income' : 'Expense' ?></small>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </section>
+
+            <section class="dashboard-panel setup-panel">
+                <div class="dashboard-section-heading">
+                    <div>
+                        <p class="dashboard-section-kicker">PAYMENT</p>
+                        <h2>Payment methods</h2>
+                    </div>
+                    <a href="<?= base_url('payment-methods.php') ?>" class="text-action">Manage</a>
+                </div>
+
+                <?php if (empty($userPaymentMethods)): ?>
+                    <p class="setup-empty-text">No payment methods configured yet.</p>
+                <?php else: ?>
+                    <ul class="setup-payment-list">
+                        <?php foreach ($userPaymentMethods as $pm): ?>
+                            <li><?= e($pm['name']) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </section>
+        </aside>
     </div>
 </div>
 

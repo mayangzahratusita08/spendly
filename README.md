@@ -4,7 +4,7 @@
 > **Target Environment:** XAMPP (Apache + MySQL / MariaDB + PHP 8.x)  
 > **Language:** English  
 > **Initial Currency:** IDR (Rp)  
-> **Milestone Status:** **Milestone 5 — Analytics & Reports Implemented**
+> **Milestone Status:** **Milestone 6 — Design System v1 & Dashboard Redesign Implemented**
 
 Spendly is a lightweight, responsive web application designed for personal income and expense tracking, category budgeting, and financial summaries. Built with native PHP, MySQL, vanilla JavaScript, and modern semantic CSS without external frameworks, it is clean, easy to run locally, and simple to explain for a school final project presentation.
 
@@ -140,7 +140,25 @@ The savings rate is calculated as `(income - expenses) / income × 100`. It is n
 
 ---
 
-## 7. Database Schema Overview
+## 7. Design System v1
+
+Spendly uses a Material-inspired component foundation with a restrained translucent navigation treatment.
+
+- **Base surfaces:** white content surfaces on a soft neutral page background.
+- **Brand:** forest/sage green for primary actions and navigation states.
+- **Financial semantics:** green for income, red for expenses, amber for warnings.
+- **Typography:** system-first sans-serif stack with Inter when available; financial figures use tabular-friendly numeric presentation.
+- **Shape:** consistent 8px controls, 10–12px cards, and restrained borders.
+- **Elevation:** subtle surface separation; avoid decorative shadows.
+- **Translucency:** limited to sticky navigation and navigation overlays. Forms, tables, cards, and financial figures remain opaque for readability.
+- **Interaction:** visible keyboard focus, reduced-motion support, and small purposeful transitions.
+- **Dashboard:** redesigned around clear financial metrics, compact budget tracking, recent activity, and account setup summaries.
+
+No external UI framework, font CDN, or chart dependency is required.
+
+---
+
+## 8. Database Schema Overview
 
 The database `spendly_db` contains five tables:
 
@@ -174,7 +192,7 @@ The database `spendly_db` contains five tables:
 
 ---
 
-## 8. XAMPP Local Setup Instructions
+## 9. XAMPP Local Setup Instructions
 
 Follow these step-by-step instructions to run Spendly on your computer using XAMPP:
 
@@ -242,7 +260,7 @@ Follow these step-by-step instructions to run Spendly on your computer using XAM
 
 ---
 
-## 9. Project Directory Structure
+## 10. Project Directory Structure
 
 ```text
 spendly/
@@ -296,7 +314,7 @@ spendly/
 
 ---
 
-## 10. School Presentation Talking Points
+## 11. School Presentation Talking Points
 
 If presenting this project to a teacher or examiner:
 1. **Security-First Foundation:** Explain that passwords are never stored in plain text (`password_hash` with bcrypt), every query uses PDO prepared statements to block SQL injection, CSRF tokens prevent cross-site request forgery, and `htmlspecialchars()` stops cross-site scripting (XSS).
