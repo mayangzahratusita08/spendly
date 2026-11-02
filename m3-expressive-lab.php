@@ -158,7 +158,7 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                             <p class="lab-panel-overline">YOUR SPENDING RHYTHM</p>
                             <h3>Cash flow</h3>
                         </div>
-                        <m3e-button-group variant="connected" size="s" button-variant="tonal" selection-mode="single" label="Cash flow period" id="cash-flow-range">
+                        <m3e-button-group variant="connected" size="s" button-variant="tonal" selection-mode="single" disallow-empty-selection label="Cash flow period" id="cash-flow-range">
                             <m3e-button-group-item value="week" selected>Week</m3e-button-group-item>
                             <m3e-button-group-item value="month">Month</m3e-button-group-item>
                         </m3e-button-group>
@@ -267,7 +267,7 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
 
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">02</span><div><h3>Spring button group</h3><p>Selection with spatial feedback.</p></div></div>
-                    <m3e-button-group class="lab-workbench-button-group" variant="standard" size="m" button-variant="tonal" selection-mode="single" label="Dashboard period" id="workbench-period">
+                    <m3e-button-group class="lab-workbench-button-group" variant="standard" size="m" button-variant="tonal" selection-mode="single" disallow-empty-selection label="Dashboard period" id="workbench-period">
                         <m3e-button-group-item value="day">Day</m3e-button-group-item>
                         <m3e-button-group-item value="week" selected>Week</m3e-button-group-item>
                         <m3e-button-group-item value="month">Month</m3e-button-group-item>
@@ -278,17 +278,17 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">03</span><div><h3>Filter chips</h3><p>Selection that stays lightweight.</p></div></div>
                     <div class="lab-chip-set" role="group" aria-label="Transaction type filters">
-                        <label class="m3e-filter-chip m3e-filter-chip--expressive">
+                        <label class="m3e-filter-chip m3e-filter-chip--expressive lab-filter-chip">
                             <input class="m3e-filter-chip__input" type="checkbox" checked>
                             <span class="m3e-filter-chip__leading" aria-hidden="true"><span class="m3e-icon m3e-filter-chip__check" data-fill>check</span></span>
                             <span class="m3e-filter-chip__label">All activity</span>
                         </label>
-                        <label class="m3e-filter-chip m3e-filter-chip--expressive">
+                        <label class="m3e-filter-chip m3e-filter-chip--expressive lab-filter-chip">
                             <input class="m3e-filter-chip__input" type="checkbox">
                             <span class="m3e-filter-chip__leading" aria-hidden="true"><span class="m3e-icon m3e-filter-chip__check" data-fill>check</span></span>
                             <span class="m3e-filter-chip__label">Income</span>
                         </label>
-                        <label class="m3e-filter-chip m3e-filter-chip--expressive">
+                        <label class="m3e-filter-chip m3e-filter-chip--expressive lab-filter-chip">
                             <input class="m3e-filter-chip__input" type="checkbox">
                             <span class="m3e-filter-chip__leading" aria-hidden="true"><span class="m3e-icon m3e-filter-chip__check" data-fill>check</span></span>
                             <span class="m3e-filter-chip__label">Expenses</span>
