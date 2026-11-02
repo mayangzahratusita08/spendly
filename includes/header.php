@@ -15,6 +15,9 @@ $loggedIn = is_logged_in();
 $user = current_user();
 $activeNav = $activeNav ?? '';
 $flashMessages = get_flash_messages();
+$cssAssetVersion = @filemtime(__DIR__ . '/../assets/css/app.css') ?: '1';
+$materialAssetVersion = @filemtime(__DIR__ . '/../assets/js/material-web.bundle.js') ?: '1';
+$appAssetVersion = @filemtime(__DIR__ . '/../assets/js/app.js') ?: '1';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,8 +25,8 @@ $flashMessages = get_flash_messages();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?></title>
-    <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
-    <script type="module" src="<?= base_url('assets/js/material-web.bundle.js') ?>"></script>
+    <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>?v=<?= e((string) $cssAssetVersion) ?>">
+    <script type="module" src="<?= base_url('assets/js/material-web.bundle.js') ?>?v=<?= e((string) $materialAssetVersion) ?>"></script>
 </head>
 <body>
 <div class="app-shell <?= $loggedIn ? 'app-shell-authenticated' : 'app-shell-guest' ?>">
