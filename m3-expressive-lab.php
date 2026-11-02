@@ -289,7 +289,7 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">02</span><div><h3>Spring button group</h3><p>Selection with spatial feedback.</p></div></div>
                     <div class="lab-group-demo">
-                        <div class="lab-group-demo-heading"><strong>Standard · spatial expansion</strong><span>Press a segment</span></div>
+                        <div class="lab-group-demo-heading"><strong><svg viewBox="0 0 1 1" data-material-shape="Slanted" aria-hidden="true"><path></path></svg> Standard · spatial expansion</strong><span>Press a segment</span></div>
                         <m3e-button-group class="lab-workbench-button-group lab-wide-button-group" variant="standard" size="xl" shape="round" button-variant="tonal" selection-mode="single" disallow-empty-selection label="Dashboard period" id="workbench-period">
                             <m3e-button-group-item value="day" icon="today">Today</m3e-button-group-item>
                             <m3e-button-group-item value="week" icon="date_range" selected>This week</m3e-button-group-item>
@@ -298,7 +298,7 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                         <p class="lab-group-explainer">The pressed item grows while its neighbors compress. The total group width stays constant.</p>
                     </div>
                     <div class="lab-group-demo lab-group-demo-connected">
-                        <div class="lab-group-demo-heading"><strong>Connected · shape morph</strong><span>Change selection</span></div>
+                        <div class="lab-group-demo-heading"><strong><svg viewBox="0 0 1 1" data-material-shape="Cookie7Sided" aria-hidden="true"><path></path></svg> Connected · shape morph</strong><span>Change selection</span></div>
                         <m3e-button-group class="lab-workbench-button-group lab-wide-button-group" variant="connected" size="xl" shape="square" button-variant="outlined" selection-mode="single" disallow-empty-selection label="Chart type" id="connected-period">
                             <m3e-button-group-item value="bars" icon="bar_chart" selected>Bars</m3e-button-group-item>
                             <m3e-button-group-item value="line" icon="show_chart">Line</m3e-button-group-item>
