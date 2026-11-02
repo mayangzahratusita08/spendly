@@ -5,23 +5,23 @@
 
 :root {
     color-scheme: light;
-    --lab-ink: #1d211d;
-    --lab-muted: #626a61;
-    --lab-canvas: #f5f7f1;
-    --lab-surface: #ffffff;
-    --lab-surface-low: #eef2e9;
-    --lab-surface-high: #e7ece2;
-    --lab-line: #dce3d8;
-    --lab-primary: #416b50;
-    --lab-on-primary: #ffffff;
-    --lab-primary-container: #d7ead9;
-    --lab-on-primary-container: #163a23;
-    --lab-secondary-container: #e3e9db;
-    --lab-on-secondary-container: #344b38;
-    --lab-tertiary-container: #f2dfd1;
-    --lab-on-tertiary-container: #492b1d;
-    --lab-error-container: #f9dedb;
-    --lab-on-error-container: #55201b;
+    --lab-ink: var(--m3e-sys-color-on-surface, #1d211d);
+    --lab-muted: var(--m3e-sys-color-on-surface-variant, #626a61);
+    --lab-canvas: var(--m3e-sys-color-surface, #f5f7f1);
+    --lab-surface: var(--m3e-sys-color-surface-container-lowest, #ffffff);
+    --lab-surface-low: var(--m3e-sys-color-surface-container-low, #eef2e9);
+    --lab-surface-high: var(--m3e-sys-color-surface-container-high, #e7ece2);
+    --lab-line: var(--m3e-sys-color-outline-variant, #dce3d8);
+    --lab-primary: var(--m3e-sys-color-primary, #416b50);
+    --lab-on-primary: var(--m3e-sys-color-on-primary, #ffffff);
+    --lab-primary-container: var(--m3e-sys-color-primary-container, #d7ead9);
+    --lab-on-primary-container: var(--m3e-sys-color-on-primary-container, #163a23);
+    --lab-secondary-container: var(--m3e-sys-color-secondary-container, #e3e9db);
+    --lab-on-secondary-container: var(--m3e-sys-color-on-secondary-container, #344b38);
+    --lab-tertiary-container: var(--m3e-sys-color-tertiary-container, #f2dfd1);
+    --lab-on-tertiary-container: var(--m3e-sys-color-on-tertiary-container, #492b1d);
+    --lab-error-container: var(--m3e-sys-color-error-container, #f9dedb);
+    --lab-on-error-container: var(--m3e-sys-color-on-error-container, #55201b);
     --lab-income: #286747;
     --lab-expense: #a34f48;
     --lab-shadow: 0 12px 36px rgba(35, 51, 34, 0.07);
@@ -1150,23 +1150,7 @@ a {
 /* Dark mode is controlled on the playground root and intentionally independent. */
 html[data-theme="dark"] {
     color-scheme: dark;
-    --lab-ink: #e1e5dc;
-    --lab-muted: #aab3a7;
-    --lab-canvas: #151b17;
-    --lab-surface: #202821;
-    --lab-surface-low: #1b241e;
-    --lab-surface-high: #344138;
-    --lab-line: #39463c;
-    --lab-primary: #a6d3ac;
-    --lab-on-primary: #173722;
-    --lab-primary-container: #274a31;
-    --lab-on-primary-container: #d4edda;
-    --lab-secondary-container: #38483b;
-    --lab-on-secondary-container: #d9e8d9;
-    --lab-tertiary-container: #553c32;
-    --lab-on-tertiary-container: #ffdccb;
-    --lab-error-container: #5c302d;
-    --lab-on-error-container: #ffdad5;
+
     --lab-income: #9edbb5;
     --lab-expense: #ffb4a9;
     --lab-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
