@@ -868,10 +868,7 @@ a {
 .lab-component-card {
     min-height: 205px;
     padding: 23px !important;
-    border-color: var(--lab-line) !important;
-    border-radius: 24px !important;
-    background: var(--lab-surface) !important;
-    box-shadow: none !important;
+    font-family: var(--lab-font);
 }
 
 .lab-component-card-heading {
@@ -1096,51 +1093,7 @@ a {
     letter-spacing: 0.02em;
 }
 
-.lab-shell .m3e-button,
-.lab-shell .m3e-icon-button {
-    --m3e-comp-button-shape: 999px;
-    font-family: var(--lab-font);
-}
-
-.lab-shell .m3e-button--filled {
-    background: var(--lab-primary);
-    color: var(--lab-on-primary);
-}
-
-.lab-shell .m3e-button--tonal {
-    background: var(--lab-secondary-container);
-    color: var(--lab-on-secondary-container);
-}
-
-.lab-shell .m3e-button--outlined {
-    color: var(--lab-ink);
-}
-
-.lab-shell .m3e-card {
-    font-family: var(--lab-font);
-}
-
-.lab-shell m3e-button-group {
-    font-family: var(--lab-font);
-}
-
-.lab-shell m3e-fab-menu {
-    --m3e-sys-color-primary: var(--lab-primary);
-}
-
-.lab-shell .m3e-icon {
-    font-family: "Material Symbols Rounded", sans-serif;
-    font-weight: normal;
-    font-style: normal;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
-    white-space: nowrap;
-    direction: ltr;
-    font-feature-settings: "liga";
-    -webkit-font-feature-settings: "liga";
-    -webkit-font-smoothing: antialiased;
-}
+/* Keep M3E's native shape, color, typography, elevation, and state-layer tokens intact. */
 
 @keyframes lab-float {
     0%, 100% { translate: 0 0; }
@@ -2109,4 +2062,142 @@ html[data-theme="dark"] .lab-spring-orb {
 
 .lab-spring-track::after {
     right: 16%;
+}
+
+
+/* Real MaterialShapes are used as part of the component examples, not as fake border radii. */
+.lab-inline-shape {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    flex: none;
+    overflow: visible;
+    fill: currentColor;
+}
+
+.lab-chip-shape {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    overflow: visible;
+    fill: currentColor;
+    transition: opacity 180ms ease, transform 280ms cubic-bezier(.2,.8,.2,1);
+}
+
+.lab-button-shape-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid var(--lab-line);
+}
+
+.lab-button-shape-row > span {
+    margin-right: auto;
+    color: var(--lab-muted);
+    font-size: 10px;
+    font-weight: 650;
+}
+
+.lab-group-demo-heading strong {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lab-group-demo-heading svg {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    overflow: visible;
+    fill: var(--lab-primary);
+}
+
+.lab-wide-button-group .m3e-button-group {
+    max-width: 100%;
+}
+
+.lab-wide-button-group .m3e-button-group--connected {
+    width: 100%;
+}
+
+.lab-wide-button-group .m3e-button-group--standard {
+    width: max-content;
+    max-width: 100%;
+}
+
+.lab-wide-button-group .m3e-button-group--standard .m3e-button-group__item {
+    max-width: 100%;
+}
+
+.lab-feedback-shape {
+    width: 34px;
+    height: 34px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    color: var(--lab-tertiary-container);
+}
+
+.lab-feedback-shape svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: var(--lab-primary);
+    animation: lab-shape-breathe 4.6s ease-in-out infinite;
+}
+
+.lab-feedback-demo m3e-loading-indicator {
+    width: 58px;
+    height: 58px;
+    flex: none;
+}
+
+.lab-feedback-demo m3e-linear-progress {
+    display: block;
+    width: 100%;
+}
+
+.lab-action-shape {
+    width: 44px;
+    height: 44px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    color: var(--lab-tertiary-container);
+}
+
+.lab-action-shape svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: var(--lab-tertiary-container);
+    filter: drop-shadow(0 3px 8px color-mix(in srgb, var(--lab-primary) 20%, transparent));
+    animation: lab-shape-turn 14s linear infinite;
+}
+
+.lab-action-demo m3e-fab-menu {
+    flex: none;
+}
+
+.lab-action-demo m3e-fab-menu .m3e-fab-menu {
+    --_m3e-fab-menu-progress: 0;
+}
+
+html[data-theme="dark"] .lab-inline-shape,
+html[data-theme="dark"] .lab-chip-shape,
+html[data-theme="dark"] .lab-group-demo-heading svg {
+    fill: currentColor;
+}
+
+@keyframes lab-shape-breathe {
+    0%, 100% { transform: rotate(-8deg) scale(.92); }
+    50% { transform: rotate(8deg) scale(1.08); }
+}
+
+@keyframes lab-shape-turn {
+    from { transform: rotate(0deg) scale(.92); }
+    to { transform: rotate(360deg) scale(.92); }
 }
