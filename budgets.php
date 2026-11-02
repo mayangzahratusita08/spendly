@@ -33,6 +33,7 @@ $monthLabel = date('F Y', strtotime($budgetMonth));
 
 $pageTitle = 'Budgets';
 $activeNav = 'budgets';
+$enableM3Expressive = true;
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -41,7 +42,7 @@ require_once __DIR__ . '/includes/header.php';
         <h1>Monthly Budgets</h1>
         <p>Set spending limits and keep each expense category on track.</p>
     </div>
-    <a href="<?= base_url('budget-create.php?month=' . e($selectedMonth)) ?>" class="btn btn-primary">+ Add Budget</a>
+    <a href="<?= base_url('budget-create.php?month=' . e($selectedMonth)) ?>" class="m3e-button m3e-button--filled m3e-button--size-m"><span class="m3e-icon" aria-hidden="true">add</span> Add Budget</a>
 </div>
 
 <div class="card budget-month-filter">
@@ -57,8 +58,8 @@ require_once __DIR__ . '/includes/header.php';
                 required
             >
         </div>
-        <button type="submit" class="btn btn-secondary">View Month</button>
-        <a href="<?= base_url('budgets.php') ?>" class="btn btn-sm budget-reset-link">Current Month</a>
+        <button type="submit" class="m3e-button m3e-button--tonal m3e-button--size-m">View Month</button>
+        <a href="<?= base_url('budgets.php') ?>" class="m3e-button m3e-button--text m3e-button--size-s budget-reset-link">Current Month</a>
     </form>
 </div>
 
@@ -96,7 +97,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="empty-state-icon">&#128176;</div>
             <h3>No budgets for <?= e($monthLabel) ?></h3>
             <p>Create a monthly limit for an expense category. Spendly will compare it with your actual transactions.</p>
-            <a href="<?= base_url('budget-create.php?month=' . e($selectedMonth)) ?>" class="btn btn-primary btn-sm">Create Your First Budget</a>
+            <a href="<?= base_url('budget-create.php?month=' . e($selectedMonth)) ?>" class="m3e-button m3e-button--filled m3e-button--size-m">Create Your First Budget</a>
         </div>
     </div>
 <?php else: ?>
@@ -107,6 +108,7 @@ require_once __DIR__ . '/includes/header.php';
                 $spent = (float) $budget['amount_spent'];
                 $percentage = $limit > 0 ? ($spent / $limit) * 100 : 0;
                 $progressWidth = min(100, max(0, $percentage));
+                $progressFraction = min(1, max(0, $percentage / 100));
                 $status = $spent > $limit ? 'over' : ($percentage >= 80 ? 'warning' : 'on-track');
                 $remaining = $limit - $spent;
                 $categoryColor = preg_match('/^#[0-9a-fA-F]{6}$/', (string) $budget['category_color'])
@@ -135,16 +137,12 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 </div>
 
-                <div
-                    class="budget-progress"
-                    role="progressbar"
-                    aria-label="<?= e($budget['category_name']) ?> budget usage"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="<?= e((string) min(100, round($percentage))) ?>"
-                >
-                    <span class="budget-progress-fill budget-progress-fill--<?= e($status) ?>" style="width: <?= e((string) $progressWidth) ?>%;"></span>
-                </div>
+                <m3e-linear-progress
+                    class="m3e-budget-progress m3e-budget-progress--<?= e($status) ?>"
+                    value="<?= e(number_format($progressFraction, 3, '.', '')) ?>"
+                    shape="wavy"
+                    aria-label="<?= e($budget['category_name']) ?> budget usage, <?= e((string) min(100, round($percentage))) ?> percent"
+                ></m3e-linear-progress>
 
                 <div class="budget-progress-meta">
                     <strong><?= number_format($percentage, 1) ?>% used</strong>
