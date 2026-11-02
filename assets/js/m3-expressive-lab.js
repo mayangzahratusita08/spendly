@@ -9,6 +9,7 @@ import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/button-group.js?bundle';
 import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/fab-menu.js?bundle';
 import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/linear-progress.js?bundle';
 import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/loading-indicator.js?bundle';
+import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/ripple.js?bundle';
 
 const root = document.documentElement;
 const liveRegion = document.getElementById('lab-live-region');
@@ -111,6 +112,16 @@ const heroPair = ['Cookie4Sided', 'Flower', 'Heart', 'Clover8Leaf', 'Sunny'];
 
 function svgPathFromPolygon(name) {
   return toSvgPathData(polygonToPath(materialShape(name)));
+}
+
+/* The workbench uses real MaterialShapes as iconography inside native M3E components. */
+function renderInlineMaterialShapes() {
+  document.querySelectorAll('svg[data-material-shape]').forEach((svg) => {
+    const name = svg.dataset.materialShape;
+    const path = svg.querySelector('path');
+    if (name && path) path.setAttribute('d', svgPathFromPolygon(name));
+    svg.setAttribute('aria-hidden', 'true');
+  });
 }
 
 function renderShapePresetThumbnails() {
@@ -291,6 +302,7 @@ if (shapePath) {
   shapePath.setAttribute('d', svgPathFromPolygon(activeShapeName));
   renderMorphAt(new Morph(materialShape(activeShapeName), materialShape(targetShapeName)), 0);
 }
+renderInlineMaterialShapes();
 renderShapePresetThumbnails();
 if (shapePair) shapePair.textContent = activeShapeName + ' → ' + targetShapeName;
 setMorphState('READY');
