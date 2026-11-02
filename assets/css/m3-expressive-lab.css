@@ -2099,3 +2099,20 @@ html[data-theme="dark"] .lab-spring-orb {
 .lab-spring-track {
     contain: layout paint;
 }
+
+
+.lab-shape-preset:focus-visible,
+.lab-spring-preset:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--lab-primary) 58%, transparent);
+    outline-offset: 3px;
+}
+
+.lab-wide-button-group .m3e-button-group__item {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+}
+
+.lab-spring-track::after {
+    right: 16%;
+}
