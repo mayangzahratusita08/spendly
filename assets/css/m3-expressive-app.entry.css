@@ -1,0 +1,6 @@
+/*
+ * M3 Expressive Web 1.8.0 CSS entry.
+ * esbuild resolves package-to-package imports and emits the self-hosted bundle.
+ */
+@import '@kyralabs/m3exp-web/css/index.css';
+@import '@kyralabs/m3e-tokens/material-symbols.css';
