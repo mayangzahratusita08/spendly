@@ -1841,7 +1841,7 @@ html[data-theme="dark"] .lab-shell .m3e-button--tonal {
     background: var(--lab-primary);
     border-radius: 41% 59% 54% 46% / 50% 44% 56% 50%;
     box-shadow: 0 6px 15px color-mix(in srgb, var(--lab-primary) 24%, transparent);
-    transform: translateY(-50%);
+    transform: translate(var(--spring-x, 0px), -50%);
     transition: border-radius 180ms ease;
 }
 
