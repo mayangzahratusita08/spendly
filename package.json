@@ -2,16 +2,23 @@
   "name": "spendly-frontend-assets",
   "version": "1.0.0",
   "private": true,
-  "description": "Build tooling for Spendly's Material Web components.",
+  "description": "Build tooling for Spendly's Material Web and Material 3 Expressive assets.",
   "scripts": {
-    "build": "npm run build:material",
-    "build:material": "esbuild assets/js/material-web.entry.js --bundle --format=esm --target=es2022 --minify --outfile=assets/js/material-web.bundle.js"
+    "build": "npm run build:material && npm run build:m3e",
+    "build:material": "esbuild assets/js/material-web.entry.js --bundle --format=esm --target=es2022 --minify --outfile=assets/js/material-web.bundle.js",
+    "build:m3e": "npm run build:m3e:css && npm run build:m3e:js",
+    "build:m3e:css": "esbuild assets/css/m3-expressive-app.entry.css --bundle --minify --loader:.woff2=file --asset-names=m3e-fonts/[name]-[hash] --outfile=assets/css/m3-expressive-app.bundle.css",
+    "build:m3e:js": "esbuild assets/js/m3-expressive-app.js --bundle --format=esm --target=es2022 --minify --outfile=assets/js/m3-expressive-app.bundle.js"
   },
   "dependencies": {
     "@material/web": "2.5.0"
   },
   "devDependencies": {
-    "esbuild": "0.28.2"
+    "esbuild": "0.28.2",
+    "@kyralabs/m3e-elements": "1.8.0",
+    "@kyralabs/m3e-shapes": "1.8.0",
+    "@kyralabs/m3e-tokens": "1.8.0",
+    "@kyralabs/m3exp-web": "1.8.0"
   },
   "engines": {
     "node": ">=20"
