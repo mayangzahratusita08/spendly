@@ -386,7 +386,7 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                             <button class="m3e-icon-button m3e-icon-button--standard" type="button" id="lab-morph-next" aria-label="Morph to next shape">
                                 <span class="m3e-icon" aria-hidden="true">arrow_forward</span>
                             </button>
-                            <span class="lab-morph-motion-note">Expressive fast spatial spring</span>
+                            <span class="lab-morph-motion-note">Expressive default spatial spring</span>
                         </div>
                     </div>
 
