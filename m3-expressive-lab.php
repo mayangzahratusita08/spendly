@@ -343,6 +343,9 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">04</span><div><h3>Expressive feedback</h3><p>Progress and shape transformation.</p></div></div>
                     <div class="lab-feedback-demo">
+                        <div class="lab-feedback-shape" aria-hidden="true">
+                            <svg viewBox="0 0 1 1" data-material-shape="Sunny"><path></path></svg>
+                        </div>
                         <m3e-loading-indicator contained aria-label="Expressive loading indicator"></m3e-loading-indicator>
                         <div class="lab-feedback-progress">
                             <div class="lab-feedback-progress-heading"><strong>Monthly savings goal</strong><span id="lab-progress-value">62%</span></div>
@@ -366,12 +369,15 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">06</span><div><h3>Contextual actions</h3><p>Actions appear when they are useful.</p></div></div>
                     <div class="lab-action-demo">
+                        <div class="lab-action-shape" aria-hidden="true">
+                            <svg viewBox="0 0 1 1" data-material-shape="Burst"><path></path></svg>
+                        </div>
                         <m3e-fab-menu label="Quick add" icon="add" close-icon="close" size="large" color="tertiary" align="end">
                             <m3e-fab-menu-item icon="receipt_long" value="expense">Expense</m3e-fab-menu-item>
                             <m3e-fab-menu-item icon="payments" value="income">Income</m3e-fab-menu-item>
                             <m3e-fab-menu-item icon="savings" value="transfer">Transfer</m3e-fab-menu-item>
                         </m3e-fab-menu>
-                        <div class="lab-action-copy"><strong>Quick add</strong><span>Open the floating action menu to reveal related actions.</span></div>
+                        <div class="lab-action-copy"><strong>Quick add</strong><span>Open the expressive FAB menu to reveal related actions.</span></div>
                     </div>
                     <p class="lab-component-footnote">Try the FAB. Select an action to trigger a local preview message.</p>
                 </article>
