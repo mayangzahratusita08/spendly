@@ -2,73 +2,87 @@
 
 ## Purpose
 
-This is an isolated design experiment for evaluating Material 3 Expressive in the existing PHP-rendered Spendly application. It is not a production redesign and does not replace the existing Material Web integration.
+An isolated design experiment for evaluating Material 3 Expressive in Spendly's PHP-rendered application. It is not a production redesign and does not replace the existing Material Web integration.
 
-Open the page locally at:
+Local URL:
 
 `http://localhost/spendly/m3-expressive-lab.php`
 
 ## Implementation
 
-- `m3-expressive-lab.php` is a standalone preview page. It does not include the authenticated app shell, execute database queries, or submit transactions.
-- `assets/css/m3-expressive-lab.css` contains styles scoped to the playground page.
-- `assets/js/m3-expressive-lab.js` loads the M3 Expressive theme generator and only the custom elements used in this page.
-- Existing Spendly pages continue to load their current styles, scripts, and Material Web bundle.
+- `m3-expressive-lab.php`: standalone preview page. It does not include the authenticated app shell, query the database, or submit transactions.
+- `assets/css/m3-expressive-lab.css`: styles scoped to this page. Native M3E component shape, color, and motion tokens are not overridden.
+- `assets/js/m3-expressive-lab.js`: dynamic theme generation, real MaterialShapes interpolation, spring motion, and component interactions.
+- Existing Spendly pages continue to use their current assets and Material Web bundle.
 
 ## Library and version
 
-The playground uses **M3 Expressive Web 1.8.0** by Kyra Labs:
+Uses Kyra Labs' third-party **M3 Expressive Web 1.8.0**, licensed Apache-2.0:
 
 - Project: https://github.com/kyra-labs/m3exp-web
 - Documentation: https://m3e.kyralabs.dev/
-- License: Apache-2.0
-- Upstream fidelity target: Jetpack Compose Material 3 1.5.0-beta01, as recorded by the library's `SOURCES.md`.
+- This is a community implementation, not an official Google web library.
+- Its upstream fidelity target is Jetpack Compose Material 3 1.5.0-beta01, as recorded in the library's `SOURCES.md`.
 
-This is a third-party community implementation, not an official Google web library.
+The CDN URLs are version-pinned. The CSS links follow the published package export layout:
 
-To keep the repository's existing npm dependencies and lockfile untouched, this isolated page loads version-pinned CSS from unpkg and browser modules from esm.sh. The page therefore requires an internet connection for the third-party assets. The package version is pinned in every URL; do not replace these with unversioned `latest` URLs.
+- `@kyralabs/m3e-tokens/fonts/fonts.css`
+- `@kyralabs/m3e-tokens/dist/generated/tokens.css`
+- `@kyralabs/m3e-tokens/dist/generated/theme.css`
+- `@kyralabs/m3e-tokens/fonts/material-symbols.css`
+- `@kyralabs/m3e-css/dist/index.css`
 
-The M3E theme generator uses Material Color Utilities to create an **Expressive** dynamic color scheme from the selected seed. The color-scheme CSS is applied to the document root and the playground surfaces reference the resulting semantic color roles. Light and dark palettes are regenerated explicitly when the appearance toggle changes.
+Browser modules are loaded from esm.sh:
 
-The browser module entry also loads the published `@kyralabs/m3e-shapes@1.8.0` and `@kyralabs/m3e-motion@1.8.0` packages directly from esm.sh. The shape package supplies the 35 MaterialShapes `RoundedPolygon` presets, `Morph`, and SVG path generation. The motion package supplies Compose-compatible `springValue` and `springDurationMillis` calculations. Morph transitions use the expressive **default spatial** spring (damping ratio 0.8, stiffness 380); the motion workbench compares that with expressive fast spatial (0.6, 800) and standard fast spatial (0.9, 1400), using the upstream M3E motion tokens.
+- `@kyralabs/m3exp-web/theme`
+- `@kyralabs/m3e-shapes`
+- `@kyralabs/m3e-motion`
+- M3E custom elements: button group, FAB menu, linear progress, loading indicator, and ripple.
 
-## Demonstrated components and behavior
+The page requires an internet connection for these third-party assets. Do not replace pinned URLs with unversioned `latest` URLs.
 
-- Filled, tonal, outlined, and text buttons.
-- Standard single-selection button group with spring-based layout behavior.
-- Native checkbox filter chips using M3E component styles.
-- Expressive loading indicator and real SVG morphing between the complete 35-shape MaterialShapes collection.
-- A shape-family picker with eight featured presets plus a selector for all 35 shapes.
-- A spring-physics workbench comparing Standard fast spatial, Expressive fast spatial, and Expressive default spatial motion.
-- Standard and connected button groups shown side by side to demonstrate width expansion versus selected-corner morphing.
-- Linear progress indicator, including a wavy example.
-- Floating action button menu with Expense, Income, and Transfer actions.
-- Seed-based Expressive color themes and a light/dark appearance toggle.
-- Responsive finance-dashboard composition with illustrative cash-flow, budget, and transaction content.
+## The building blocks: native M3E components
+
+The component workbench uses the published M3E component classes/custom elements:
+
+1. **Buttons & emphasis:** native filled, tonal, outlined, and text buttons; native round and square shape variants; preset MaterialShapes are rendered as SVG iconography inside the buttons.
+2. **Spring button groups:** native standard group (press-width redistribution) and connected group (selected/pressed corner morphing). The examples keep their own M3E round/square component shapes.
+3. **Filter chips:** native checkbox-based expressive filter chips. The leading MaterialShape icon gives way to the selected check, while the chip's own expressive shape morphs using M3E's component tokens.
+4. **Expressive feedback:** native loading indicator (its own morphing shape choreography) and wavy linear progress component; a MaterialShape accent illustrates the shape family.
+5. **Dynamic color:** Expressive theme generated from a seed color. Light and dark schemes are regenerated explicitly when the appearance toggle changes.
+6. **Contextual actions:** native M3E FAB menu with its opening/closing spring, focus behavior, item staggering, and local preview actions; a MaterialShape accent complements the menu.
+
+The delegated `ripple.js` entry enables the M3E press ripple/state-layer behavior on the plain HTML buttons and filter chips.
+
+## Shape and motion labs
+
+- `@kyralabs/m3e-shapes@1.8.0` supplies all 35 MaterialShapes as `RoundedPolygon` presets, `Morph`, and SVG path serialization.
+- The shape lab interpolates cubic Bézier geometry between presets. It does not cross-fade two pictures or approximate morphing with `border-radius`.
+- `@kyralabs/m3e-motion@1.8.0` supplies Compose-compatible spring calculations.
+- Shape morphs use the expressive **default spatial** spring (damping ratio 0.8, stiffness 380).
+- The motion workbench compares Standard fast spatial (0.9 / 1400), Expressive fast spatial (0.6 / 800), and Expressive default spatial (0.8 / 380).
+- `prefers-reduced-motion` is respected by the custom morph and spring demos. The M3E components also provide their own reduced-motion behavior.
 
 ## Safety and scope
 
-- All financial figures and account details shown are fictional illustrative content.
+- All financial values and account details are fictional illustrative content.
 - No database, authentication, authorization, CSRF, transaction, budget, or account logic is imported or changed.
-- No package dependencies are added to `package.json` or `package-lock.json`.
+- No npm dependency or lockfile change.
 - The existing `@material/web` bundle is not modified.
-- The page is marked `noindex, nofollow` and is intended for local design review only.
+- The page is marked `noindex, nofollow` and intended for local design review only.
 
 ## Local review checklist
 
-1. Confirm the M3E CSS assets load (HTTP 200) from unpkg.
-2. Confirm the shape, motion, theme, and component modules load (HTTP 200) from esm.sh.
-3. Confirm filled/tonal/outlined/text buttons use native M3E emphasis and both round/square shape variants; press them to check ripple and state layers.
-4. Confirm filter chips use the expressive variant, their leading MaterialShape icons transition to the selected check, and their own component shape morphs.
-5. Compare standard button-group width redistribution with connected button-group corner morphing; check the preset shape markers beside each group.
-6. Confirm loading indicator and wavy linear progress render with their M3E behavior and the MaterialShape accents are visible.
-4. Browse all 35 shape presets and run the morph sequence; confirm the default spatial spring overshoot and settlement.
-5. Compare standard button-group width expansion with connected button-group corner morphing.
-6. Switch between Standard and Expressive spring presets; check damping, stiffness, settle-time, and the moving orb.
-7. Confirm the FAB menu opens, closes, supports keyboard navigation, and announces selected actions.
-8. Confirm the linear progress slider updates the determinate progress value.
-9. Confirm switching between seed colors changes the M3E token palette.
-10. Confirm light/dark mode, desktop layout, mobile layout, and `prefers-reduced-motion`.
+1. Confirm all version-pinned CSS assets load with HTTP 200 from unpkg, and all browser modules load from esm.sh.
+2. Test filled/tonal/outlined/text buttons, round/square variants, ripple, hover, focus, and pressed states.
+3. Test filter chip selection and confirm its icon/check and component shape transition.
+4. Compare standard button-group width redistribution with connected button-group corner morphing.
+5. Confirm the loading indicator morphs, the wavy progress renders, and the progress slider updates the value.
+6. Open the contextual FAB menu, test keyboard focus and dismissal, and select each local preview action.
+7. Browse all 35 MaterialShapes, run the morph sequence, and inspect the spatial spring overshoot/settlement.
+8. Compare all three spring presets and their live readout.
+9. Change seed colors in both light and dark mode.
+10. Test desktop/mobile layout and `prefers-reduced-motion`.
 11. Confirm the normal dashboard and transaction pages still use their existing assets and behavior.
 
-Browser verification is intentionally not claimed by this change. Complete the checklist against the local XAMPP instance before considering any reuse of these components in production.
+JavaScript static inspection has been performed, but PHP lint and browser/XAMPP verification have not. Complete the local checklist before considering production adoption.
