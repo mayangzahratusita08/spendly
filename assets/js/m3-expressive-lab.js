@@ -14,6 +14,8 @@ import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/ripple.js?bundle';
 const root = document.documentElement;
 const liveRegion = document.getElementById('lab-live-region');
 const themeToggle = document.getElementById('lab-theme-toggle');
+let activeSeed = '#416B50';
+let activeSeedLabel = 'Forest green';
 const themeFeedback = document.getElementById('lab-theme-feedback');
 const progressRange = document.getElementById('lab-progress-range');
 const progressValue = document.getElementById('lab-progress-value');
@@ -40,10 +42,13 @@ function updateThemeToggle() {
 
 function applyExpressiveSeed(seed, label) {
   try {
+    activeSeed = seed;
+    activeSeedLabel = label;
     const theme = createTheme({
       seed,
       variant: 'expressive',
-      mode: 'system',
+      mode: root.dataset.theme === 'dark' ? 'dark' : 'light',
+      motionScheme: 'expressive',
       specVersion: '2025',
     });
 
@@ -72,6 +77,7 @@ function applyExpressiveSeed(seed, label) {
 themeToggle?.addEventListener('click', () => {
   root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
   updateThemeToggle();
+  applyExpressiveSeed(activeSeed, activeSeedLabel);
   announce((root.dataset.theme === 'dark' ? 'Dark' : 'Light') + ' appearance enabled.');
 });
 
