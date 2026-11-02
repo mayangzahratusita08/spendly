@@ -28,7 +28,7 @@ This is a third-party community implementation, not an official Google web libra
 
 To keep the repository's existing npm dependencies and lockfile untouched, this isolated page loads version-pinned CSS from unpkg and browser modules from esm.sh. The page therefore requires an internet connection for the third-party assets. The package version is pinned in every URL; do not replace these with unversioned `latest` URLs.
 
-The M3E theme generator uses Material Color Utilities to create an **Expressive** dynamic color scheme from the selected seed. The color-scheme CSS is applied to the document root and the playground surfaces reference the resulting semantic color roles.
+The M3E theme generator uses Material Color Utilities to create an **Expressive** dynamic color scheme from the selected seed. The color-scheme CSS is applied to the document root and the playground surfaces reference the resulting semantic color roles. Light and dark palettes are regenerated explicitly when the appearance toggle changes.
 
 The browser module entry also loads the published `@kyralabs/m3e-shapes@1.8.0` and `@kyralabs/m3e-motion@1.8.0` packages directly from esm.sh. The shape package supplies the 35 MaterialShapes `RoundedPolygon` presets, `Morph`, and SVG path generation. The motion package supplies Compose-compatible `springValue` and `springDurationMillis` calculations. Morph transitions use the expressive **default spatial** spring (damping ratio 0.8, stiffness 380); the motion workbench compares that with expressive fast spatial (0.6, 800) and standard fast spatial (0.9, 1400), using the upstream M3E motion tokens.
 
@@ -58,7 +58,10 @@ The browser module entry also loads the published `@kyralabs/m3e-shapes@1.8.0` a
 
 1. Confirm the M3E CSS assets load (HTTP 200) from unpkg.
 2. Confirm the shape, motion, theme, and component modules load (HTTP 200) from esm.sh.
-3. Select several Material Shapes and confirm the SVG outline morphs between cubic paths rather than cross-fading.
+3. Confirm filled/tonal/outlined/text buttons use native M3E emphasis and both round/square shape variants; press them to check ripple and state layers.
+4. Confirm filter chips use the expressive variant, their leading MaterialShape icons transition to the selected check, and their own component shape morphs.
+5. Compare standard button-group width redistribution with connected button-group corner morphing; check the preset shape markers beside each group.
+6. Confirm loading indicator and wavy linear progress render with their M3E behavior and the MaterialShape accents are visible.
 4. Browse all 35 shape presets and run the morph sequence; confirm the default spatial spring overshoot and settlement.
 5. Compare standard button-group width expansion with connected button-group corner morphing.
 6. Switch between Standard and Expressive spring presets; check damping, stiffness, settle-time, and the moving orb.
