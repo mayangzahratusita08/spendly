@@ -1600,11 +1600,6 @@ html[data-theme="dark"] .lab-chart-column:hover .lab-chart-bar {
     gap: 10px;
 }
 
-.lab-morph-actions .m3e-button--tonal {
-    color: var(--lab-on-primary-container) !important;
-    background: color-mix(in srgb, var(--lab-on-primary-container) 10%, transparent) !important;
-}
-
 .lab-morph-actions .m3e-icon-button {
     color: var(--lab-on-primary-container);
 }
@@ -2201,10 +2196,6 @@ html[data-theme="dark"] .lab-group-demo-heading svg {
 /* The component's internal rendered elements are the CSS contract, not the custom-element host. */
 .lab-chip-set .m3e-filter-chip {
     flex: none;
-}
-
-.lab-button-samples .m3e-button {
-    font-family: var(--lab-font);
 }
 
 .lab-button-samples .m3e-button--square {
