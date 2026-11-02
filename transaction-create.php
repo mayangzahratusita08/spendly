@@ -19,8 +19,12 @@ $categories = get_user_categories($pdo, $userId);
 $paymentMethods = get_user_payment_methods($pdo, $userId);
 
 $errors = [];
+$initialType = trim((string) ($_GET['type'] ?? 'expense'));
+if (!in_array($initialType, ['expense', 'income'], true)) {
+    $initialType = 'expense';
+}
 $formData = [
-    'type'              => 'expense', // Default to expense
+    'type'              => $initialType, // Default to expense unless a valid type shortcut is supplied
     'amount'            => '',
     'category_id'       => '',
     'payment_method_id' => '',
@@ -54,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $pageTitle = 'Add Transaction';
 $activeNav = 'transactions';
+$enableM3Expressive = true;
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -64,7 +69,7 @@ require_once __DIR__ . '/includes/header.php';
                 <h1 style="font-size: 1.4rem; margin: 0 0 0.25rem 0;">Add Transaction</h1>
                 <p style="margin: 0; font-size: 0.875rem;">Record a new income or expense entry</p>
             </div>
-            <a href="<?= base_url('transactions.php') ?>" class="btn btn-secondary btn-sm">Back</a>
+            <a href="<?= base_url('transactions.php') ?>" class="m3e-button m3e-button--outlined m3e-button--size-s">Back</a>
         </div>
 
         <?php if (!empty($errors['general'])): ?>
@@ -80,7 +85,21 @@ require_once __DIR__ . '/includes/header.php';
             <!-- Transaction Type Selector -->
             <div class="form-group">
                 <label class="form-label">Transaction Type <span class="required">*</span></label>
-                <div class="type-selector">
+                <m3e-button-group
+                    class="m3e-transaction-type-group"
+                    id="transaction-type-group"
+                    variant="standard"
+                    size="xl"
+                    shape="round"
+                    button-variant="tonal"
+                    selection-mode="single"
+                    disallow-empty-selection
+                    label="Transaction type"
+                >
+                    <m3e-button-group-item value="expense" icon="north_east" <?= $formData['type'] === 'expense' ? 'selected' : '' ?>>Expense</m3e-button-group-item>
+                    <m3e-button-group-item value="income" icon="south_west" <?= $formData['type'] === 'income' ? 'selected' : '' ?>>Income</m3e-button-group-item>
+                </m3e-button-group>
+                <div class="type-selector m3e-type-fallback">
                     <label class="type-pill <?= $formData['type'] === 'expense' ? 'active-expense' : '' ?>">
                         <input type="radio" name="type" value="expense" <?= $formData['type'] === 'expense' ? 'checked' : '' ?>>
                         Expense
@@ -199,8 +218,8 @@ require_once __DIR__ . '/includes/header.php';
             </div>
 
             <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-                <md-filled-button type="submit" style="flex: 1;">Save Transaction</md-filled-button>
-                <a href="<?= base_url('transactions.php') ?>" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="m3e-button m3e-button--filled m3e-button--size-l" style="flex: 1;">Save Transaction</button>
+                <a href="<?= base_url('transactions.php') ?>" class="m3e-button m3e-button--outlined m3e-button--size-l">Cancel</a>
             </div>
         </form>
     </div>
