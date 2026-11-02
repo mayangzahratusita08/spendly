@@ -2107,12 +2107,6 @@ html[data-theme="dark"] .lab-spring-orb {
     outline-offset: 3px;
 }
 
-.lab-wide-button-group .m3e-button-group__item {
-    flex: 1 1 0;
-    min-width: 0;
-    justify-content: center;
-}
-
 .lab-spring-track::after {
     right: 16%;
 }
