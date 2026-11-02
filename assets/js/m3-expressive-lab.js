@@ -90,26 +90,13 @@ const shapePair = document.getElementById('lab-morph-pair');
 const shapeProgress = document.getElementById('lab-morph-progress');
 const shapeState = document.getElementById('lab-morph-state');
 const shapePresetContainer = document.getElementById('lab-shape-presets');
+const allShapesSelect = document.getElementById('lab-all-shapes');
 const shapePlayButton = document.getElementById('lab-morph-play');
 const shapeNextButton = document.getElementById('lab-morph-next');
 const heroMorphPath = document.getElementById('lab-hero-morph-path');
 const heroBackPath = document.getElementById('lab-hero-shape-back');
 
-const shapeNames = ['Cookie4Sided', 'Heart', 'Flower', 'Clover8Leaf', 'Sunny', 'Gem', 'Ghostish', 'PixelCircle'];
-const shapeLabels = {
-  Cookie4Sided: 'Cookie4Sided',
-  Heart: 'Heart',
-  Flower: 'Flower',
-  Clover8Leaf: 'Clover8Leaf',
-  Sunny: 'Sunny',
-  Gem: 'Gem',
-  Ghostish: 'Ghostish',
-  PixelCircle: 'PixelCircle',
-  Puffy: 'Puffy',
-  Burst: 'Burst',
-  SoftBurst: 'SoftBurst',
-  Cookie7Sided: 'Cookie7Sided',
-};
+const shapeNames = [...materialShapeNames];
 
 let activeShapeName = 'Cookie4Sided';
 let targetShapeName = 'Heart';
@@ -156,10 +143,12 @@ function morphTo(name, options = {}) {
 
   if (morphFrame) cancelAnimationFrame(morphFrame);
   if (morphSequenceTimer) window.clearTimeout(morphSequenceTimer);
-  morphSequenceRunning = false;
-  shapePlayButton?.classList.remove('is-playing');
-  if (shapePlayButton) {
-    shapePlayButton.innerHTML = '<span class="m3e-icon" aria-hidden="true">play_arrow</span> Play sequence';
+  if (!options.sequence) {
+    morphSequenceRunning = false;
+    shapePlayButton?.classList.remove('is-playing');
+    if (shapePlayButton) {
+      shapePlayButton.innerHTML = '<span class="m3e-icon" aria-hidden="true">play_arrow</span> Play sequence';
+    }
   }
 
   const fromName = activeShapeName;
@@ -167,6 +156,7 @@ function morphTo(name, options = {}) {
   activeMorph = new Morph(materialShape(fromName), materialShape(name));
   if (shapePair) shapePair.textContent = fromName + ' → ' + name;
   renderShapePresetThumbnails();
+  if (allShapesSelect) allShapesSelect.value = name;
 
   if (reduceMotion.matches || options.instant) {
     renderMorphAt(activeMorph, 1);
@@ -232,6 +222,20 @@ function stopMorphSequence() {
   shapePlayButton?.classList.remove('is-playing');
   if (shapePlayButton) shapePlayButton.innerHTML = '<span class="m3e-icon" aria-hidden="true">play_arrow</span> Play sequence';
   setMorphState('PAUSED');
+}
+
+if (allShapesSelect) {
+  allShapesSelect.replaceChildren(...materialShapeNames.map((name) => {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    return option;
+  }));
+  allShapesSelect.value = activeShapeName;
+  allShapesSelect.addEventListener('change', () => {
+    morphTo(allShapesSelect.value);
+    announce(allShapesSelect.value + ' selected from the full Material Shapes collection.');
+  });
 }
 
 shapePresetContainer?.querySelectorAll('[data-shape]').forEach((button) => {
