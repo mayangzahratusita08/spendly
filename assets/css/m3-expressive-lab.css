@@ -923,12 +923,6 @@ a {
     max-width: 100%;
 }
 
-.lab-chip-set {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-}
-
 .lab-filter-chip {
     cursor: pointer;
 }
@@ -973,8 +967,11 @@ a {
 }
 
 .lab-feedback-progress m3e-linear-progress {
-    display: block;
-    width: 100%;
+    display: contents;
+}
+
+.lab-feedback-progress m3e-linear-progress .m3e-linear-progress {
+    inline-size: 100%;
 }
 
 .lab-range-label {
@@ -2150,8 +2147,12 @@ html[data-theme="dark"] .lab-spring-orb {
 }
 
 .lab-feedback-demo m3e-loading-indicator {
-    width: 58px;
-    height: 58px;
+    display: contents;
+}
+
+.lab-feedback-demo m3e-loading-indicator .m3e-loading-indicator {
+    inline-size: 58px;
+    block-size: 58px;
     flex: none;
 }
 
@@ -2179,6 +2180,10 @@ html[data-theme="dark"] .lab-spring-orb {
 }
 
 .lab-action-demo m3e-fab-menu {
+    display: contents;
+}
+
+.lab-action-demo m3e-fab-menu .m3e-fab-menu {
     flex: none;
 }
 
@@ -2200,4 +2205,41 @@ html[data-theme="dark"] .lab-group-demo-heading svg {
 @keyframes lab-shape-turn {
     from { transform: rotate(0deg) scale(.92); }
     to { transform: rotate(360deg) scale(.92); }
+}
+
+
+/* The component's internal rendered elements are the CSS contract, not the custom-element host. */
+.lab-chip-set .m3e-filter-chip {
+    flex: none;
+}
+
+.lab-button-samples .m3e-button {
+    font-family: var(--lab-font);
+}
+
+.lab-button-samples .m3e-button--square {
+    --_m3e-button-shape: var(--_m3e-button-shape-square);
+}
+
+.lab-button-samples .m3e-button--round {
+    --_m3e-button-shape: var(--_m3e-button-round);
+}
+
+.lab-chip-set .m3e-filter-chip__leading .lab-chip-shape {
+    inline-size: var(--_m3e-chip-icon-size);
+    block-size: var(--_m3e-chip-icon-size);
+}
+
+.lab-chip-set .m3e-filter-chip__leading .m3e-filter-chip__check {
+    font-size: var(--_m3e-chip-icon-size);
+}
+
+.lab-action-demo .m3e-fab-menu {
+    min-inline-size: 64px;
+}
+
+@media (max-width: 720px) {
+    .lab-button-shape-row > span {
+        width: 100%;
+    }
 }
