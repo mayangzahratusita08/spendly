@@ -277,7 +277,7 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
 
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">03</span><div><h3>Filter chips</h3><p>Selection that stays lightweight.</p></div></div>
-                    <m3e-chip-set class="lab-chip-set" label="Transaction type filters">
+                    <div class="lab-chip-set" role="group" aria-label="Transaction type filters">
                         <label class="m3e-filter-chip m3e-filter-chip--expressive">
                             <input class="m3e-filter-chip__input" type="checkbox" checked>
                             <span class="m3e-filter-chip__leading" aria-hidden="true"><span class="m3e-icon m3e-filter-chip__check" data-fill>check</span></span>
@@ -293,7 +293,7 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                             <span class="m3e-filter-chip__leading" aria-hidden="true"><span class="m3e-icon m3e-filter-chip__check" data-fill>check</span></span>
                             <span class="m3e-filter-chip__label">Expenses</span>
                         </label>
-                    </m3e-chip-set>
+                    </div>
                     <p class="lab-component-footnote">Native checkbox behavior. Keyboard: Space to toggle.</p>
                 </article>
 
