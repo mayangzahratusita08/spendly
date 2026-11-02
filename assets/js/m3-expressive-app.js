@@ -39,7 +39,7 @@ function connectTransactionTypeGroup() {
  const group=document.getElementById('transaction-type-group');
  const form=document.getElementById('transaction-form');
  if(!group||!form) return;
- group.addEventListener('action',event=>{
+ group.addEventListener('selection-change',event=>{
   const value=String(event.detail?.value??event.detail?.values?.[0]??'');
   if(!['income','expense'].includes(value)) return;
   const radio=form.querySelector('input[name="type"][value="'+value+'"]');
