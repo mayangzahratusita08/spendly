@@ -26,11 +26,11 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
       Third-party M3 Expressive Web, pinned to 1.8.0.
       It is not an official Google library. Only this playground loads it.
     -->
-    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/fonts.css">
-    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/tokens.css">
-    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/theme.css">
-    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/material-symbols.css">
-    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-css@1.8.0/index.css">
+    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/fonts/fonts.css">
+    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/dist/generated/tokens.css">
+    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/dist/generated/theme.css">
+    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/fonts/material-symbols.css">
+    <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-css@1.8.0/dist/index.css">
     <link rel="stylesheet" href="assets/css/m3-expressive-lab.css?v=<?= (int) $labCssVersion ?>">
 </head>
 <body>
@@ -261,19 +261,36 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                 <article class="m3e-card m3e-card--outlined lab-component-card lab-button-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">01</span><div><h3>Buttons & emphasis</h3><p>Different levels of action.</p></div></div>
                     <div class="lab-button-samples">
-                        <button class="m3e-button m3e-button--filled m3e-button--size-m" type="button" data-lab-action="primary-button"><span class="m3e-icon" aria-hidden="true">add</span>Filled</button>
-                        <button class="m3e-button m3e-button--tonal m3e-button--size-m" type="button" data-lab-action="tonal-button">Tonal</button>
-                        <button class="m3e-button m3e-button--outlined m3e-button--size-m" type="button" data-lab-action="outlined-button">Outlined</button>
-                        <button class="m3e-button m3e-button--text m3e-button--size-m" type="button" data-lab-action="text-button">Text action</button>
+                        <button class="m3e-button m3e-button--filled m3e-button--size-m" type="button" data-lab-action="primary-button">
+                            <svg class="lab-inline-shape" viewBox="0 0 1 1" aria-hidden="true" data-material-shape="Cookie4Sided"><path></path></svg>
+                            Filled
+                        </button>
+                        <button class="m3e-button m3e-button--tonal m3e-button--size-m" type="button" data-lab-action="tonal-button">
+                            <svg class="lab-inline-shape" viewBox="0 0 1 1" aria-hidden="true" data-material-shape="Flower"><path></path></svg>
+                            Tonal
+                        </button>
+                        <button class="m3e-button m3e-button--outlined m3e-button--size-m" type="button" data-lab-action="outlined-button">
+                            <svg class="lab-inline-shape" viewBox="0 0 1 1" aria-hidden="true" data-material-shape="Heart"><path></path></svg>
+                            Outlined
+                        </button>
+                        <button class="m3e-button m3e-button--text m3e-button--size-m" type="button" data-lab-action="text-button">
+                            <svg class="lab-inline-shape" viewBox="0 0 1 1" aria-hidden="true" data-material-shape="Clover8Leaf"><path></path></svg>
+                            Text action
+                        </button>
                     </div>
-                    <p class="lab-component-footnote">Press a button to see the state layer and feedback.</p>
+                    <div class="lab-button-shape-row" role="group" aria-label="Button shape variants">
+                        <span>Component shape</span>
+                        <button class="m3e-button m3e-button--outlined m3e-button--size-s m3e-button--round" type="button" data-lab-action="round-shape">Round</button>
+                        <button class="m3e-button m3e-button--outlined m3e-button--size-s m3e-button--square" type="button" data-lab-action="square-shape">Square</button>
+                    </div>
+                    <p class="lab-component-footnote">The icons use M3E MaterialShapes presets. The button surfaces retain their native M3E emphasis, shape tokens, and state layers.</p>
                 </article>
 
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">02</span><div><h3>Spring button group</h3><p>Selection with spatial feedback.</p></div></div>
                     <div class="lab-group-demo">
                         <div class="lab-group-demo-heading"><strong>Standard · spatial expansion</strong><span>Press a segment</span></div>
-                        <m3e-button-group class="lab-workbench-button-group lab-wide-button-group" variant="standard" size="xl" button-variant="tonal" selection-mode="single" disallow-empty-selection label="Dashboard period" id="workbench-period">
+                        <m3e-button-group class="lab-workbench-button-group lab-wide-button-group" variant="standard" size="xl" shape="round" button-variant="tonal" selection-mode="single" disallow-empty-selection label="Dashboard period" id="workbench-period">
                             <m3e-button-group-item value="day" icon="today">Today</m3e-button-group-item>
                             <m3e-button-group-item value="week" icon="date_range" selected>This week</m3e-button-group-item>
                             <m3e-button-group-item value="month" icon="calendar_month">This month</m3e-button-group-item>
@@ -282,7 +299,7 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                     </div>
                     <div class="lab-group-demo lab-group-demo-connected">
                         <div class="lab-group-demo-heading"><strong>Connected · shape morph</strong><span>Change selection</span></div>
-                        <m3e-button-group class="lab-workbench-button-group lab-wide-button-group" variant="connected" size="xl" button-variant="outlined" selection-mode="single" disallow-empty-selection label="Chart type" id="connected-period">
+                        <m3e-button-group class="lab-workbench-button-group lab-wide-button-group" variant="connected" size="xl" shape="square" button-variant="outlined" selection-mode="single" disallow-empty-selection label="Chart type" id="connected-period">
                             <m3e-button-group-item value="bars" icon="bar_chart" selected>Bars</m3e-button-group-item>
                             <m3e-button-group-item value="line" icon="show_chart">Line</m3e-button-group-item>
                             <m3e-button-group-item value="donut" icon="donut_large">Donut</m3e-button-group-item>
@@ -294,24 +311,33 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
 
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">03</span><div><h3>Filter chips</h3><p>Selection that stays lightweight.</p></div></div>
-                    <div class="lab-chip-set" role="group" aria-label="Transaction type filters">
+                    <div class="m3e-chip-set lab-chip-set" role="group" aria-label="Transaction type filters">
                         <label class="m3e-filter-chip m3e-filter-chip--expressive lab-filter-chip">
                             <input class="m3e-filter-chip__input" type="checkbox" checked>
-                            <span class="m3e-filter-chip__leading" aria-hidden="true"><span class="m3e-icon m3e-filter-chip__check" data-fill>check</span></span>
+                            <span class="m3e-filter-chip__leading" aria-hidden="true">
+                                <svg class="m3e-icon lab-chip-shape" viewBox="0 0 1 1" data-material-shape="Cookie4Sided"><path></path></svg>
+                                <span class="m3e-icon m3e-filter-chip__check" data-fill>check</span>
+                            </span>
                             <span class="m3e-filter-chip__label">All activity</span>
                         </label>
                         <label class="m3e-filter-chip m3e-filter-chip--expressive lab-filter-chip">
                             <input class="m3e-filter-chip__input" type="checkbox">
-                            <span class="m3e-filter-chip__leading" aria-hidden="true"><span class="m3e-icon m3e-filter-chip__check" data-fill>check</span></span>
+                            <span class="m3e-filter-chip__leading" aria-hidden="true">
+                                <svg class="m3e-icon lab-chip-shape" viewBox="0 0 1 1" data-material-shape="Flower"><path></path></svg>
+                                <span class="m3e-icon m3e-filter-chip__check" data-fill>check</span>
+                            </span>
                             <span class="m3e-filter-chip__label">Income</span>
                         </label>
                         <label class="m3e-filter-chip m3e-filter-chip--expressive lab-filter-chip">
                             <input class="m3e-filter-chip__input" type="checkbox">
-                            <span class="m3e-filter-chip__leading" aria-hidden="true"><span class="m3e-icon m3e-filter-chip__check" data-fill>check</span></span>
+                            <span class="m3e-filter-chip__leading" aria-hidden="true">
+                                <svg class="m3e-icon lab-chip-shape" viewBox="0 0 1 1" data-material-shape="Gem"><path></path></svg>
+                                <span class="m3e-icon m3e-filter-chip__check" data-fill>check</span>
+                            </span>
                             <span class="m3e-filter-chip__label">Expenses</span>
                         </label>
                     </div>
-                    <p class="lab-component-footnote">Native checkbox behavior. Keyboard: Space to toggle.</p>
+                    <p class="lab-component-footnote">Expressive chips morph their own component shape on selection; the leading MaterialShape swaps to the check mark.</p>
                 </article>
 
                 <article class="m3e-card m3e-card--outlined lab-component-card">
@@ -340,7 +366,7 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">06</span><div><h3>Contextual actions</h3><p>Actions appear when they are useful.</p></div></div>
                     <div class="lab-action-demo">
-                        <m3e-fab-menu label="Add" icon="add">
+                        <m3e-fab-menu label="Quick add" icon="add" close-icon="close" size="large" color="tertiary" align="end">
                             <m3e-fab-menu-item icon="receipt_long" value="expense">Expense</m3e-fab-menu-item>
                             <m3e-fab-menu-item icon="payments" value="income">Income</m3e-fab-menu-item>
                             <m3e-fab-menu-item icon="savings" value="transfer">Transfer</m3e-fab-menu-item>
