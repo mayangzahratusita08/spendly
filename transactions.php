@@ -95,7 +95,7 @@ require_once __DIR__ . '/includes/header.php';
 
             <div class="form-group m3e-filter-chip-group" style="margin: 0;" hidden>
                 <span class="form-label" id="transaction-type-chip-label">Type</span>
-                <div class="m3e-chip-set m3e-transaction-filter-chips" role="group" aria-labelledby="transaction-type-chip-label">
+                <m3e-chip-set class="m3e-transaction-filter-chips" label="Transaction type">
                     <label class="m3e-filter-chip m3e-filter-chip--expressive">
                         <input class="m3e-filter-chip__input" type="checkbox" data-m3e-filter-type="all" <?= $filters['type'] === '' ? 'checked' : '' ?>>
                         <span class="m3e-filter-chip__leading" aria-hidden="true">
@@ -120,7 +120,7 @@ require_once __DIR__ . '/includes/header.php';
                         </span>
                         <span class="m3e-filter-chip__label">Expense</span>
                     </label>
-                </div>
+                </m3e-chip-set>
             </div>
 
             <div class="form-group" style="margin: 0;">
