@@ -30,6 +30,8 @@ To keep the repository's existing npm dependencies and lockfile untouched, this 
 
 The M3E theme generator uses Material Color Utilities to create an **Expressive** dynamic color scheme from the selected seed. The color-scheme CSS is applied to the document root and the playground surfaces reference the resulting semantic color roles.
 
+The browser module entry also loads the published `@kyralabs/m3e-shapes@1.8.0` and `@kyralabs/m3e-motion@1.8.0` packages directly from esm.sh. The shape package supplies the 35 MaterialShapes `RoundedPolygon` presets, `Morph`, and SVG path generation. The motion package supplies Compose-compatible `springValue` and `springDurationMillis` calculations. Morph transitions use the expressive **default spatial** spring (damping ratio 0.8, stiffness 380); the motion workbench compares that with expressive fast spatial (0.6, 800) and standard fast spatial (0.9, 1400), using the upstream M3E motion tokens.
+
 ## Demonstrated components and behavior
 
 - Filled, tonal, outlined, and text buttons.
