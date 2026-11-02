@@ -405,6 +405,12 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                             <button type="button" class="lab-shape-preset" data-shape="Ghostish" aria-pressed="false"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Ghost</span></button>
                             <button type="button" class="lab-shape-preset" data-shape="PixelCircle" aria-pressed="false"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Pixel</span></button>
                         </div>
+                        <label class="lab-all-shapes-control" for="lab-all-shapes">
+                            <span>Browse all 35 Material Shapes</span>
+                            <select id="lab-all-shapes" aria-label="Choose any of the 35 Material shapes">
+                                <option value="Cookie4Sided">Cookie4Sided</option>
+                            </select>
+                        </label>
                         <p class="lab-component-footnote">Each preset is a RoundedPolygon. The interpolated outline is calculated as cubic Bézier geometry, not cross-faded images.</p>
                     </aside>
                 </div>
