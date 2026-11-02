@@ -1,0 +1,47 @@
+/*
+ * Spendly Material 3 Expressive integration.
+ * Loaded only on pages that opt in through $enableM3Expressive.
+ * Native M3E tokens and component CSS remain the source of truth.
+ */
+.app-shell-m3e .m3e-button,
+.app-shell-m3e .m3e-icon-button { text-decoration:none; vertical-align:middle; }
+.app-shell-m3e .m3e-button:hover,
+.app-shell-m3e .m3e-icon-button:hover { text-decoration:none; }
+.app-shell-m3e .m3e-button:focus-visible,
+.app-shell-m3e .m3e-icon-button:focus-visible,
+.app-shell-m3e m3e-button-group:focus-visible,
+.app-shell-m3e m3e-fab-menu:focus-visible { outline:3px solid var(--m3e-sys-color-secondary,#526451); outline-offset:3px; }
+.app-shell-m3e .m3e-section-actions { display:flex; flex-wrap:wrap; align-items:center; gap:.65rem; }
+.app-shell-m3e m3e-linear-progress { display:block; width:100%; min-width:0; --m3e-linear-progress-track-height:9px; }
+.app-shell-m3e .m3-budget-progress--warning,
+.app-shell-m3e .m3e-budget-progress--warning { --m3e-sys-color-primary:#9a6a1c; --m3e-sys-color-secondary-container:#f4e8c9; }
+.app-shell-m3e .m3-budget-progress--over,
+.app-shell-m3e .m3e-budget-progress--over { --m3e-sys-color-primary:#a34f48; --m3e-sys-color-secondary-container:#f5dedb; }
+.app-shell-m3e .m3e-budget-progress--on-track { --m3e-sys-color-primary:#416b50; }
+.app-shell-m3e .m3e-contextual-dock { position:fixed; z-index:35; right:max(24px,env(safe-area-inset-right)); bottom:max(24px,env(safe-area-inset-bottom)); display:flex; justify-content:flex-end; pointer-events:none; }
+.app-shell-m3e .m3e-contextual-dock m3e-fab-menu { pointer-events:auto; filter:drop-shadow(0 12px 22px rgba(24,39,28,.13)); }
+.app-shell-m3e .m3e-transaction-type-group { display:none; width:100%; max-width:100%; }
+html.m3e-app-ready .app-shell-m3e .m3e-transaction-type-group { display:flex; }
+html.m3e-app-ready .app-shell-m3e .m3e-type-fallback { display:none; }
+.app-shell-m3e .m3e-transaction-type-group m3e-button-group-item { flex:1 1 0; }
+.app-shell-m3e .m3e-filter-chip-group { display:none; }
+html.m3e-app-ready .app-shell-m3e .m3e-filter-chip-group { display:block; }
+html.m3e-app-ready .app-shell-m3e .m3e-legacy-type-filter { display:none!important; }
+.app-shell-m3e .m3e-transaction-filter-chips { display:flex; flex-wrap:wrap; gap:.5rem; }
+.app-shell-m3e .m3e-filter-chip { cursor:pointer; user-select:none; }
+.app-shell-m3e .m3e-filter-chip__input { cursor:pointer; }
+.app-shell-m3e .m3e-filter-shape { width:1.05rem; height:1.05rem; }
+.app-shell-m3e .m3e-budget-progress { --m3e-linear-progress-track-height:9px; }
+.app-shell-m3e .m3e-budget-progress--warning { --m3e-sys-color-primary:#9a6a1c; }
+.app-shell-m3e .m3e-budget-progress--over { --m3e-sys-color-primary:#a34f48; }
+.app-shell-m3e .m3e-budget-progress--on-track { --m3e-sys-color-primary:#416b50; }
+@media(max-width:680px) {
+ .app-shell-m3e .m3e-section-actions { width:100%; }
+ .app-shell-m3e .m3e-section-actions .m3e-button { flex:1 1 auto; }
+ .app-shell-m3e .m3e-contextual-dock { right:max(16px,env(safe-area-inset-right)); bottom:max(16px,env(safe-area-inset-bottom)); }
+}
+@media(prefers-reduced-motion:reduce) {
+ .app-shell-m3e *, .app-shell-m3e *::before, .app-shell-m3e *::after {
+  scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important;
+ }
+}
