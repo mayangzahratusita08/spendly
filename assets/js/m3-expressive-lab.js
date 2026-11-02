@@ -165,14 +165,14 @@ function morphTo(name, options = {}) {
     return;
   }
 
-  const duration = springDurationMillis({ dampingRatio: 0.6, stiffness: 800 }, 0, 1);
+  const duration = springDurationMillis({ dampingRatio: 0.8, stiffness: 380 }, 0, 1);
   const startedAt = performance.now();
   setMorphState('MORPHING');
 
   const tick = (now) => {
     const elapsed = now - startedAt;
     const value = springValue(
-      { dampingRatio: 0.6, stiffness: 800 },
+      { dampingRatio: 0.8, stiffness: 380 },
       elapsed,
       0,
       1,
