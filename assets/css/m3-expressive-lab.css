@@ -1163,16 +1163,6 @@ html[data-theme="dark"] .lab-chart-column:hover .lab-chart-bar {
     background: var(--lab-primary);
 }
 
-html[data-theme="dark"] .lab-shell .m3e-button--filled {
-    color: #193c24;
-    background: #a6d3ac;
-}
-
-html[data-theme="dark"] .lab-shell .m3e-button--tonal {
-    color: var(--lab-on-secondary-container);
-    background: var(--lab-secondary-container);
-}
-
 @media (max-width: 1020px) {
     .lab-shell {
         width: min(100% - 36px, 900px);
