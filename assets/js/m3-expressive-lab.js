@@ -362,19 +362,19 @@ function animateSpring(presetKey) {
     const elapsed = now - start;
     const value = springValue(spec, elapsed, 0, 1);
     const x = Math.max(0, Math.min(maxX, maxX * value));
-    springOrb.style.transform = 'translateX(' + x.toFixed(2) + 'px)';
+    springOrb.style.setProperty('--spring-x', x.toFixed(2) + 'px');
     if (springPosition) springPosition.textContent = value.toFixed(2);
     if (elapsed < duration + 80) {
       springFrame = requestAnimationFrame(tick);
     } else {
-      springOrb.style.transform = 'translateX(' + maxX.toFixed(2) + 'px)';
+      springOrb.style.setProperty('--spring-x', maxX.toFixed(2) + 'px');
       if (springPosition) springPosition.textContent = '1.00';
       springFrame = 0;
     }
   };
 
   if (reduceMotion.matches) {
-    springOrb.style.transform = 'translateX(' + maxX.toFixed(2) + 'px)';
+    springOrb.style.setProperty('--spring-x', maxX.toFixed(2) + 'px');
     if (springPosition) springPosition.textContent = '1.00';
   } else {
     springFrame = requestAnimationFrame(tick);
