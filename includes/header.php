@@ -14,10 +14,13 @@ $title = isset($pageTitle) ? e($pageTitle) . ' — Spendly' : 'Spendly — Perso
 $loggedIn = is_logged_in();
 $user = current_user();
 $activeNav = $activeNav ?? '';
+$enableM3Expressive = !empty($enableM3Expressive);
 $flashMessages = get_flash_messages();
 $cssAssetVersion = @filemtime(__DIR__ . '/../assets/css/app.css') ?: '1';
 $materialAssetVersion = @filemtime(__DIR__ . '/../assets/js/material-web.bundle.js') ?: '1';
 $appAssetVersion = @filemtime(__DIR__ . '/../assets/js/app.js') ?: '1';
+$m3ExpressiveCssVersion = @filemtime(__DIR__ . '/../assets/css/m3-expressive-app.css') ?: '1';
+$m3ExpressiveJsVersion = @filemtime(__DIR__ . '/../assets/js/m3-expressive-app.js') ?: '1';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,9 +30,21 @@ $appAssetVersion = @filemtime(__DIR__ . '/../assets/js/app.js') ?: '1';
     <title><?= $title ?></title>
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>?v=<?= e((string) $cssAssetVersion) ?>">
     <script type="module" src="<?= base_url('assets/js/material-web.bundle.js') ?>?v=<?= e((string) $materialAssetVersion) ?>"></script>
+    <?php if ($enableM3Expressive): ?>
+        <link rel="preconnect" href="https://unpkg.com" crossorigin>
+        <link rel="preconnect" href="https://esm.sh" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/fonts/fonts.css">
+        <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/dist/generated/tokens.css">
+        <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/dist/generated/theme.css">
+        <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-tokens@1.8.0/fonts/material-symbols.css">
+        <link rel="stylesheet" href="https://unpkg.com/@kyralabs/m3e-css@1.8.0/dist/index.css">
+        <link rel="stylesheet" href="<?= base_url('assets/css/m3-expressive-app.css') ?>?v=<?= e((string) $m3ExpressiveCssVersion) ?>">
+        <script type="module" src="<?= base_url('assets/js/m3-expressive-app.js') ?>?v=<?= e((string) $m3ExpressiveJsVersion) ?>"></script>
+    <?php endif; ?>
 </head>
 <body>
-<div class="app-shell <?= $loggedIn ? 'app-shell-authenticated' : 'app-shell-guest' ?>">
+<div class="app-shell <?= $loggedIn ? 'app-shell-authenticated' : 'app-shell-guest' ?> <?= $enableM3Expressive ? 'app-shell-m3e' : '' ?>">
     <?php if ($loggedIn): ?>
         <aside class="app-sidebar" id="app-sidebar" aria-label="Main sidebar">
             <div class="sidebar-brand-area">
