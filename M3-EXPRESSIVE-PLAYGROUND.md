@@ -35,7 +35,10 @@ The M3E theme generator uses Material Color Utilities to create an **Expressive*
 - Filled, tonal, outlined, and text buttons.
 - Standard single-selection button group with spring-based layout behavior.
 - Native checkbox filter chips using M3E component styles.
-- Expressive loading indicator.
+- Expressive loading indicator and real SVG morphing between the complete 35-shape MaterialShapes collection.
+- A shape-family picker with eight featured presets plus a selector for all 35 shapes.
+- A spring-physics workbench comparing Standard fast spatial, Expressive fast spatial, and Expressive default spatial motion.
+- Standard and connected button groups shown side by side to demonstrate width expansion versus selected-corner morphing.
 - Linear progress indicator, including a wavy example.
 - Floating action button menu with Expense, Income, and Transfer actions.
 - Seed-based Expressive color themes and a light/dark appearance toggle.
@@ -52,12 +55,15 @@ The M3E theme generator uses Material Color Utilities to create an **Expressive*
 ## Local review checklist
 
 1. Confirm the M3E CSS assets load (HTTP 200) from unpkg.
-2. Confirm the theme and component modules load (HTTP 200) from esm.sh.
-3. Confirm the button-group items morph/resize and emit selection changes.
-4. Confirm the FAB menu opens, closes, supports keyboard navigation, and announces selected actions.
-5. Confirm the linear progress slider updates the determinate progress value.
-6. Confirm switching between seed colors changes the M3E token palette.
-7. Confirm light/dark mode, desktop layout, mobile layout, and `prefers-reduced-motion`.
-8. Confirm the normal dashboard and transaction pages still use their existing assets and behavior.
+2. Confirm the shape, motion, theme, and component modules load (HTTP 200) from esm.sh.
+3. Select several Material Shapes and confirm the SVG outline morphs between cubic paths rather than cross-fading.
+4. Browse all 35 shape presets and run the morph sequence; confirm the default spatial spring overshoot and settlement.
+5. Compare standard button-group width expansion with connected button-group corner morphing.
+6. Switch between Standard and Expressive spring presets; check damping, stiffness, settle-time, and the moving orb.
+7. Confirm the FAB menu opens, closes, supports keyboard navigation, and announces selected actions.
+8. Confirm the linear progress slider updates the determinate progress value.
+9. Confirm switching between seed colors changes the M3E token palette.
+10. Confirm light/dark mode, desktop layout, mobile layout, and `prefers-reduced-motion`.
+11. Confirm the normal dashboard and transaction pages still use their existing assets and behavior.
 
 Browser verification is intentionally not claimed by this change. Complete the checklist against the local XAMPP instance before considering any reuse of these components in production.
