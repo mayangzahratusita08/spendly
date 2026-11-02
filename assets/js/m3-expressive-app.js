@@ -2,12 +2,13 @@
  * Spendly Material 3 Expressive application integration.
  * Third-party M3E Web 1.8.0; PHP forms and server validation remain authoritative.
  */
-import { createTheme } from 'https://esm.sh/@kyralabs/m3exp-web@1.8.0/theme?bundle';
-import { materialShape, polygonToPath, toSvgPathData } from 'https://esm.sh/@kyralabs/m3e-shapes@1.8.0?bundle';
-import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/button-group.js?bundle';
-import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/fab-menu.js?bundle';
-import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/linear-progress.js?bundle';
-import 'https://esm.sh/@kyralabs/m3e-elements@1.8.0/ripple.js?bundle';
+import { createTheme } from '@kyralabs/m3exp-web/theme';
+import { materialShape, polygonToPath, toSvgPathData } from '@kyralabs/m3e-shapes';
+import '@kyralabs/m3e-elements/button-group.js';
+import '@kyralabs/m3e-elements/chip-set.js';
+import '@kyralabs/m3e-elements/fab-menu.js';
+import '@kyralabs/m3e-elements/linear-progress.js';
+import '@kyralabs/m3e-elements/ripple.js';
 
 const root=document.documentElement;
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -31,14 +32,14 @@ function renderMaterialShapes() {
    path.setAttribute('fill','currentColor');
    svg.setAttribute('aria-hidden','true');
   } catch(error) { console.warn('[Spendly M3E] Shape preset unavailable:',name,error); }
- }
+ });
 }
 
 function connectTransactionTypeGroup() {
  const group=document.getElementById('transaction-type-group');
  const form=document.getElementById('transaction-form');
  if(!group||!form) return;
- group.addEventListener('selection-change',event=>{
+ group.addEventListener('action',event=>{
   const value=String(event.detail?.value??event.detail?.values?.[0]??'');
   if(!['income','expense'].includes(value)) return;
   const radio=form.querySelector('input[name="type"][value="'+value+'"]');
