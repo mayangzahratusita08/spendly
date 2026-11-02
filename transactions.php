@@ -64,6 +64,7 @@ $hasActiveFilters = !empty($filters['type']) || !empty($filters['category_id']) 
 
 $pageTitle = 'Transactions';
 $activeNav = 'transactions';
+$enableM3Expressive = true;
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -73,23 +74,53 @@ require_once __DIR__ . '/includes/header.php';
         <p style="margin: 0;">Review, filter, and manage your income and expenses.</p>
     </div>
     <div>
-        <a href="<?= base_url('transaction-create.php') ?>" class="btn btn-primary">
-            + Add Transaction
+        <a href="<?= base_url('transaction-create.php') ?>" class="m3e-button m3e-button--filled m3e-button--size-m">
+            <span class="m3e-icon" aria-hidden="true">add</span> Add Transaction
         </a>
     </div>
 </div>
 
 <!-- Filter Bar -->
 <div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
-    <form method="GET" action="<?= base_url('transactions.php') ?>" class="filter-form">
+    <form method="GET" action="<?= base_url('transactions.php') ?>" class="filter-form" id="transaction-filter-form">
         <div class="filter-grid">
-            <div class="form-group" style="margin: 0;">
+            <div class="form-group m3e-legacy-type-filter" style="margin: 0;">
                 <label for="filter-type" class="form-label" style="font-size: 0.8rem;">Type</label>
                 <select id="filter-type" name="type" class="form-control" style="padding: 0.45rem 0.65rem;">
                     <option value="">All Types</option>
                     <option value="income" <?= $filters['type'] === 'income' ? 'selected' : '' ?>>Income</option>
                     <option value="expense" <?= $filters['type'] === 'expense' ? 'selected' : '' ?>>Expense</option>
                 </select>
+            </div>
+
+            <div class="form-group m3e-filter-chip-group" style="margin: 0;" hidden>
+                <span class="form-label" id="transaction-type-chip-label">Type</span>
+                <div class="m3e-chip-set m3e-transaction-filter-chips" role="group" aria-labelledby="transaction-type-chip-label">
+                    <label class="m3e-filter-chip m3e-filter-chip--expressive">
+                        <input class="m3e-filter-chip__input" type="checkbox" data-m3e-filter-type="all" <?= $filters['type'] === '' ? 'checked' : '' ?>>
+                        <span class="m3e-filter-chip__leading" aria-hidden="true">
+                            <svg class="m3e-icon m3e-filter-shape" viewBox="0 0 1 1" data-material-shape="Cookie4Sided"><path></path></svg>
+                            <span class="m3e-icon m3e-filter-chip__check" data-fill>check</span>
+                        </span>
+                        <span class="m3e-filter-chip__label">All</span>
+                    </label>
+                    <label class="m3e-filter-chip m3e-filter-chip--expressive">
+                        <input class="m3e-filter-chip__input" type="checkbox" data-m3e-filter-type="income" <?= $filters['type'] === 'income' ? 'checked' : '' ?>>
+                        <span class="m3e-filter-chip__leading" aria-hidden="true">
+                            <svg class="m3e-icon m3e-filter-shape" viewBox="0 0 1 1" data-material-shape="Flower"><path></path></svg>
+                            <span class="m3e-icon m3e-filter-chip__check" data-fill>check</span>
+                        </span>
+                        <span class="m3e-filter-chip__label">Income</span>
+                    </label>
+                    <label class="m3e-filter-chip m3e-filter-chip--expressive">
+                        <input class="m3e-filter-chip__input" type="checkbox" data-m3e-filter-type="expense" <?= $filters['type'] === 'expense' ? 'checked' : '' ?>>
+                        <span class="m3e-filter-chip__leading" aria-hidden="true">
+                            <svg class="m3e-icon m3e-filter-shape" viewBox="0 0 1 1" data-material-shape="Gem"><path></path></svg>
+                            <span class="m3e-icon m3e-filter-chip__check" data-fill>check</span>
+                        </span>
+                        <span class="m3e-filter-chip__label">Expense</span>
+                    </label>
+                </div>
             </div>
 
             <div class="form-group" style="margin: 0;">
