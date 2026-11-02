@@ -107,6 +107,7 @@ $userPaymentMethods = $pmStmt->fetchAll();
 
 $pageTitle = 'Dashboard';
 $activeNav = 'dashboard';
+$enableM3Expressive = true;
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -142,11 +143,11 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
                 <h2 id="financial-overview-title">Financial overview</h2>
             </div>
             <div class="m3-section-actions">
-                <md-outlined-button href="<?= base_url('reports.php') ?>">View reports</md-outlined-button>
-                <md-filled-button href="<?= base_url('transaction-create.php') ?>">
-                    <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <a class="m3e-button m3e-button--outlined m3e-button--size-m" href="<?= base_url('reports.php') ?>">View reports</a>
+                <a class="m3e-button m3e-button--filled m3e-button--size-m" href="<?= base_url('transaction-create.php') ?>">
+                    <span class="m3e-icon" aria-hidden="true">add</span>
                     Add transaction
-                </md-filled-button>
+                </a>
             </div>
         </div>
 
@@ -200,7 +201,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
                         <h2 id="monthly-budgets-title">Monthly budgets</h2>
                         <p class="m3-panel-description">Keep your spending aligned with the limits you set for <?= date('F Y') ?>.</p>
                     </div>
-                    <md-text-button href="<?= base_url('budgets.php') ?>">Manage budgets</md-text-button>
+                    <a class="m3e-button m3e-button--text m3e-button--size-s" href="<?= base_url('budgets.php') ?>">Manage budgets</a>
                 </div>
 
                 <?php if (empty($dashboardBudgets)): ?>
@@ -212,7 +213,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
                             <strong>No budgets set for this month</strong>
                             <p>Give an expense category a monthly limit and keep an eye on your progress.</p>
                         </div>
-                        <md-outlined-button href="<?= base_url('budget-create.php') ?>">Create a budget</md-outlined-button>
+                        <a class="m3e-button m3e-button--outlined m3e-button--size-m" href="<?= base_url('budget-create.php') ?>">Create a budget</a>
                     </div>
                 <?php else: ?>
                     <div class="m3-budget-list">
@@ -241,11 +242,12 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
                                         <span>of <?= format_currency($limit) ?></span>
                                     </div>
                                 </div>
-                                <md-linear-progress
+                                <m3e-linear-progress
                                     class="m3-budget-progress m3-budget-progress--<?= e($status) ?>"
                                     value="<?= e(number_format($progressFraction, 3, '.', '')) ?>"
                                     aria-label="<?= e($budget['category_name']) ?> budget usage"
-                                ></md-linear-progress>
+                                    shape="wavy"
+                                ></m3e-linear-progress>
                                 <div class="m3-budget-item__meta">
                                     <span><?= number_format($percentage, 1) ?>% used</span>
                                     <strong class="<?= ($limit - $spent) >= 0 ? 'm3-positive' : 'm3-negative' ?>">
@@ -270,7 +272,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
                         <h2 id="recent-transactions-title">Recent transactions</h2>
                         <p class="m3-panel-description">Your latest income and expenses, in one place.</p>
                     </div>
-                    <md-text-button href="<?= base_url('transactions.php') ?>">View all</md-text-button>
+                    <a class="m3e-button m3e-button--text m3e-button--size-s" href="<?= base_url('transactions.php') ?>">View all</a>
                 </div>
 
                 <?php if (empty($recentTransactions)): ?>
@@ -282,7 +284,7 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
                             <strong>Your activity will appear here</strong>
                             <p>Record your first transaction to start building a useful picture of your finances.</p>
                         </div>
-                        <md-filled-button href="<?= base_url('transaction-create.php') ?>">Record a transaction</md-filled-button>
+                        <a class="m3e-button m3e-button--filled m3e-button--size-m" href="<?= base_url('transaction-create.php') ?>"><span class="m3e-icon" aria-hidden="true">add</span>Record a transaction</a>
                     </div>
                 <?php else: ?>
                     <div class="m3-transaction-list">
@@ -371,6 +373,26 @@ $expenseCategoryCount = count(array_filter($userCategories, static function ($ca
             </section>
         </aside>
     </div>
+</div>
+
+<div class="m3e-contextual-dock" aria-label="Quick actions">
+    <m3e-fab-menu
+        class="m3e-dashboard-fab"
+        data-m3e-context-actions
+        data-expense-url="<?= e(base_url('transaction-create.php?type=expense')) ?>"
+        data-income-url="<?= e(base_url('transaction-create.php?type=income')) ?>"
+        data-budget-url="<?= e(base_url('budget-create.php')) ?>"
+        label="Quick add"
+        icon="add"
+        close-icon="close"
+        size="large"
+        color="tertiary"
+        align="end"
+    >
+        <m3e-fab-menu-item icon="north_east" value="expense">Add expense</m3e-fab-menu-item>
+        <m3e-fab-menu-item icon="south_west" value="income">Add income</m3e-fab-menu-item>
+        <m3e-fab-menu-item icon="savings" value="budget">Create budget</m3e-fab-menu-item>
+    </m3e-fab-menu>
 </div>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
