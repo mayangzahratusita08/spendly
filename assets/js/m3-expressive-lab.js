@@ -130,6 +130,7 @@ function renderMorphAt(morph, progress) {
     rotationPivotY: 0.5,
   });
   shapePath.setAttribute('d', toSvgPathData(path));
+  shapeSvg?.setAttribute('aria-label', 'Material shape morph at ' + Math.round(progress * 100) + ' percent');
   morphProgressValue = progress;
   if (shapeProgress) shapeProgress.textContent = Math.round(progress * 100) + '%';
 }
@@ -217,11 +218,10 @@ function startMorphSequence() {
 function stopMorphSequence() {
   morphSequenceRunning = false;
   window.clearTimeout(morphSequenceTimer);
-  if (morphFrame) cancelAnimationFrame(morphFrame);
-  morphFrame = 0;
   shapePlayButton?.classList.remove('is-playing');
   if (shapePlayButton) shapePlayButton.innerHTML = '<span class="m3e-icon" aria-hidden="true">play_arrow</span> Play sequence';
-  setMorphState('PAUSED');
+  // Let the current morph settle naturally. Only the next item in the sequence is cancelled.
+  setMorphState(morphFrame ? 'SETTLING' : 'PAUSED');
 }
 
 if (allShapesSelect) {
@@ -341,8 +341,10 @@ function animateSpring(presetKey) {
   const duration = springDurationMillis(spec, 0, 1);
   const start = performance.now();
   const trackWidth = springTrack.clientWidth;
-  const maxX = Math.max(0, trackWidth - springOrb.offsetWidth - 24);
-  springOrb.style.left = '12px';
+  const startX = 12;
+  const targetCenterX = trackWidth * 0.84;
+  const maxX = Math.max(0, targetCenterX - startX - springOrb.offsetWidth / 2);
+  springOrb.style.left = startX + 'px';
 
   if (springName) springName.textContent = preset.label;
   if (springDescription) springDescription.textContent = preset.description;
