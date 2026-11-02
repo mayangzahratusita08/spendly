@@ -77,13 +77,17 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
             <div class="lab-hero-visual" aria-hidden="true">
                 <div class="lab-hero-orbit lab-hero-orbit-one"></div>
                 <div class="lab-hero-orbit lab-hero-orbit-two"></div>
-                <div class="lab-hero-shape lab-hero-shape-back"></div>
-                <div class="lab-hero-shape lab-hero-shape-front">
-                    <m3e-loading-indicator contained></m3e-loading-indicator>
+                <div class="lab-hero-material-shape lab-hero-material-shape-back">
+                    <svg viewBox="0 0 1 1" focusable="false"><path id="lab-hero-shape-back" d=""></path></svg>
                 </div>
+                <div class="lab-hero-material-shape lab-hero-material-shape-front">
+                    <svg viewBox="0 0 1 1" focusable="false"><path id="lab-hero-morph-path" d=""></path></svg>
+                </div>
+                <span class="lab-hero-star lab-hero-star-one">✳</span>
+                <span class="lab-hero-star lab-hero-star-two">✦</span>
                 <div class="lab-hero-caption">
                     <span>01 / 04</span>
-                    <span>Color · Shape · Motion · Type</span>
+                    <span>Material Shapes · Spring Motion</span>
                 </div>
             </div>
         </section>
@@ -267,12 +271,25 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
 
                 <article class="m3e-card m3e-card--outlined lab-component-card">
                     <div class="lab-component-card-heading"><span class="lab-component-index">02</span><div><h3>Spring button group</h3><p>Selection with spatial feedback.</p></div></div>
-                    <m3e-button-group class="lab-workbench-button-group" variant="standard" size="m" button-variant="tonal" selection-mode="single" disallow-empty-selection label="Dashboard period" id="workbench-period">
-                        <m3e-button-group-item value="day">Day</m3e-button-group-item>
-                        <m3e-button-group-item value="week" selected>Week</m3e-button-group-item>
-                        <m3e-button-group-item value="month">Month</m3e-button-group-item>
-                    </m3e-button-group>
-                    <p class="lab-component-footnote" id="lab-period-feedback" aria-live="polite">Week selected. Try another period.</p>
+                    <div class="lab-group-demo">
+                        <div class="lab-group-demo-heading"><strong>Standard · spatial expansion</strong><span>Press a segment</span></div>
+                        <m3e-button-group class="lab-workbench-button-group lab-wide-button-group" variant="standard" size="xl" button-variant="tonal" selection-mode="single" disallow-empty-selection label="Dashboard period" id="workbench-period">
+                            <m3e-button-group-item value="day" icon="today">Today</m3e-button-group-item>
+                            <m3e-button-group-item value="week" icon="date_range" selected>This week</m3e-button-group-item>
+                            <m3e-button-group-item value="month" icon="calendar_month">This month</m3e-button-group-item>
+                        </m3e-button-group>
+                        <p class="lab-group-explainer">The pressed item grows while its neighbors compress. The total group width stays constant.</p>
+                    </div>
+                    <div class="lab-group-demo lab-group-demo-connected">
+                        <div class="lab-group-demo-heading"><strong>Connected · shape morph</strong><span>Change selection</span></div>
+                        <m3e-button-group class="lab-workbench-button-group lab-wide-button-group" variant="connected" size="xl" button-variant="outlined" selection-mode="single" disallow-empty-selection label="Chart type" id="connected-period">
+                            <m3e-button-group-item value="bars" icon="bar_chart" selected>Bars</m3e-button-group-item>
+                            <m3e-button-group-item value="line" icon="show_chart">Line</m3e-button-group-item>
+                            <m3e-button-group-item value="donut" icon="donut_large">Donut</m3e-button-group-item>
+                        </m3e-button-group>
+                        <p class="lab-group-explainer">The selected segment changes its corner geometry while the connected group remains aligned.</p>
+                    </div>
+                    <p class="lab-component-footnote" id="lab-period-feedback" aria-live="polite">This week selected. Try both group styles.</p>
                 </article>
 
                 <article class="m3e-card m3e-card--outlined lab-component-card">
@@ -333,6 +350,106 @@ $labJsVersion = @filemtime(__DIR__ . '/assets/js/m3-expressive-lab.js') ?: '1';
                     <p class="lab-component-footnote">Try the FAB. Select an action to trigger a local preview message.</p>
                 </article>
             </div>
+
+            <section class="lab-morph-lab" aria-labelledby="lab-morph-title">
+                <div class="lab-section-heading">
+                    <div>
+                        <p class="lab-section-kicker">MATERIAL SHAPES, NOT CSS BLOBS</p>
+                        <h2 id="lab-morph-title">A shape is a living component.</h2>
+                        <p class="lab-muted">Morph between real Material 3 Expressive shape presets. Choose a shape or play the sequence.</p>
+                    </div>
+                    <span class="lab-component-count">35 MATERIAL SHAPES</span>
+                </div>
+
+                <div class="lab-morph-layout">
+                    <div class="lab-morph-stage m3e-card m3e-card--filled">
+                        <div class="lab-morph-stage-topline">
+                            <span class="lab-morph-stage-overline">LIVE MORPH PREVIEW</span>
+                            <span class="lab-morph-state" id="lab-morph-state">READY</span>
+                        </div>
+                        <div class="lab-morph-canvas">
+                            <div class="lab-morph-halo lab-morph-halo-one"></div>
+                            <div class="lab-morph-halo lab-morph-halo-two"></div>
+                            <svg viewBox="0 0 1 1" role="img" aria-label="Cookie4Sided material shape" id="lab-morph-svg">
+                                <path id="lab-morph-path" d=""></path>
+                            </svg>
+                            <span class="lab-morph-canvas-caption">MATERIAL SHAPE MORPH</span>
+                        </div>
+                        <div class="lab-morph-stage-footer">
+                            <div><span>FROM / TO</span><strong id="lab-morph-pair">Cookie4Sided → Heart</strong></div>
+                            <div><span>SPRING PROGRESS</span><strong id="lab-morph-progress">0%</strong></div>
+                        </div>
+                        <div class="lab-morph-actions">
+                            <button class="m3e-button m3e-button--tonal m3e-button--size-m" type="button" id="lab-morph-play">
+                                <span class="m3e-icon" aria-hidden="true">play_arrow</span> Play sequence
+                            </button>
+                            <button class="m3e-icon-button m3e-icon-button--standard" type="button" id="lab-morph-next" aria-label="Morph to next shape">
+                                <span class="m3e-icon" aria-hidden="true">arrow_forward</span>
+                            </button>
+                            <span class="lab-morph-motion-note">Expressive fast spatial spring</span>
+                        </div>
+                    </div>
+
+                    <aside class="lab-shape-picker m3e-card m3e-card--outlined" aria-label="Material shape presets">
+                        <div class="lab-shape-picker-heading">
+                            <div><strong>Shape family</strong><span>Pick the next form</span></div>
+                            <span class="lab-shape-picker-count">08 / 35</span>
+                        </div>
+                        <div class="lab-shape-presets" id="lab-shape-presets">
+                            <button type="button" class="lab-shape-preset is-selected" data-shape="Cookie4Sided" aria-pressed="true"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Cookie</span></button>
+                            <button type="button" class="lab-shape-preset" data-shape="Heart" aria-pressed="false"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Heart</span></button>
+                            <button type="button" class="lab-shape-preset" data-shape="Flower" aria-pressed="false"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Flower</span></button>
+                            <button type="button" class="lab-shape-preset" data-shape="Clover8Leaf" aria-pressed="false"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Clover</span></button>
+                            <button type="button" class="lab-shape-preset" data-shape="Sunny" aria-pressed="false"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Sunny</span></button>
+                            <button type="button" class="lab-shape-preset" data-shape="Gem" aria-pressed="false"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Gem</span></button>
+                            <button type="button" class="lab-shape-preset" data-shape="Ghostish" aria-pressed="false"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Ghost</span></button>
+                            <button type="button" class="lab-shape-preset" data-shape="PixelCircle" aria-pressed="false"><svg viewBox="0 0 1 1" aria-hidden="true"><path></path></svg><span>Pixel</span></button>
+                        </div>
+                        <p class="lab-component-footnote">Each preset is a RoundedPolygon. The interpolated outline is calculated as cubic Bézier geometry, not cross-faded images.</p>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="lab-spring-lab" aria-labelledby="lab-spring-title">
+                <div class="lab-section-heading">
+                    <div>
+                        <p class="lab-section-kicker">MOTION HAS PERSONALITY</p>
+                        <h2 id="lab-spring-title">Feel the spring, not just the easing.</h2>
+                        <p class="lab-muted">Compare the actual spatial spring parameters used by the M3 Expressive motion scheme.</p>
+                    </div>
+                    <span class="lab-component-count">SPRING PHYSICS</span>
+                </div>
+
+                <article class="lab-spring-card m3e-card m3e-card--outlined">
+                    <div class="lab-spring-card-heading">
+                        <div>
+                            <span class="lab-panel-overline">FAST SPATIAL SPRING</span>
+                            <h3 id="lab-spring-name">Expressive · Fast spatial</h3>
+                            <p id="lab-spring-description">More overshoot, lower damping, and a longer return to rest.</p>
+                        </div>
+                        <button class="m3e-button m3e-button--filled m3e-button--size-m" type="button" id="lab-spring-replay">
+                            <span class="m3e-icon" aria-hidden="true">replay</span> Replay motion
+                        </button>
+                    </div>
+                    <div class="lab-spring-track" id="lab-spring-track" aria-label="Spring motion demo track">
+                        <div class="lab-spring-track-line"></div>
+                        <div class="lab-spring-orb" id="lab-spring-orb"><span></span></div>
+                        <span class="lab-spring-track-start">START</span>
+                        <span class="lab-spring-track-end">TARGET</span>
+                    </div>
+                    <div class="lab-spring-presets" role="group" aria-label="Motion spring presets">
+                        <button class="lab-spring-preset" type="button" data-spring-preset="standard-fast" aria-pressed="false"><strong>Standard fast</strong><span>ζ 0.9 · k 1400</span></button>
+                        <button class="lab-spring-preset is-selected" type="button" data-spring-preset="expressive-fast" aria-pressed="true"><strong>Expressive fast</strong><span>ζ 0.6 · k 800</span></button>
+                        <button class="lab-spring-preset" type="button" data-spring-preset="expressive-default" aria-pressed="false"><strong>Expressive default</strong><span>ζ 0.8 · k 380</span></button>
+                    </div>
+                    <div class="lab-spring-readout">
+                        <div><span>DAMPING RATIO</span><strong id="lab-spring-damping">0.6</strong></div>
+                        <div><span>STIFFNESS</span><strong id="lab-spring-stiffness">800</strong></div>
+                        <div><span>SETTLE TIME</span><strong id="lab-spring-duration">420 ms</strong></div>
+                        <div><span>LIVE POSITION</span><strong id="lab-spring-position">0.00</strong></div>
+                    </div>
+                </article>
+            </section>
 
             <div class="lab-live-region" id="lab-live-region" role="status" aria-live="polite">The component playground is ready.</div>
         </section>
