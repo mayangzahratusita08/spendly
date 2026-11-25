@@ -14,8 +14,6 @@ Untuk penjelasan lengkap mengenai proyek, arsitektur, desain database, alur fitu
 
 ---
 
----
-
 ## 1. Stack and Architecture
 
 - **Backend:** Native PHP (v8.0+ recommended), PDO MySQL with prepared statements and exception handling.
