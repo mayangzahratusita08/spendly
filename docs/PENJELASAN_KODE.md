@@ -630,3 +630,466 @@ Setelah memahami bagian ini, pembaca seharusnya mengetahui:
 - Mengapa helper bersama digunakan oleh banyak halaman.
 
 **Bagian berikutnya:** autentikasi pengguna — `includes/auth.php`, `login.php`, `register.php`, dan `logout.php`.
+
+
+# Bagian 2 — Autentikasi Pengguna
+
+Bagian ini membahas bagaimana Spendly mendaftarkan pengguna, memeriksa data login, mempertahankan session, melindungi halaman, dan mengakhiri session.
+
+File yang dibahas:
+
+- `includes/auth.php`
+- `register.php`
+- `login.php`
+- `logout.php`
+
+## 2.1 File Helper Autentikasi — `includes/auth.php`
+
+### Tujuan file
+
+File ini berisi fungsi utama untuk mengelola akun dan status login. Halaman lain memanggil fungsi-fungsi dari file ini agar proses autentikasi tidak ditulis berulang kali.
+
+Di bagian awal, file memuat helper session dan CSRF:
+
+```php
+require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/csrf.php';
+```
+
+`require_once` memuat file yang disebutkan satu kali. `functions.php` dimuat terlebih dahulu karena fungsi session seperti `safe_session_start()` diperlukan oleh helper autentikasi dan CSRF.
+
+### A. Memeriksa status login — `is_logged_in()`
+
+Kode:
+
+```php
+function is_logged_in(): bool
+{
+    start_session_safe();
+    return !empty($_SESSION['user_id']);
+}
+```
+
+Penjelasan:
+
+- `start_session_safe()` memastikan session sudah aktif.
+- `$_SESSION['user_id']` berisi ID pengguna setelah login berhasil.
+- `empty()` memeriksa apakah nilai tersebut kosong.
+- Fungsi mengembalikan `true` jika pengguna memiliki ID di session, dan `false` jika tidak.
+
+Dengan kata lain, aplikasi menggunakan keberadaan `user_id` dalam session sebagai penanda bahwa pengguna sudah masuk.
+
+### B. Mengambil data pengguna — `current_user()`
+
+Kode:
+
+```php
+function current_user(): ?array
+{
+    start_session_safe();
+    return $_SESSION['user'] ?? null;
+}
+```
+
+Data pengguna yang disimpan di session berupa array sederhana, berisi ID, nama lengkap, dan email.
+
+Tanda `?array` berarti fungsi dapat mengembalikan array atau `null`. Jika data pengguna belum tersedia, operator `??` mengembalikan `null`.
+
+### C. Melindungi halaman — `require_login()`
+
+Kode:
+
+```php
+function require_login(): void
+{
+    if (!is_logged_in()) {
+        set_flash_message('warning', 'Please sign in to access that page.');
+        redirect(base_url('login.php'));
+    }
+}
+```
+
+Penjelasan:
+
+1. Fungsi memanggil `is_logged_in()`.
+2. Jika hasilnya `false`, pengguna belum login.
+3. Aplikasi menyimpan pesan peringatan melalui `set_flash_message()`.
+4. Pengguna diarahkan ke halaman login melalui `redirect()`.
+
+Halaman privat seperti Dashboard, Transactions, Budgets, Categories, dan Reports memanggil fungsi ini sebelum mengambil data pengguna.
+
+### D. Membatasi halaman guest — `require_guest()`
+
+Kode:
+
+```php
+function require_guest(): void
+{
+    if (is_logged_in()) {
+        redirect(base_url('dashboard.php'));
+    }
+}
+```
+
+Fungsi ini digunakan pada halaman seperti Login dan Register. Jika pengguna sudah login, ia diarahkan ke Dashboard. Jadi, pengguna yang sudah masuk tidak perlu kembali ke halaman login atau registrasi.
+
+### E. Membuat data awal pengguna — `seed_default_user_data()`
+
+Saat akun baru dibuat, Spendly otomatis menyiapkan kategori dan metode pembayaran awal.
+
+Fungsi ini menerima dua parameter:
+
+- `$pdo`: koneksi database.
+- `$userId`: ID pengguna yang baru dibuat.
+
+Kategori dan metode pembayaran dimasukkan menggunakan prepared statement:
+
+```php
+$catStmt = $pdo->prepare('
+    INSERT INTO categories (user_id, name, type, color, created_at)
+    VALUES (:user_id, :name, :type, :color, NOW())
+');
+
+foreach ($defaultCategories as $cat) {
+    $catStmt->execute([
+        ':user_id' => $userId,
+        ':name'    => $cat['name'],
+        ':type'    => $cat['type'],
+        ':color'   => $cat['color'],
+    ]);
+}
+```
+
+Penjelasan:
+
+- `prepare()` menyiapkan query dengan parameter bernama.
+- `foreach` mengulang setiap kategori pada array `$defaultCategories`.
+- `execute()` menjalankan query dengan nilai kategori yang sedang diproses.
+- `$userId` memastikan kategori tersebut tercatat sebagai milik pengguna yang baru mendaftar.
+
+Pola serupa digunakan untuk memasukkan empat metode pembayaran bawaan.
+
+### F. Registrasi pengguna — `register_user()`
+
+Fungsi ini menjalankan proses registrasi dari awal sampai penyimpanan akun.
+
+#### 1. Mengambil input
+
+```php
+$fullName = trim((string) ($data['full_name'] ?? ''));
+$email = trim((string) ($data['email'] ?? ''));
+$password = (string) ($data['password'] ?? '');
+$passwordConfirm = (string) ($data['password_confirmation'] ?? '');
+```
+
+Nilai diambil dari array input. `trim()` menghapus spasi di awal dan akhir nama serta email. Password tidak di-`trim`, sehingga spasi yang dimasukkan pengguna tetap dianggap bagian dari password.
+
+#### 2. Memvalidasi input
+
+Fungsi memeriksa:
+
+- Nama tidak boleh kosong dan maksimal 100 karakter.
+- Email tidak boleh kosong, harus memiliki format email valid, dan maksimal 190 karakter.
+- Password wajib diisi dan minimal delapan karakter.
+- Password dan konfirmasi password harus sama.
+
+Contoh pemeriksaan email:
+
+```php
+if ($email === '') {
+    $errors['email'] = 'Email address is required.';
+} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors['email'] = 'Please enter a valid email address.';
+}
+```
+
+`filter_var()` dengan `FILTER_VALIDATE_EMAIL` memeriksa format alamat email. Jika data tidak valid, pesan dimasukkan ke array `$errors`.
+
+#### 3. Memeriksa email yang sudah digunakan
+
+```php
+$checkStmt = $pdo->prepare(
+    'SELECT id FROM users WHERE email = :email LIMIT 1'
+);
+$checkStmt->execute([':email' => $email]);
+
+if ($checkStmt->fetch()) {
+    $errors['email'] = 'An account with this email address already exists.';
+}
+```
+
+Aplikasi mencari akun dengan email yang sama. Jika query menemukan baris, email dianggap sudah digunakan.
+
+Database juga memiliki unique constraint pada kolom email. Constraint tersebut menjadi perlindungan tambahan agar email tetap unik meskipun ada dua request yang mencoba mendaftarkan alamat sama pada waktu hampir bersamaan.
+
+#### 4. Membuat password hash
+
+```php
+$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+```
+
+Password asli diubah menjadi hash menggunakan mekanisme bawaan PHP. Nilai hash inilah yang disimpan ke database, bukan password dalam bentuk teks biasa.
+
+Nantinya, saat login, aplikasi menggunakan `password_verify()` untuk memeriksa password yang dimasukkan.
+
+#### 5. Menyimpan akun dan data awal secara bersamaan
+
+```php
+$pdo->beginTransaction();
+
+// Insert user dan ambil ID yang baru dibuat.
+$userId = (int) $pdo->lastInsertId();
+
+// Buat kategori serta metode pembayaran awal.
+seed_default_user_data($pdo, $userId);
+
+$pdo->commit();
+```
+
+Proses tersebut menggunakan database transaction.
+
+- `beginTransaction()` memulai transaksi database.
+- Akun pengguna dimasukkan ke tabel `users`.
+- `lastInsertId()` mengambil ID akun yang baru dibuat.
+- `seed_default_user_data()` membuat kategori dan metode pembayaran untuk akun tersebut.
+- `commit()` mengesahkan seluruh perubahan.
+
+Jika terjadi error, blok `catch` memeriksa apakah transaksi masih aktif, lalu menjalankan `rollBack()`. Dengan demikian, aplikasi tidak meninggalkan akun yang baru dibuat tanpa data awal ketika proses seeding gagal.
+
+## 2.2 Halaman Registrasi — `register.php`
+
+### Tujuan file
+
+File ini menjadi penghubung antara formulir registrasi di browser dan fungsi `register_user()` di `auth.php`.
+
+Pada awal file, beberapa helper dimuat dan akses guest diperiksa:
+
+```php
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/csrf.php';
+require_once __DIR__ . '/includes/functions.php';
+
+require_guest();
+```
+
+Jika pengguna sudah login, `require_guest()` akan mengarahkannya ke Dashboard.
+
+### Alur saat formulir dikirim
+
+```php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $submittedToken = $_POST['csrf_token'] ?? '';
+
+    if (!verify_csrf_token($submittedToken)) {
+        $errors['general'] = 'Security session expired. Please refresh the page and try again.';
+    } else {
+        $fullName = trim((string) ($_POST['full_name'] ?? ''));
+        $email = trim((string) ($_POST['email'] ?? ''));
+
+        $pdo = get_db_connection();
+        $result = register_user($pdo, $_POST);
+    }
+}
+```
+
+Penjelasan:
+
+1. `$_SERVER['REQUEST_METHOD']` menunjukkan metode request. Proses registrasi dijalankan ketika metode tersebut adalah POST.
+2. Data formulir dikirim melalui array `$_POST`.
+3. Token CSRF diperiksa terlebih dahulu.
+4. Jika token valid, halaman membuka koneksi database.
+5. `register_user()` melakukan validasi dan menyimpan akun.
+
+Jika registrasi berhasil, halaman menyimpan flash message dan mengarahkan pengguna ke Login. Jika gagal, pesan kesalahan dikembalikan untuk ditampilkan di formulir.
+
+Bagian HTML di bawah proses PHP membuat kolom nama lengkap, email, password, dan konfirmasi password. Nilai yang ditampilkan kembali menggunakan helper `e()` agar output tetap di-escape.
+
+## 2.3 Halaman Login — `login.php`
+
+### Tujuan file
+
+File ini menampilkan formulir login dan meneruskan data yang dikirim pengguna ke fungsi `login_user()`.
+
+Seperti halaman registrasi, Login hanya ditujukan untuk guest:
+
+```php
+require_guest();
+```
+
+### Alur login
+
+Kode inti:
+
+```php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $submittedToken = $_POST['csrf_token'] ?? '';
+
+    if (!verify_csrf_token($submittedToken)) {
+        $error = 'Security session expired. Please refresh and try again.';
+    } else {
+        $email = trim((string) ($_POST['email'] ?? ''));
+        $password = (string) ($_POST['password'] ?? '');
+
+        $pdo = get_db_connection();
+        $result = login_user($pdo, $email, $password);
+
+        if ($result['success']) {
+            set_flash_message('success', 'Welcome back to Spendly!');
+            redirect(base_url('dashboard.php'));
+        } else {
+            $error = $result['error'];
+        }
+    }
+}
+```
+
+Urutannya:
+
+1. Memastikan request menggunakan POST.
+2. Memeriksa token CSRF.
+3. Mengambil email dan password dari formulir.
+4. Membuat koneksi database.
+5. Memanggil `login_user()`.
+6. Jika berhasil, menyimpan pesan sukses dan mengarahkan pengguna ke Dashboard.
+7. Jika gagal, menyimpan pesan error untuk ditampilkan pada halaman.
+
+### Memeriksa kredensial — `login_user()`
+
+Di dalam `auth.php`, query mencari akun berdasarkan email:
+
+```php
+$stmt = $pdo->prepare('
+    SELECT id, full_name, email, password_hash
+    FROM users
+    WHERE email = :email
+    LIMIT 1
+');
+
+$stmt->execute([':email' => $email]);
+$user = $stmt->fetch();
+```
+
+- `prepare()` menyiapkan query dengan parameter `:email`.
+- `execute()` mengirim nilai email sebagai parameter.
+- `fetch()` mengambil satu hasil. Jika tidak ada akun yang cocok, hasilnya bernilai false.
+
+Selanjutnya password diperiksa:
+
+```php
+if (!$user || !password_verify($password, $user['password_hash'])) {
+    return ['success' => false, 'error' => 'Invalid email or password.'];
+}
+```
+
+Kondisi tersebut menangani dua kemungkinan: akun tidak ditemukan atau password tidak cocok.
+
+Pesan error dibuat sama untuk kedua kondisi agar halaman tidak memberi petunjuk apakah alamat email tertentu telah terdaftar.
+
+### Membuat session setelah login berhasil
+
+```php
+start_session_safe();
+session_regenerate_id(true);
+
+$_SESSION['user_id'] = (int) $user['id'];
+$_SESSION['user'] = [
+    'id'        => (int) $user['id'],
+    'full_name' => $user['full_name'],
+    'email'     => $user['email'],
+];
+```
+
+Penjelasan:
+
+- Session dipastikan aktif.
+- `session_regenerate_id(true)` membuat ID session baru dan menghapus session ID lama. Ini membantu mencegah session fixation.
+- ID pengguna disimpan di `$_SESSION['user_id']`.
+- Informasi dasar pengguna disimpan di `$_SESSION['user']`.
+
+Setelah bagian ini berhasil, `is_logged_in()` dapat mengenali pengguna sebagai pengguna yang sudah masuk.
+
+## 2.4 Logout — `logout.php`
+
+### Tujuan file
+
+File ini memanggil `logout_user()` untuk mengakhiri session pengguna, kemudian mengarahkan browser ke halaman login.
+
+Fungsi inti di `auth.php`:
+
+```php
+function logout_user(): void
+{
+    start_session_safe();
+
+    $_SESSION = [];
+
+    if (ini_get('session.use_cookies')) {
+        $params = session_get_cookie_params();
+
+        setcookie(
+            session_name(),
+            '',
+            time() - 42000,
+            $params['path'],
+            $params['domain'],
+            $params['secure'],
+            $params['httponly']
+        );
+    }
+
+    session_destroy();
+}
+```
+
+Penjelasan:
+
+1. Memastikan session aktif.
+2. Mengosongkan seluruh data pada `$_SESSION`.
+3. Memeriksa apakah session menggunakan cookie.
+4. Jika menggunakan cookie, `setcookie()` mengirim cookie dengan waktu kedaluwarsa di masa lalu. Ini meminta browser menghapus cookie session.
+5. `session_destroy()` menghapus data session di server.
+
+Setelah itu, `logout.php` membuat flash message bahwa pengguna sudah keluar dan melakukan redirect ke halaman login.
+
+### Catatan keamanan pada implementasi saat ini
+
+Kode `logout.php` memeriksa apakah request menggunakan POST, tetapi tidak benar-benar menjalankan `verify_csrf_token()`. Komentar di file tersebut menyatakan logout tetap dilakukan meskipun pemeriksaan gagal, dan fungsi `logout_user()` dipanggil tanpa syarat.
+
+Artinya, logout saat ini belum menerapkan pembatasan POST-only dan validasi CSRF secara efektif. Hal ini sudah dicatat dalam Dokumentasi Teknis. Penjelasan ini menggambarkan kode yang ada, bukan menyatakan bahwa implementasinya sudah ideal.
+
+## 2.5 Alur Lengkap Autentikasi
+
+```mermaid
+flowchart TD
+    A[Pengguna membuka Spendly] --> B{Sudah login?}
+    B -->|Ya| C[Dashboard]
+    B -->|Tidak| D[Halaman Login]
+    D --> E{Memilih Register?}
+    E -->|Ya| F[Isi formulir registrasi]
+    F --> G[Verifikasi CSRF dan validasi]
+    G --> H[Hash password]
+    H --> I[Simpan akun dan data awal]
+    I --> J[Commit database transaction]
+    J --> D
+    E -->|Tidak| K[Isi email dan password]
+    K --> L[Verifikasi CSRF]
+    L --> M[Cari akun dan verifikasi password]
+    M -->|Berhasil| N[Buat session]
+    N --> C
+    M -->|Gagal| D
+```
+
+## Ringkasan Bagian 2
+
+Setelah memahami bagian ini, pembaca seharusnya mengetahui:
+
+- Bagaimana Spendly membedakan pengguna yang sudah login dan guest.
+- Bagaimana halaman privat dilindungi oleh `require_login()`.
+- Bagaimana registrasi memvalidasi input dan menyimpan password dalam bentuk hash.
+- Mengapa pembuatan akun dan data awal menggunakan database transaction.
+- Bagaimana login memeriksa password dan membuat session baru.
+- Bagaimana logout menghapus session dan cookie.
+- Bagian mana dari handler logout yang masih perlu diperbaiki.
+
+**Bagian berikutnya:** pengelolaan transaksi — `includes/transactions.php`, `transactions.php`, `transaction-create.php`, `transaction-edit.php`, dan `transaction-delete.php`.
