@@ -1,153 +1,153 @@
-# Spendly Technical Documentation
+# Dokumentasi Teknis Spendly
 
-> **Project:** Spendly — Personal Expense Tracker  
-> **Tagline:** *Track your spending. Stay in control.*  
-> **Repository:** [mayangzahratusita08/spendly](https://github.com/mayangzahratusita08/spendly)  
-> **Documentation basis:** `main` at commit `92faf2c8b513077357a37a3bf874ecc9e04d4f7f`
+> **Proyek:** Spendly — Personal Expense Tracker  
+> **Slogan:** *Track your spending. Stay in control.*  
+> **Repositori:** [mayangzahratusita08/spendly](https://github.com/mayangzahratusita08/spendly)  
+> **Acuan dokumentasi:** branch `main`, commit `92faf2c8b513077357a37a3bf874ecc9e04d4f7f`
 
-This document explains the current implementation of Spendly: what the application does, which technologies it uses, how its code and database are organized, how its main features work, and how to install, build, run, and maintain it locally.
+Dokumen ini menjelaskan implementasi Spendly saat ini: tujuan aplikasi, teknologi yang digunakan, susunan kode dan database, cara kerja fitur utama, serta cara memasang, membangun, menjalankan, dan memelihara aplikasi secara lokal.
 
-The descriptions below are based on files present in the repository. They describe the implemented application, not features that were only proposed or explored on unmerged branches.
-
----
-
-## 1. Project Overview
-
-Spendly is a browser-based personal finance application for recording income and expenses, organizing transactions, setting monthly spending limits, and reviewing financial activity.
-
-The application is designed for individual accounts. Each registered user has their own transactions, categories, payment methods, and budgets. The initial display currency is Indonesian Rupiah (IDR), and the application interface is written in English.
-
-### 1.1 Main objectives
-
-- Record personal income and expenses.
-- Organize financial records by category and payment method.
-- Review and filter transaction history.
-- Set monthly budgets for expense categories.
-- Compare actual spending with budget limits.
-- Review monthly financial summaries and six-month trends.
-
-### 1.2 Main features
-
-| Area | What it does |
-|---|---|
-| Authentication | Register, sign in, maintain a session, and sign out |
-| Dashboard | Display current balance, current-month income and expenses, monthly budgets, and recent transactions |
-| Transactions | Create, view, edit, delete, and filter income or expense records |
-| Budgets | Create and manage category budgets for a selected calendar month |
-| Categories | Manage income and expense categories, including their display colors |
-| Payment methods | Manage labels such as Cash, Bank Transfer, and E-Wallet |
-| Reports | Review monthly totals, six-month trends, category breakdowns, payment-method spending, and budget performance |
-
-### 1.3 Scope and boundaries
-
-Spendly is a manual personal expense tracker. Users enter transactions themselves.
-
-The current implementation does not provide bank-account synchronization, automatic bank transaction imports, payment processing, multi-currency conversion, a business accounting workflow, or PDF/Excel report export. It is built and documented primarily for local development with XAMPP; a public production deployment needs additional operational and security review.
+Penjelasan di bawah disusun berdasarkan file yang tersedia di repositori. Isinya menggambarkan aplikasi yang benar-benar telah diimplementasikan, bukan fitur yang baru sebatas rencana atau eksplorasi pada branch yang belum digabungkan.
 
 ---
 
-## 2. Technology Stack
+## 1. Gambaran Umum Proyek
 
-### 2.1 Application stack
+Spendly adalah aplikasi keuangan pribadi berbasis web untuk mencatat pemasukan dan pengeluaran, mengelompokkan transaksi, menetapkan batas pengeluaran bulanan, serta meninjau aktivitas keuangan.
 
-| Technology | Role in Spendly |
+Aplikasi ini dirancang untuk penggunaan akun individual. Setiap pengguna yang terdaftar memiliki data transaksi, kategori, metode pembayaran, dan anggarannya sendiri. Mata uang awal yang digunakan adalah Rupiah Indonesia (IDR), sedangkan bahasa antarmuka aplikasi adalah bahasa Inggris.
+
+### 1.1 Tujuan utama
+
+- Mencatat pemasukan dan pengeluaran pribadi.
+- Mengelompokkan catatan keuangan berdasarkan kategori dan metode pembayaran.
+- Meninjau serta memfilter riwayat transaksi.
+- Menetapkan anggaran bulanan untuk kategori pengeluaran.
+- Membandingkan pengeluaran aktual dengan batas anggaran.
+- Meninjau ringkasan keuangan bulanan dan tren selama enam bulan.
+
+### 1.2 Fitur utama
+
+| Bagian | Fungsi |
 |---|---|
-| HTML5 | Semantic page structure and forms |
-| CSS3 | Layout, responsive styling, Material 3-inspired design tokens, and component styling |
-| JavaScript (vanilla) | Small browser interactions such as the mobile drawer, alert dismissal, password confirmation, and transaction-category filtering |
-| PHP 8.x | Server-side page rendering, request handling, validation, authentication, and application logic |
-| PDO MySQL | Database connection and prepared SQL statements |
-| MySQL 8.0+ / MariaDB 10.4+ | Relational data storage |
-| Apache (XAMPP) | Local web server |
-| Material Web 2.5.0 | Selectively used Material 3 web components |
-| esbuild 0.28.2 | Bundles the Material Web imports for the browser |
-| Node.js 20+ | Required when rebuilding the frontend bundle |
+| Autentikasi | Mendaftar, masuk, mempertahankan sesi, dan keluar dari akun |
+| Dashboard | Menampilkan saldo saat ini, pemasukan dan pengeluaran bulan berjalan, anggaran bulanan, serta transaksi terbaru |
+| Transactions | Membuat, melihat, mengubah, menghapus, dan memfilter catatan pemasukan maupun pengeluaran |
+| Budgets | Membuat dan mengelola batas anggaran kategori untuk bulan kalender tertentu |
+| Categories | Mengelola kategori pemasukan dan pengeluaran, termasuk warna tampilannya |
+| Payment methods | Mengelola label metode pembayaran seperti Cash, Bank Transfer, dan E-Wallet |
+| Reports | Meninjau total bulanan, tren enam bulan, rincian berdasarkan kategori, pengeluaran berdasarkan metode pembayaran, dan performa anggaran |
 
-PHP and MySQL are required to run the application. Node.js and npm are used for the frontend asset build. They are not a replacement for Apache, PHP, or MySQL.
+### 1.3 Ruang lingkup dan batasan
 
-### 2.2 Frontend component bundle
+Spendly merupakan aplikasi pencatatan keuangan pribadi secara manual. Pengguna memasukkan transaksi sendiri.
 
-The repository contains a selective Material Web entry point at `assets/js/material-web.entry.js`. It imports the components currently used by the application:
+Implementasi saat ini belum menyediakan sinkronisasi rekening bank, impor transaksi otomatis dari bank, pemrosesan pembayaran, konversi mata uang, alur akuntansi bisnis, maupun ekspor laporan PDF/Excel. Aplikasi terutama disiapkan untuk pengembangan lokal menggunakan XAMPP. Jika akan dipublikasikan, aplikasi memerlukan peninjauan keamanan dan operasional tambahan.
 
-- Filled, outlined, and text buttons.
-- Outlined text fields.
-- Outlined select and select-option components.
+---
+
+## 2. Teknologi yang Digunakan
+
+### 2.1 Stack aplikasi
+
+| Teknologi | Peran di Spendly |
+|---|---|
+| HTML5 | Struktur halaman dan formulir yang semantik |
+| CSS3 | Tata letak, tampilan responsif, token desain terinspirasi Material 3, dan styling komponen |
+| JavaScript (vanilla) | Interaksi sederhana di browser, seperti drawer pada perangkat mobile, menutup notifikasi, konfirmasi password, dan pemfilteran kategori transaksi |
+| PHP 8.x | Rendering halaman di sisi server, penanganan request, validasi, autentikasi, dan logika aplikasi |
+| PDO MySQL | Koneksi database dan eksekusi prepared SQL statement |
+| MySQL 8.0+ / MariaDB 10.4+ | Penyimpanan data relasional |
+| Apache (XAMPP) | Web server untuk lingkungan lokal |
+| Material Web 2.5.0 | Komponen web Material 3 yang digunakan secara selektif |
+| esbuild 0.28.2 | Menggabungkan import Material Web menjadi bundle untuk browser |
+| Node.js 20+ | Dibutuhkan ketika membangun ulang bundle frontend |
+
+PHP dan MySQL diperlukan untuk menjalankan aplikasi. Node.js dan npm digunakan untuk proses build aset frontend. Keduanya tidak menggantikan Apache, PHP, atau MySQL.
+
+### 2.2 Bundle komponen frontend
+
+Repositori menyediakan entry point Material Web yang selektif di `assets/js/material-web.entry.js`. File tersebut mengimpor komponen yang digunakan oleh aplikasi:
+
+- Tombol filled, outlined, dan text.
+- Outlined text field.
+- Outlined select dan select option.
 - Linear progress.
 
-The build configuration is in `package.json`. The generated browser bundle is committed at `assets/js/material-web.bundle.js` and loaded by the shared PHP header.
+Konfigurasi build berada di `package.json`. Hasil bundle untuk browser disimpan di `assets/js/material-web.bundle.js` dan dimuat melalui header PHP bersama.
 
-Spendly uses Material Web selectively. Other screens also use semantic HTML controls styled through the shared stylesheet. The application is not a single-page application and does not use a JavaScript frontend framework.
+Spendly menggunakan Material Web secara selektif. Halaman lain juga menggunakan kontrol HTML semantik yang ditata melalui stylesheet bersama. Aplikasi ini bukan Single-Page Application (SPA) dan tidak menggunakan framework frontend JavaScript.
 
 ---
 
-## 3. Application Architecture
+## 3. Arsitektur Aplikasi
 
-### 3.1 Architectural style
+### 3.1 Gaya arsitektur
 
-Spendly uses a **server-rendered, multi-page PHP architecture**.
+Spendly menggunakan arsitektur **multi-halaman PHP dengan rendering di sisi server (server-rendered)**.
 
-Each page is a PHP entry point. A page checks authentication, reads request parameters, calls shared helper functions and PDO queries, then renders HTML using PHP templates. The browser receives the completed HTML together with shared CSS and JavaScript assets.
+Setiap halaman menjadi entry point PHP. Halaman memeriksa autentikasi, membaca parameter request, memanggil fungsi helper bersama dan query PDO, kemudian menghasilkan HTML menggunakan template PHP. Browser menerima HTML yang sudah dirender beserta aset CSS dan JavaScript bersama.
 
-There is no separate REST API layer in the current application.
+Implementasi aplikasi saat ini tidak memiliki lapisan REST API yang terpisah.
 
-### 3.2 Request and rendering flow
+### 3.2 Alur request dan rendering
 
 ```mermaid
 flowchart TD
-    A[User browser] --> B[Apache / XAMPP]
+    A[Browser pengguna] --> B[Apache / XAMPP]
     B --> C[PHP page controller]
-    C --> D{Authentication required?}
-    D -->|Yes| E[Session and login guard]
-    D -->|No| F[Continue]
-    E -->|Authenticated| F
-    E -->|Guest| G[Redirect to login]
-    F --> H[Feature helper and validation]
+    C --> D{Memerlukan autentikasi?}
+    D -->|Ya| E[Session dan login guard]
+    D -->|Tidak| F[Lanjutkan]
+    E -->|Sudah login| F
+    E -->|Guest| G[Redirect ke login]
+    F --> H[Helper fitur dan validasi]
     H --> I[PDO prepared query]
     I --> J[(MySQL / MariaDB)]
     J --> H
-    H --> K[PHP-rendered HTML]
+    H --> K[HTML hasil rendering PHP]
     K --> L[Browser]
     L --> M[app.css, app.js, Material Web bundle]
 ```
 
-### 3.3 Responsibilities by layer
+### 3.3 Tanggung jawab setiap lapisan
 
-1. **Page controllers (root-level PHP files)**  
-   Receive GET or POST requests, enforce page access, validate request data, call helper functions, prepare page variables, and include the shared layout.
+1. **Page controller (file PHP di direktori utama)**  
+   Menerima request GET atau POST, memeriksa hak akses halaman, memvalidasi data request, memanggil fungsi helper, menyiapkan variabel halaman, dan menyertakan layout bersama.
 
-2. **Shared helpers (`includes/`)**  
-   Provide authentication, sessions, CSRF protection, database connection, formatting, validation, and data-access functions shared by multiple pages.
+2. **Helper bersama (`includes/`)**  
+   Menyediakan autentikasi, session, perlindungan CSRF, koneksi database, pemformatan data, validasi, dan fungsi akses data yang digunakan oleh beberapa halaman.
 
 3. **Database (`database/schema.sql`)**  
-   Defines the relational tables, foreign keys, indexes, data types, and uniqueness constraints.
+   Mendefinisikan tabel relasional, foreign key, index, tipe data, dan constraint keunikan.
 
-4. **Presentation layer (`includes/header.php`, `includes/footer.php`, and page markup)**  
-   Provides the shared sidebar or guest header, flash messages, page content, and footer.
+4. **Lapisan presentasi (`includes/header.php`, `includes/footer.php`, dan markup halaman)**  
+   Menyediakan sidebar bersama atau header untuk guest, flash message, konten halaman, dan footer.
 
-5. **Browser assets (`assets/`)**  
-   Provide the design system, responsive styling, client-side enhancements, and bundled Material Web custom elements.
+5. **Aset browser (`assets/`)**  
+   Menyediakan design system, styling responsif, interaksi di sisi klien, dan custom element Material Web yang telah di-bundle.
 
-### 3.4 Typical request lifecycle
+### 3.4 Siklus request pada umumnya
 
-A protected page normally follows this sequence:
+Halaman yang membutuhkan autentikasi biasanya mengikuti urutan berikut:
 
-1. Load the required shared PHP files with `require_once`.
-2. Call `require_login()`.
-3. Read the signed-in user through `current_user()` and obtain the user's ID.
-4. Get the shared PDO instance through `get_db_connection()`.
-5. Read and validate GET parameters or POST form data.
-6. For a state-changing form, verify the submitted CSRF token.
-7. Call a feature helper or execute a prepared query scoped to the current user.
-8. Set `$pageTitle` and `$activeNav`.
-9. Include `includes/header.php`, render the page, and include `includes/footer.php`.
+1. Memuat file PHP bersama yang dibutuhkan menggunakan `require_once`.
+2. Memanggil `require_login()`.
+3. Membaca pengguna yang sedang masuk melalui `current_user()` dan mengambil ID pengguna.
+4. Mendapatkan instance PDO bersama melalui `get_db_connection()`.
+5. Membaca dan memvalidasi parameter GET atau data formulir POST.
+6. Untuk formulir yang mengubah data, memverifikasi token CSRF yang dikirim.
+7. Memanggil helper fitur atau menjalankan prepared query yang dibatasi berdasarkan pengguna saat ini.
+8. Menetapkan nilai `$pageTitle` dan `$activeNav`.
+9. Menyertakan `includes/header.php`, merender halaman, lalu menyertakan `includes/footer.php`.
 
-After a successful form submission, controllers generally use a redirect and a flash message rather than rendering the success response directly.
+Setelah pengiriman formulir berhasil, controller umumnya melakukan redirect dan menyimpan flash message, bukan langsung menampilkan respons sukses pada request yang sama.
 
 ---
 
-## 4. Repository Structure
+## 4. Struktur Repositori
 
-The following is the application structure on the documented `main` branch. Generated or local-only files are noted separately.
+Berikut struktur aplikasi pada branch `main` yang menjadi acuan dokumentasi ini. File hasil build dan file lokal dijelaskan secara terpisah.
 
 ```text
 spendly/
@@ -202,40 +202,40 @@ spendly/
 └── .gitignore
 ```
 
-### 4.1 Important directories
+### 4.1 Direktori penting
 
-| Path | Responsibility |
+| Path | Tanggung jawab |
 |---|---|
-| `assets/css/` | Shared stylesheet and design-system implementation |
-| `assets/js/` | Browser behavior and Material Web build entry/output |
-| `config/` | Database configuration template; local credentials are not committed |
-| `database/` | MySQL schema |
-| `includes/` | Reusable PHP infrastructure and feature helpers |
+| `assets/css/` | Stylesheet bersama dan implementasi design system |
+| `assets/js/` | Perilaku browser dan entry/output build Material Web |
+| `config/` | Template konfigurasi database; kredensial lokal tidak di-commit |
+| `database/` | Skema MySQL |
+| `includes/` | Infrastruktur PHP yang dapat digunakan ulang dan helper fitur |
 
-### 4.2 Shared PHP files
+### 4.2 File PHP bersama
 
-| File | Responsibility |
+| File | Tanggung jawab |
 |---|---|
-| `includes/db.php` | Creates and reuses the PDO MySQL connection |
-| `includes/auth.php` | Registration, login, logout, session guards, and default user-data seeding |
-| `includes/csrf.php` | Generates, renders, and verifies CSRF tokens |
-| `includes/functions.php` | Session initialization, HTML escaping, currency/date formatting, redirects, flash messages, and base URLs |
-| `includes/transactions.php` | Transaction queries, validation, and CRUD operations |
-| `includes/budgets.php` | Budget validation, CRUD operations, and monthly spending calculations |
-| `includes/catalog.php` | Category and payment-method management |
-| `includes/reports.php` | Read-only analytics queries |
-| `includes/header.php` | Shared authenticated sidebar, guest header, flash messages, and asset loading |
-| `includes/footer.php` | Shared footer and application JavaScript inclusion |
+| `includes/db.php` | Membuat dan menggunakan kembali koneksi PDO MySQL |
+| `includes/auth.php` | Registrasi, login, logout, session guard, dan pembuatan data awal pengguna |
+| `includes/csrf.php` | Membuat, merender, dan memverifikasi token CSRF |
+| `includes/functions.php` | Inisialisasi session, HTML escaping, format mata uang/tanggal, redirect, flash message, dan base URL |
+| `includes/transactions.php` | Query transaksi, validasi, dan operasi CRUD |
+| `includes/budgets.php` | Validasi anggaran, operasi CRUD, dan perhitungan pengeluaran bulanan |
+| `includes/catalog.php` | Pengelolaan kategori dan metode pembayaran |
+| `includes/reports.php` | Query untuk analitik yang hanya membaca data |
+| `includes/header.php` | Sidebar untuk halaman terautentikasi, header guest, flash message, dan pemuatan aset |
+| `includes/footer.php` | Footer bersama dan pemuatan JavaScript aplikasi |
 
 ---
 
-## 5. Database Design
+## 5. Desain Database
 
-### 5.1 Database overview
+### 5.1 Gambaran database
 
-The schema creates a database named `spendly_db` using the InnoDB storage engine and `utf8mb4_unicode_ci` collation.
+File schema membuat database bernama `spendly_db` dengan storage engine InnoDB dan collation `utf8mb4_unicode_ci`.
 
-There are five tables:
+Terdapat lima tabel:
 
 1. `users`
 2. `categories`
@@ -243,17 +243,17 @@ There are five tables:
 4. `transactions`
 5. `budgets`
 
-### 5.2 Entity relationships
+### 5.2 Relasi antarentitas
 
 ```mermaid
 erDiagram
-    USERS ||--o{ CATEGORIES : owns
-    USERS ||--o{ PAYMENT_METHODS : owns
-    USERS ||--o{ TRANSACTIONS : records
-    USERS ||--o{ BUDGETS : creates
-    CATEGORIES ||--o{ TRANSACTIONS : classifies
-    CATEGORIES ||--o{ BUDGETS : limits
-    PAYMENT_METHODS o|--o{ TRANSACTIONS : labels
+    USERS ||--o{ CATEGORIES : memiliki
+    USERS ||--o{ PAYMENT_METHODS : memiliki
+    USERS ||--o{ TRANSACTIONS : mencatat
+    USERS ||--o{ BUDGETS : membuat
+    CATEGORIES ||--o{ TRANSACTIONS : mengelompokkan
+    CATEGORIES ||--o{ BUDGETS : membatasi
+    PAYMENT_METHODS o|--o{ TRANSACTIONS : memberi_label
 
     USERS {
         BIGINT id PK
@@ -300,76 +300,76 @@ erDiagram
     }
 ```
 
-### 5.3 Table responsibilities and rules
+### 5.3 Tanggung jawab tabel dan aturannya
 
 **`users`**
 
-Stores account identity and password hashes. Email is unique. Passwords are not stored as plain text.
+Menyimpan identitas akun dan password hash. Email bersifat unik. Password tidak disimpan dalam bentuk teks biasa.
 
 **`categories`**
 
-Stores user-owned categories. The `type` column is either `income` or `expense`. A category has a user-defined name and optional display color. The combination of user, name, and type is unique.
+Menyimpan kategori milik masing-masing pengguna. Kolom `type` hanya dapat bernilai `income` atau `expense`. Kategori memiliki nama dan warna tampilan opsional. Kombinasi pengguna, nama, dan tipe kategori harus unik.
 
 **`payment_methods`**
 
-Stores user-owned labels such as Cash, Bank Transfer, E-Wallet, or Debit / Credit Card. A method name is unique per user.
+Menyimpan label metode pembayaran milik pengguna, seperti Cash, Bank Transfer, E-Wallet, atau Debit / Credit Card. Nama metode harus unik untuk setiap pengguna.
 
 **`transactions`**
 
-Stores the actual financial records. The `type` column is either `income` or `expense`. The amount uses `DECIMAL(14,2)`; the transaction date uses `DATE`; the description is optional; and the payment method may be `NULL`. A category is required.
+Menyimpan catatan keuangan aktual. Kolom `type` hanya dapat bernilai `income` atau `expense`. Nominal menggunakan tipe `DECIMAL(14,2)`; tanggal transaksi menggunakan `DATE`; deskripsi bersifat opsional; dan metode pembayaran boleh bernilai `NULL`. Setiap transaksi wajib memiliki kategori.
 
 **`budgets`**
 
-Stores a spending limit for an expense category and calendar month. The application stores the first day of the month in `budget_month`, for example `2026-11-01`. A user can have only one budget for the same category and month.
+Menyimpan batas pengeluaran untuk satu kategori pengeluaran dan satu bulan kalender. Aplikasi menyimpan hari pertama dari bulan tersebut pada kolom `budget_month`, misalnya `2026-11-01`. Seorang pengguna hanya dapat memiliki satu anggaran untuk kategori dan bulan yang sama.
 
-### 5.4 Important constraints
+### 5.4 Constraint penting
 
-| Constraint | Effect |
+| Constraint | Dampak |
 |---|---|
-| Unique user email | Prevents two accounts from using the same email |
-| Unique category per user/name/type | Prevents duplicate category labels of the same type for one user |
-| Unique payment method per user/name | Prevents duplicate payment method labels for one user |
-| Unique budget per user/category/month | Prevents duplicate monthly limits for the same category |
-| User foreign keys with cascade | User-owned records are removed when the owning user is removed |
-| Transaction category/payment foreign keys with restrict | Referenced categories and payment methods cannot be deleted while transactions use them |
-| Budget category foreign key with restrict | A category referenced by a budget cannot be deleted |
+| Email pengguna unik | Mencegah dua akun menggunakan alamat email yang sama |
+| Kategori unik per pengguna/nama/tipe | Mencegah label kategori duplikat dengan tipe yang sama pada satu pengguna |
+| Metode pembayaran unik per pengguna/nama | Mencegah label metode pembayaran duplikat pada satu pengguna |
+| Anggaran unik per pengguna/kategori/bulan | Mencegah batas anggaran ganda untuk kategori yang sama pada bulan yang sama |
+| Foreign key pengguna dengan cascade | Data milik pengguna ikut dihapus ketika pengguna pemiliknya dihapus |
+| Foreign key kategori/metode pembayaran transaksi dengan restrict | Kategori dan metode pembayaran yang masih digunakan transaksi tidak dapat dihapus |
+| Foreign key kategori anggaran dengan restrict | Kategori yang masih digunakan anggaran tidak dapat dihapus |
 
-The application also checks ownership in its PHP validation and query logic. The schema uses individual foreign keys for these references; the application-level `user_id` checks are therefore important and must not be removed.
+Aplikasi juga memeriksa kepemilikan data dalam validasi PHP dan logika query. Skema menggunakan foreign key individual untuk referensi tersebut. Karena itu, pemeriksaan `user_id` pada lapisan aplikasi tetap penting dan tidak boleh dihilangkan.
 
-### 5.5 Schema installation and changes
+### 5.5 Instalasi dan perubahan skema
 
-The canonical schema is `database/schema.sql`. It contains `CREATE DATABASE IF NOT EXISTS`, `USE spendly_db`, and table definitions using `CREATE TABLE IF NOT EXISTS`.
+Skema utama berada di `database/schema.sql`. File tersebut berisi `CREATE DATABASE IF NOT EXISTS`, `USE spendly_db`, dan definisi tabel dengan `CREATE TABLE IF NOT EXISTS`.
 
-There is no separate migration framework in the current repository. For a new local installation, import the schema. If changing the schema later, update `database/schema.sql`, preserve existing data where necessary, and document the change rather than assuming that re-importing the file will migrate an existing database.
+Repositori saat ini belum memiliki sistem migration terpisah. Untuk instalasi lokal yang baru, impor file schema tersebut. Jika skema diubah di kemudian hari, perbarui `database/schema.sql`, pertahankan data lama bila diperlukan, dan dokumentasikan perubahan tersebut. Jangan berasumsi bahwa mengimpor ulang file ini akan memigrasikan tabel yang sudah ada.
 
 ---
 
-## 6. Feature Implementation
+## 6. Implementasi Fitur
 
-### 6.1 Application entry and authentication
+### 6.1 Entry aplikasi dan autentikasi
 
-| Page | Responsibility |
+| Halaman | Tanggung jawab |
 |---|---|
-| `index.php` | Redirects signed-in users to the dashboard and guests to login |
-| `register.php` | Displays and processes account registration |
-| `login.php` | Displays and processes sign-in |
-| `logout.php` | Ends the current session and redirects to sign-in |
+| `index.php` | Mengarahkan pengguna yang sudah login ke dashboard dan guest ke halaman login |
+| `register.php` | Menampilkan dan memproses registrasi akun |
+| `login.php` | Menampilkan dan memproses proses masuk |
+| `logout.php` | Mengakhiri session saat ini dan mengarahkan pengguna ke halaman login |
 
-Registration validates the user's name, email, password length, and password confirmation. The password is hashed with PHP's `password_hash()` using `PASSWORD_DEFAULT`.
+Registrasi memvalidasi nama pengguna, email, panjang password, dan konfirmasi password. Password di-hash menggunakan fungsi PHP `password_hash()` dengan algoritma `PASSWORD_DEFAULT`.
 
-After inserting a user, registration starts a database transaction and seeds the user's initial categories and payment methods. The seed operation includes:
+Setelah memasukkan data pengguna, proses registrasi memulai database transaction dan membuat kategori serta metode pembayaran awal milik pengguna tersebut. Data awalnya meliputi:
 
-- **Income categories:** Salary, Freelance, Gift, Other Income.
-- **Expense categories:** Food, Transportation, Shopping, Bills, Education, Health, Entertainment, Other Expense.
-- **Payment methods:** Cash, Bank Transfer, E-Wallet, Debit / Credit Card.
+- **Kategori pemasukan:** Salary, Freelance, Gift, Other Income.
+- **Kategori pengeluaran:** Food, Transportation, Shopping, Bills, Education, Health, Entertainment, Other Expense.
+- **Metode pembayaran:** Cash, Bank Transfer, E-Wallet, Debit / Credit Card.
 
-If registration and seeding succeed, the transaction is committed. If an exception occurs, it is rolled back.
+Jika registrasi dan pembuatan data awal berhasil, transaksi database di-commit. Jika terjadi exception, transaksi tersebut di-rollback.
 
-Login retrieves the account by email and verifies the password with `password_verify()`. On successful login, the session ID is regenerated and the user's ID and basic profile information are stored in the session.
+Login mengambil akun berdasarkan email dan memverifikasi password menggunakan `password_verify()`. Setelah login berhasil, ID session dibuat ulang dan ID pengguna beserta informasi profil dasarnya disimpan dalam session.
 
-### 6.2 Transactions
+### 6.2 Transaksi
 
-Relevant files:
+File terkait:
 
 - `transactions.php`
 - `transaction-create.php`
@@ -377,22 +377,22 @@ Relevant files:
 - `transaction-delete.php`
 - `includes/transactions.php`
 
-A transaction records:
+Satu transaksi menyimpan data berikut:
 
-- Type: income or expense.
-- Positive amount.
-- Category matching the selected transaction type.
-- Optional payment method.
-- Transaction date.
-- Optional description or note.
+- Tipe: pemasukan atau pengeluaran.
+- Nominal positif.
+- Kategori yang sesuai dengan tipe transaksi.
+- Metode pembayaran opsional.
+- Tanggal transaksi.
+- Deskripsi atau catatan opsional.
 
-The transaction list supports filtering by type, category, start date, and end date. Filters are submitted through GET parameters, so a filtered list can be refreshed or bookmarked.
+Halaman daftar transaksi mendukung filter berdasarkan tipe, kategori, tanggal mulai, dan tanggal akhir. Filter dikirim melalui parameter GET sehingga daftar yang telah difilter dapat dimuat ulang atau disimpan sebagai bookmark.
 
-The create/edit helper validates the amount, date, category ownership, category type, optional payment-method ownership, and description length on the server. CRUD operations use the authenticated user's ID to scope records.
+Helper create/edit memvalidasi nominal, tanggal, kepemilikan kategori, tipe kategori, kepemilikan metode pembayaran opsional, serta panjang deskripsi di sisi server. Operasi CRUD menggunakan ID pengguna yang sedang login untuk membatasi data yang dapat diakses.
 
-### 6.3 Budgets
+### 6.3 Anggaran
 
-Relevant files:
+File terkait:
 
 - `budgets.php`
 - `budget-create.php`
@@ -400,21 +400,21 @@ Relevant files:
 - `budget-delete.php`
 - `includes/budgets.php`
 
-A budget belongs to one expense category and one month. Its spending total is calculated from expense transactions in that category whose transaction dates fall inside the selected calendar month.
+Satu anggaran terhubung dengan satu kategori pengeluaran dan satu bulan. Total pengeluarannya dihitung dari transaksi bertipe expense pada kategori tersebut, dengan tanggal transaksi yang berada di dalam bulan kalender yang dipilih.
 
-The page displays the budget limit, actual spending, remaining amount or overage, and progress percentage. The status rules are:
+Halaman menampilkan batas anggaran, pengeluaran aktual, sisa anggaran atau kelebihan pengeluaran, serta persentase progres. Aturan statusnya:
 
-| Status | Condition |
+| Status | Kondisi |
 |---|---|
-| On track | Spending is below 80% of the limit |
-| Near limit | Spending is at least 80% and has not exceeded the limit |
-| Over budget | Spending is greater than the limit |
+| On track | Pengeluaran di bawah 80% dari batas anggaran |
+| Near limit | Pengeluaran minimal 80% dan belum melewati batas anggaran |
+| Over budget | Pengeluaran lebih besar daripada batas anggaran |
 
-Income transactions are not counted as budget spending.
+Transaksi pemasukan tidak dihitung sebagai pengeluaran anggaran.
 
-### 6.4 Categories
+### 6.4 Kategori
 
-Relevant files:
+File terkait:
 
 - `categories.php`
 - `category-create.php`
@@ -422,13 +422,13 @@ Relevant files:
 - `category-delete.php`
 - `includes/catalog.php`
 
-Categories are separated into Income and Expense groups. Users can create categories and update their names or colors.
+Kategori dipisahkan menjadi kelompok Income dan Expense. Pengguna dapat membuat kategori serta mengubah nama atau warnanya.
 
-A category's type cannot be changed while transactions or budgets reference it. A category cannot be deleted while it is referenced by a transaction or budget. This protects existing financial history.
+Tipe suatu kategori tidak dapat diubah selama masih direferensikan oleh transaksi atau anggaran. Kategori juga tidak dapat dihapus selama masih digunakan oleh transaksi atau anggaran. Aturan ini melindungi riwayat keuangan yang sudah tercatat.
 
-### 6.5 Payment methods
+### 6.5 Metode pembayaran
 
-Relevant files:
+File terkait:
 
 - `payment-methods.php`
 - `payment-method-create.php`
@@ -436,169 +436,169 @@ Relevant files:
 - `payment-method-delete.php`
 - `includes/catalog.php`
 
-Users can add, rename, and remove their payment-method labels. A method referenced by a transaction is protected from deletion. Renaming a method does not remove or rewrite the transaction records that reference its ID.
+Pengguna dapat menambahkan, mengganti nama, dan menghapus label metode pembayaran. Metode yang masih direferensikan oleh transaksi tidak dapat dihapus. Mengganti nama metode tidak menghapus atau mengubah transaksi yang menyimpan ID metode tersebut.
 
 ### 6.6 Dashboard
 
 File: `dashboard.php`
 
-The dashboard queries live records for the authenticated user and displays:
+Dashboard mengambil data aktual dari database untuk pengguna yang sedang login dan menampilkan:
 
-- **Current balance:** all-time income minus all-time expenses.
-- **Monthly income:** income transactions dated in the current calendar month.
-- **Monthly expenses:** expense transactions dated in the current calendar month.
-- **Monthly budget overview:** budget limits and actual spending for the current month.
-- **Recent transactions:** the five most recent records.
-- **Categories and payment methods:** a compact overview of the user's configured labels.
+- **Current balance:** seluruh pemasukan dikurangi seluruh pengeluaran sepanjang waktu.
+- **Monthly income:** transaksi pemasukan yang tanggalnya berada pada bulan kalender saat ini.
+- **Monthly expenses:** transaksi pengeluaran yang tanggalnya berada pada bulan kalender saat ini.
+- **Monthly budget overview:** batas anggaran dan pengeluaran aktual untuk bulan saat ini.
+- **Recent transactions:** lima transaksi terbaru.
+- **Categories dan payment methods:** ringkasan kategori dan metode pembayaran yang telah dikonfigurasi pengguna.
 
-The figures are calculated from database records. The application does not insert decorative sample balances or fake transactions into the dashboard.
+Angka-angka pada dashboard dihitung berdasarkan catatan database. Aplikasi tidak memasukkan saldo dekoratif atau transaksi palsu ke dashboard.
 
-### 6.7 Analytics and reports
+### 6.7 Analitik dan laporan
 
-Files: `reports.php` and `includes/reports.php`.
+File: `reports.php` dan `includes/reports.php`.
 
-The report page accepts a selected month and calculates:
+Halaman laporan menerima pilihan bulan dan menghitung:
 
-- Total income and total expenses for that month.
-- Net cash flow: income minus expenses.
-- Savings rate: `(income - expenses) / income × 100`, when income is greater than zero.
-- A six-month income-versus-expense trend ending in the selected month.
-- Expense totals grouped by category.
-- Income totals grouped by category.
-- Expense totals grouped by payment method.
-- Budget performance for categories with a budget in the selected month.
+- Total pemasukan dan total pengeluaran untuk bulan tersebut.
+- Net cash flow: pemasukan dikurangi pengeluaran.
+- Savings rate: `(income - expenses) / income × 100`, apabila pemasukan lebih besar dari nol.
+- Tren pemasukan dibanding pengeluaran selama enam bulan, berakhir pada bulan yang dipilih.
+- Total pengeluaran berdasarkan kategori.
+- Total pemasukan berdasarkan kategori.
+- Total pengeluaran berdasarkan metode pembayaran.
+- Performa anggaran untuk kategori yang memiliki anggaran pada bulan terpilih.
 
-Transactions without a payment method are included under `Unspecified`. Budget performance only includes categories with a configured budget; unbudgeted expenses are intentionally excluded from the tracked-budget comparison.
+Transaksi tanpa metode pembayaran dimasukkan ke kelompok `Unspecified`. Performa anggaran hanya mencakup kategori yang memiliki anggaran. Pengeluaran pada kategori tanpa anggaran tidak dimasukkan ke angka pengeluaran yang dilacak dalam perbandingan tersebut.
 
-The chart is rendered from server-provided values using HTML and CSS. A separate charting library is not part of the current stack.
+Grafik dibuat dari nilai yang disediakan server menggunakan HTML dan CSS. Implementasi saat ini tidak menggunakan library chart terpisah.
 
 ---
 
-## 7. Shared Layout and Design System
+## 7. Layout Bersama dan Design System
 
-### 7.1 Shared application shell
+### 7.1 Kerangka layout aplikasi
 
-The shared layout is implemented in `includes/header.php` and `includes/footer.php`.
+Layout bersama diimplementasikan melalui `includes/header.php` dan `includes/footer.php`.
 
-- Signed-in pages use a persistent desktop sidebar.
-- The sidebar groups links into Overview and Manage sections.
-- The sidebar shows the current account and a sign-out action.
-- On smaller screens, the sidebar becomes a drawer opened from the mobile app bar.
-- Guest pages use a compact header with sign-in and account-creation links.
-- Flash messages are rendered by the shared header.
+- Halaman untuk pengguna yang sudah login menggunakan sidebar permanen pada tampilan desktop.
+- Link sidebar dikelompokkan ke bagian Overview dan Manage.
+- Sidebar menampilkan akun yang sedang aktif serta kontrol sign-out.
+- Pada layar yang lebih kecil, sidebar berubah menjadi drawer yang dibuka melalui mobile app bar.
+- Halaman guest menggunakan header ringkas dengan link sign-in dan pembuatan akun.
+- Flash message dirender oleh header bersama.
 
-The mobile drawer supports a backdrop, Escape-to-close behavior, keyboard focus handling, and body scroll locking while open.
+Drawer mobile mendukung backdrop, penutupan melalui tombol Escape, pengelolaan fokus keyboard, dan penguncian scroll pada body ketika drawer terbuka.
 
-### 7.2 Material 3 implementation
+### 7.2 Implementasi Material 3
 
-The design system is documented in `design-system.md`. The current implementation is Material 3-inspired and uses a forest-green brand palette, semantic surface and text roles, a consistent shape scale, and responsive layouts.
+Design system dijelaskan dalam file `design-system.md`. Implementasi saat ini terinspirasi Material 3 dan menggunakan palet warna forest green sebagai identitas merek, peran surface dan teks yang semantik, skala bentuk komponen yang konsisten, serta layout responsif.
 
-Material Web components are used selectively where present in the PHP pages. Most pages also use semantic HTML and shared CSS. The current application should not be described as a full Material 3 Expressive implementation; experimental work on that direction is separate from the merged main-branch implementation.
+Komponen Material Web digunakan secara selektif pada halaman PHP yang memang menggunakannya. Sebagian besar halaman juga menggunakan HTML semantik dan CSS bersama. Implementasi saat ini tidak tepat disebut sebagai implementasi penuh Material 3 Expressive; eksplorasi ke arah tersebut berada terpisah dari implementasi yang telah digabungkan ke branch utama.
 
-### 7.3 Browser-side JavaScript
+### 7.3 JavaScript di browser
 
 File: `assets/js/app.js`.
 
-The shared script handles:
+Script bersama menangani:
 
-1. Mobile sidebar open/close interactions.
-2. Closing flash alerts.
-3. Client-side password-confirmation feedback on registration.
-4. Filtering the category dropdown when the transaction type changes.
+1. Interaksi buka/tutup sidebar mobile.
+2. Menutup notifikasi flash.
+3. Umpan balik konfirmasi password di sisi klien pada halaman registrasi.
+4. Memfilter dropdown kategori ketika tipe transaksi berubah.
 
-These browser-side checks improve usability. Server-side validation remains authoritative.
+Pemeriksaan di browser meningkatkan kemudahan penggunaan. Validasi di sisi server tetap menjadi acuan utama.
 
 ---
 
-## 8. Security and Data Integrity
+## 8. Keamanan dan Integritas Data
 
-The current code implements several security controls. They should be preserved when adding or changing features.
+Kode saat ini menerapkan sejumlah kontrol keamanan. Kontrol tersebut perlu dipertahankan ketika menambahkan atau mengubah fitur.
 
-| Control | Implementation |
+| Kontrol | Implementasi |
 |---|---|
-| Password storage | `password_hash()` with `PASSWORD_DEFAULT` |
-| Password verification | `password_verify()` |
-| Session cookies | HttpOnly and SameSite=Lax; Secure is enabled when the request uses HTTPS |
-| Session fixation defense | Session ID regenerated after successful login |
-| Authentication guards | `require_login()` and `require_guest()` |
-| CSRF helpers | Token generated using `random_bytes()` and compared using `hash_equals()` |
-| SQL injection mitigation | PDO prepared statements; emulated prepares disabled |
-| XSS mitigation | `e()` helper escapes HTML output with `htmlspecialchars()` |
-| User data isolation | Queries and mutations use the authenticated user's ID |
-| Reference integrity | Foreign keys restrict deletion of referenced categories, payment methods, and budget categories |
-| Local secrets | `config/database.php` is excluded through `.gitignore` |
+| Penyimpanan password | `password_hash()` dengan `PASSWORD_DEFAULT` |
+| Verifikasi password | `password_verify()` |
+| Cookie session | HttpOnly dan SameSite=Lax; Secure diaktifkan ketika request menggunakan HTTPS |
+| Pencegahan session fixation | ID session dibuat ulang setelah login berhasil |
+| Authentication guard | `require_login()` dan `require_guest()` |
+| Helper CSRF | Token dibuat menggunakan `random_bytes()` dan dibandingkan menggunakan `hash_equals()` |
+| Mitigasi SQL injection | PDO prepared statements; emulated prepares dinonaktifkan |
+| Mitigasi XSS | Helper `e()` melakukan escaping output HTML dengan `htmlspecialchars()` |
+| Isolasi data pengguna | Query dan perubahan data menggunakan ID pengguna yang sedang login |
+| Integritas referensi | Foreign key membatasi penghapusan kategori, metode pembayaran, dan kategori anggaran yang masih direferensikan |
+| Secret lokal | `config/database.php` dikecualikan melalui `.gitignore` |
 
-### 8.1 Important implementation note: logout
+### 8.1 Catatan implementasi penting: logout
 
-The sidebar submits logout through a POST form that includes a CSRF field. However, the current `logout.php` handler calls `logout_user()` unconditionally: it does not reject non-POST requests and does not enforce the submitted CSRF token. This is the behavior of the current source code, not a claim that logout has complete CSRF enforcement.
+Sidebar mengirimkan logout melalui formulir POST yang menyertakan field CSRF. Namun, handler `logout.php` saat ini memanggil `logout_user()` tanpa syarat: handler tidak menolak request selain POST dan tidak mewajibkan validitas token CSRF yang dikirimkan. Perilaku inilah yang terdapat pada kode sumber saat ini, bukan bukti bahwa perlindungan CSRF pada logout sudah diterapkan secara penuh.
 
-For a future security-hardening pass, make logout POST-only and reject requests with an invalid CSRF token.
+Untuk penguatan keamanan berikutnya, batasi logout hanya melalui POST dan tolak request dengan token CSRF yang tidak valid.
 
-### 8.2 Local credentials
+### 8.2 Kredensial lokal
 
-The repository contains `config/database.example.php`. Copy it to `config/database.php` for local use and update the credentials as required.
+Repositori menyediakan `config/database.example.php`. Salin file tersebut menjadi `config/database.php` untuk penggunaan lokal, kemudian sesuaikan kredensialnya.
 
-Never commit `config/database.php`, production credentials, database dumps containing personal records, or other secrets. The local configuration file is already listed in `.gitignore`.
+Jangan pernah melakukan commit terhadap `config/database.php`, kredensial produksi, dump database yang berisi catatan pribadi, atau secret lainnya. File konfigurasi lokal tersebut sudah tercantum di `.gitignore`.
 
-### 8.3 Production considerations
+### 8.3 Pertimbangan sebelum deployment produksi
 
-The application is set up for local XAMPP development. Before deploying it publicly, review HTTPS enforcement, database credentials and privileges, logout CSRF handling, account recovery, brute-force/rate limiting, backups, error logging, and server configuration. Do not use the default local XAMPP root credentials on a public server.
+Aplikasi disiapkan untuk pengembangan lokal menggunakan XAMPP. Sebelum dipublikasikan, tinjau kembali penerapan HTTPS, kredensial dan hak akses database, penegakan CSRF pada logout, pemulihan akun, pembatasan percobaan login/rate limiting, backup, pencatatan error, dan konfigurasi server. Jangan gunakan kredensial root XAMPP bawaan pada server publik.
 
 ---
 
-## 9. Installation and Local Setup with XAMPP
+## 9. Instalasi dan Konfigurasi Lokal dengan XAMPP
 
-### 9.1 Prerequisites
+### 9.1 Prasyarat
 
-Install:
+Pasang perangkat berikut:
 
-- XAMPP with Apache, MySQL/MariaDB, PHP, and phpMyAdmin.
-- PHP 8.x with PDO MySQL support.
-- Node.js 20 or newer and npm, if rebuilding the Material Web bundle.
-- Git, if cloning the repository.
+- XAMPP dengan Apache, MySQL/MariaDB, PHP, dan phpMyAdmin.
+- PHP 8.x dengan dukungan PDO MySQL.
+- Node.js 20 atau lebih baru dan npm, apabila perlu membangun ulang bundle Material Web.
+- Git, apabila ingin melakukan clone repositori.
 
-The repository README recommends MySQL 8.0+ or MariaDB 10.4+.
+README repositori merekomendasikan MySQL 8.0+ atau MariaDB 10.4+.
 
-### 9.2 Clone the repository
+### 9.2 Clone repositori
 
-Open a terminal:
+Buka terminal dan jalankan:
 
 ```bash
 git clone https://github.com/mayangzahratusita08/spendly.git
 ```
 
-Move or clone the project into the XAMPP web root.
+Pindahkan atau clone proyek ke dalam web root XAMPP.
 
-Common locations:
+Lokasi yang umum digunakan:
 
-| Operating system | Web root |
+| Sistem operasi | Web root |
 |---|---|
 | Windows | `C:\\xampp\\htdocs\\spendly` |
 | macOS | `/Applications/XAMPP/xamppfiles/htdocs/spendly` |
 | Linux | `/opt/lampp/htdocs/spendly` |
 
-The final folder should contain `index.php`, `dashboard.php`, `database/`, `includes/`, and the other project files.
+Folder akhir harus berisi `index.php`, `dashboard.php`, `database/`, `includes/`, dan file proyek lainnya.
 
-### 9.3 Start Apache and MySQL
+### 9.3 Jalankan Apache dan MySQL
 
-1. Open the XAMPP Control Panel.
-2. Start **Apache**.
-3. Start **MySQL**.
-4. Confirm that both services report as running.
+1. Buka XAMPP Control Panel.
+2. Jalankan **Apache**.
+3. Jalankan **MySQL**.
+4. Pastikan kedua layanan menunjukkan status berjalan.
 
-If Apache or MySQL cannot start, check whether another process is already using the configured port.
+Jika Apache atau MySQL tidak dapat dijalankan, periksa apakah proses lain sudah menggunakan port yang dikonfigurasi.
 
-### 9.4 Create the database and import the schema
+### 9.4 Buat database dan impor schema
 
-1. Open phpMyAdmin at `http://localhost/phpmyadmin/`.
-2. The schema file is `database/schema.sql`.
-3. The file creates `spendly_db` if it does not already exist, selects that database, and creates the five tables.
-4. You can import the file through phpMyAdmin's **Import** tab. If you prefer to create the database first, use the name `spendly_db` and an `utf8mb4` collation, then import the schema into it.
-5. Confirm that these five tables exist: `users`, `categories`, `payment_methods`, `transactions`, and `budgets`.
+1. Buka phpMyAdmin melalui `http://localhost/phpmyadmin/`.
+2. File schema yang digunakan adalah `database/schema.sql`.
+3. File ini akan membuat database `spendly_db` jika belum tersedia, memilih database tersebut, lalu membuat lima tabel.
+4. Impor file melalui tab **Import** di phpMyAdmin. Jika memilih untuk membuat database lebih dahulu, gunakan nama `spendly_db` dan collation `utf8mb4`, kemudian impor schema ke database tersebut.
+5. Pastikan kelima tabel berikut tersedia: `users`, `categories`, `payment_methods`, `transactions`, dan `budgets`.
 
-### 9.5 Configure the database connection
+### 9.5 Konfigurasikan koneksi database
 
-Create the local configuration file by copying the template.
+Buat file konfigurasi lokal dengan menyalin template.
 
 **Windows PowerShell:**
 
@@ -612,7 +612,7 @@ Copy-Item config/database.example.php config/database.php
 cp config/database.example.php config/database.php
 ```
 
-Open `config/database.php` and set values for your local MySQL server. The committed example uses:
+Buka `config/database.php` dan sesuaikan nilainya dengan server MySQL lokal. File contoh yang ada di repositori menggunakan konfigurasi berikut:
 
 ```php
 return [
@@ -625,184 +625,184 @@ return [
 ];
 ```
 
-The empty password is a common default in local XAMPP installations, not a recommended public-server configuration. Change it if your MySQL root account uses a password.
+Password kosong merupakan konfigurasi bawaan yang umum ditemukan pada instalasi XAMPP lokal, bukan konfigurasi yang direkomendasikan untuk server publik. Ubah nilainya jika akun root MySQL Anda menggunakan password.
 
-### 9.6 Build the Material Web assets
+### 9.6 Build aset Material Web
 
-The generated bundle is committed to the repository. To reproduce the frontend build locally or rebuild it after changing the Material Web entry point:
+Bundle hasil build sudah disertakan di repositori. Untuk mereproduksi proses build frontend secara lokal atau membangun ulang setelah mengubah entry point Material Web, jalankan:
 
 ```bash
 npm ci
 npm run build
 ```
 
-This uses the versions pinned in `package-lock.json` and writes the bundle to `assets/js/material-web.bundle.js`.
+Perintah tersebut menggunakan versi dependency yang dikunci di `package-lock.json` dan menghasilkan bundle di `assets/js/material-web.bundle.js`.
 
-Use Node.js 20 or newer. When changing component imports, edit `assets/js/material-web.entry.js` and run the build again.
+Gunakan Node.js 20 atau lebih baru. Ketika mengubah import komponen, edit `assets/js/material-web.entry.js`, lalu jalankan kembali proses build.
 
-### 9.7 Open Spendly
+### 9.7 Buka Spendly
 
-Open:
+Buka alamat berikut pada browser:
 
 ```text
 http://localhost/spendly/
 ```
 
-The `index.php` entry point redirects:
+Entry point `index.php` akan mengarahkan pengguna:
 
-- Signed-in users to `dashboard.php`.
-- Guests to `login.php`.
+- Pengguna yang sudah login ke `dashboard.php`.
+- Pengunjung yang belum login ke `login.php`.
 
-Select **Create an account**, register with a name, email, and password of at least eight characters, then sign in. Registration automatically creates the default categories and payment methods for that user. A new account initially has no transactions, so financial totals are zero and transaction areas show empty states.
+Pilih **Create an account**, daftar menggunakan nama, email, dan password minimal delapan karakter, kemudian masuk ke akun. Proses registrasi otomatis membuat kategori dan metode pembayaran awal untuk pengguna tersebut. Akun baru belum memiliki transaksi sehingga total keuangan bernilai nol dan bagian transaksi menampilkan empty state.
 
 ---
 
-## 10. Running and Using the Application
+## 10. Menjalankan dan Menggunakan Aplikasi
 
-After installation, the main pages are:
+Setelah proses instalasi selesai, halaman utama aplikasi adalah:
 
-| Page | URL path | Purpose |
+| Halaman | Path URL | Fungsi |
 |---|---|---|
-| Entry | `/` | Redirect to Dashboard or Sign In |
-| Sign in | `/login.php` | Authenticate an existing user |
-| Register | `/register.php` | Create an account |
-| Dashboard | `/dashboard.php` | Review financial summary and recent activity |
-| Transactions | `/transactions.php` | Browse and filter records |
-| Add transaction | `/transaction-create.php` | Record income or expense |
-| Edit transaction | `/transaction-edit.php?id={id}` | Update an owned transaction |
-| Budgets | `/budgets.php` | Review monthly category limits |
-| Categories | `/categories.php` | Manage income and expense categories |
-| Payment methods | `/payment-methods.php` | Manage payment labels |
-| Reports | `/reports.php` | Review monthly analytics |
+| Entry | `/` | Mengarahkan ke Dashboard atau Sign In |
+| Sign in | `/login.php` | Mengautentikasi pengguna yang sudah memiliki akun |
+| Register | `/register.php` | Membuat akun |
+| Dashboard | `/dashboard.php` | Meninjau ringkasan keuangan dan aktivitas terbaru |
+| Transactions | `/transactions.php` | Melihat dan memfilter catatan transaksi |
+| Add transaction | `/transaction-create.php` | Mencatat pemasukan atau pengeluaran |
+| Edit transaction | `/transaction-edit.php?id={id}` | Mengubah transaksi milik pengguna |
+| Budgets | `/budgets.php` | Meninjau batas anggaran bulanan per kategori |
+| Categories | `/categories.php` | Mengelola kategori pemasukan dan pengeluaran |
+| Payment methods | `/payment-methods.php` | Mengelola label metode pembayaran |
+| Reports | `/reports.php` | Meninjau analitik bulanan |
 
-All finance-management pages require an authenticated session.
+Semua halaman pengelolaan keuangan memerlukan session pengguna yang sudah terautentikasi.
 
-### Suggested first-use sequence
+### Urutan penggunaan pertama yang disarankan
 
-1. Register and sign in.
-2. Review the default categories and payment methods.
-3. Add an income transaction.
-4. Add an expense transaction.
-5. Set a budget for an expense category.
-6. Review the dashboard and budget progress.
-7. Open Reports and select the month containing the transactions.
-
----
-
-## 11. Frontend Build and Asset Maintenance
-
-The frontend build configuration is deliberately small.
-
-**Files involved:**
-
-- `package.json`: build scripts and pinned dependency versions.
-- `package-lock.json`: resolved dependency tree.
-- `assets/js/material-web.entry.js`: explicit list of Material Web component imports.
-- `assets/js/material-web.bundle.js`: generated browser bundle.
-- `assets/js/app.js`: Spendly's own browser interaction code.
-- `assets/css/app.css`: application and component styling.
-
-Run `npm ci` after a clean checkout when you need the build dependencies, then run `npm run build`. Rebuild whenever the Material Web entry imports or dependency versions change.
-
-Do not edit the generated bundle manually. Change the entry point or build source and regenerate it instead.
+1. Daftar dan masuk ke akun.
+2. Tinjau kategori dan metode pembayaran bawaan.
+3. Tambahkan satu transaksi pemasukan.
+4. Tambahkan satu transaksi pengeluaran.
+5. Tetapkan anggaran untuk salah satu kategori pengeluaran.
+6. Tinjau dashboard dan progres anggaran.
+7. Buka Reports dan pilih bulan yang berisi transaksi tersebut.
 
 ---
 
-## 12. Development Guidelines
+## 11. Build Frontend dan Pemeliharaan Aset
 
-Use these conventions when maintaining or extending Spendly.
+Konfigurasi build frontend dibuat secara sederhana.
 
-### 12.1 Protected pages
+**File yang terkait:**
 
-- Load the shared authentication helper.
-- Call `require_login()` before accessing private data.
-- Read the current user through `current_user()`.
-- Use the session's user ID for data-access functions and SQL conditions.
+- `package.json`: script build dan versi dependency yang digunakan.
+- `package-lock.json`: pohon dependency yang telah di-resolve.
+- `assets/js/material-web.entry.js`: daftar eksplisit komponen Material Web yang diimpor.
+- `assets/js/material-web.bundle.js`: bundle hasil build untuk browser.
+- `assets/js/app.js`: kode interaksi browser milik Spendly.
+- `assets/css/app.css`: styling aplikasi dan komponen.
 
-### 12.2 Database access
+Jalankan `npm ci` setelah melakukan checkout bersih ketika dependency build diperlukan, kemudian jalankan `npm run build`. Build ulang setiap kali import Material Web atau versi dependency berubah.
 
-- Reuse `get_db_connection()`.
-- Use PDO prepared statements for values supplied by a request.
-- Do not concatenate untrusted input into SQL.
-- Keep queries scoped to the authenticated user.
-- Validate that referenced categories and payment methods belong to that user.
-
-### 12.3 Form handling
-
-- Use POST for state-changing operations.
-- Include `csrf_field()` in forms.
-- Verify the submitted token using `verify_csrf_token()`.
-- Validate every field on the server, even when JavaScript or HTML attributes provide client-side validation.
-- Redirect after successful writes and use flash messages for feedback.
-
-### 12.4 Output and presentation
-
-- Escape user-controlled values with `e()` when rendering HTML.
-- Reuse the shared header and footer.
-- Set `$pageTitle` and `$activeNav` before including the header.
-- Keep shared visual tokens and responsive styles in `assets/css/app.css`.
-- Keep browser interactions in `assets/js/app.js`.
-- Add Material Web imports selectively to `assets/js/material-web.entry.js`, then rebuild the bundle.
-
-### 12.5 Database changes
-
-- Update `database/schema.sql` when the schema changes.
-- Explain whether the change is safe for existing data.
-- Include a migration or explicit upgrade procedure for an existing installation; do not assume that re-importing a `CREATE TABLE IF NOT EXISTS` schema alters existing tables.
-- Preserve foreign-key integrity and unique constraints.
-
-### 12.6 Git workflow
-
-A practical workflow is:
-
-1. Start from an updated `main`.
-2. Create a focused branch for one change.
-3. Keep changes limited to the relevant feature.
-4. Test the affected PHP pages, form submissions, and responsive layout.
-5. Review the diff for accidental secrets or unrelated changes.
-6. Open a pull request and describe the change and verification performed.
+Jangan mengedit bundle hasil build secara manual. Ubah entry point atau sumber build, lalu hasilkan kembali bundle tersebut.
 
 ---
 
-## 13. Verification Checklist
+## 12. Panduan Pengembangan
 
-Use this checklist after installing the application or making a significant change.
+Gunakan konvensi berikut ketika memelihara atau mengembangkan Spendly.
 
-### Environment
-- [ ] Apache starts in XAMPP.
-- [ ] MySQL starts in XAMPP.
-- [ ] `spendly_db` exists and contains all five tables.
-- [ ] `config/database.php` exists locally and is not tracked by Git.
-- [ ] The application opens at `http://localhost/spendly/`.
+### 12.1 Halaman yang memerlukan autentikasi
 
-### Authentication
-- [ ] A new account can be registered.
-- [ ] The user's password is stored as a hash.
-- [ ] Incorrect credentials are rejected.
-- [ ] A guest cannot access protected pages.
-- [ ] Sign out returns the user to the sign-in page.
+- Muat helper autentikasi bersama.
+- Panggil `require_login()` sebelum mengakses data privat.
+- Ambil pengguna aktif melalui `current_user()`.
+- Gunakan ID pengguna dari session pada fungsi akses data dan kondisi SQL.
 
-### Financial features
-- [ ] Income and expense transactions can be created.
-- [ ] Existing transactions can be edited and deleted.
-- [ ] Filters return the expected transactions.
-- [ ] Budget spending reflects matching expense transactions in the selected month.
-- [ ] Referenced categories and payment methods are protected from deletion.
-- [ ] Dashboard totals and report totals match the stored transactions.
+### 12.2 Akses database
 
-### Interface
-- [ ] Desktop sidebar navigation works.
-- [ ] Mobile drawer opens and closes.
-- [ ] Forms and Material Web controls render.
-- [ ] Tables and report sections remain usable on a narrow viewport.
-- [ ] Empty states render when no records exist.
+- Gunakan kembali koneksi melalui `get_db_connection()`.
+- Gunakan PDO prepared statements untuk nilai yang berasal dari request.
+- Jangan menggabungkan input yang tidak tepercaya secara langsung ke dalam SQL.
+- Batasi query berdasarkan pengguna yang sedang login.
+- Validasi bahwa kategori dan metode pembayaran yang direferensikan memang milik pengguna tersebut.
 
-### Build and syntax
-- [ ] `npm ci` completes when rebuilding assets.
-- [ ] `npm run build` completes successfully.
-- [ ] PHP files pass the PHP CLI syntax check.
+### 12.3 Penanganan formulir
 
-For example, on Windows with XAMPP installed at `C:\\xampp`:
+- Gunakan POST untuk operasi yang mengubah data.
+- Sertakan `csrf_field()` pada formulir.
+- Verifikasi token yang dikirim menggunakan `verify_csrf_token()`.
+- Validasi semua field di sisi server, meskipun JavaScript atau atribut HTML sudah menyediakan validasi di sisi klien.
+- Setelah penulisan data berhasil, lakukan redirect dan gunakan flash message untuk memberikan umpan balik.
+
+### 12.4 Output dan presentasi
+
+- Lakukan escaping terhadap nilai yang dikendalikan pengguna menggunakan `e()` ketika merender HTML.
+- Gunakan kembali header dan footer bersama.
+- Tetapkan `$pageTitle` dan `$activeNav` sebelum menyertakan header.
+- Simpan token visual bersama dan styling responsif di `assets/css/app.css`.
+- Simpan interaksi browser di `assets/js/app.js`.
+- Tambahkan import Material Web secara selektif ke `assets/js/material-web.entry.js`, kemudian build ulang bundle.
+
+### 12.5 Perubahan database
+
+- Perbarui `database/schema.sql` ketika struktur database berubah.
+- Jelaskan apakah perubahan tersebut aman untuk data yang sudah ada.
+- Sertakan migration atau prosedur upgrade yang eksplisit untuk instalasi lama. Jangan menganggap impor ulang schema dengan `CREATE TABLE IF NOT EXISTS` otomatis mengubah tabel yang sudah ada.
+- Pertahankan integritas foreign key dan unique constraint.
+
+### 12.6 Alur kerja Git
+
+Alur kerja praktis yang dapat digunakan:
+
+1. Mulai dari branch `main` yang sudah diperbarui.
+2. Buat branch khusus untuk satu perubahan yang terfokus.
+3. Batasi perubahan pada fitur yang relevan.
+4. Uji halaman PHP, pengiriman formulir, dan layout responsif yang terdampak.
+5. Periksa diff untuk memastikan tidak ada secret atau perubahan lain yang tidak berkaitan.
+6. Buka pull request dan jelaskan perubahan serta proses verifikasi yang telah dilakukan.
+
+---
+
+## 13. Checklist Verifikasi
+
+Gunakan checklist berikut setelah memasang aplikasi atau melakukan perubahan yang cukup besar.
+
+### Lingkungan
+- [ ] Apache dapat dijalankan melalui XAMPP.
+- [ ] MySQL dapat dijalankan melalui XAMPP.
+- [ ] Database `spendly_db` tersedia dan berisi kelima tabel.
+- [ ] `config/database.php` tersedia secara lokal dan tidak dilacak oleh Git.
+- [ ] Aplikasi dapat dibuka melalui `http://localhost/spendly/`.
+
+### Autentikasi
+- [ ] Akun baru dapat didaftarkan.
+- [ ] Password pengguna disimpan dalam bentuk hash.
+- [ ] Kredensial yang salah ditolak.
+- [ ] Guest tidak dapat mengakses halaman yang dilindungi.
+- [ ] Sign out mengembalikan pengguna ke halaman sign-in.
+
+### Fitur keuangan
+- [ ] Transaksi pemasukan dan pengeluaran dapat dibuat.
+- [ ] Transaksi yang sudah ada dapat diubah dan dihapus.
+- [ ] Filter menampilkan transaksi yang sesuai.
+- [ ] Pengeluaran anggaran sesuai dengan transaksi expense pada kategori dan bulan terpilih.
+- [ ] Kategori dan metode pembayaran yang masih direferensikan terlindungi dari penghapusan.
+- [ ] Total dashboard dan laporan sesuai dengan transaksi yang tersimpan.
+
+### Antarmuka
+- [ ] Navigasi sidebar desktop berfungsi.
+- [ ] Drawer mobile dapat dibuka dan ditutup.
+- [ ] Formulir dan kontrol Material Web ditampilkan dengan benar.
+- [ ] Tabel dan bagian laporan tetap dapat digunakan pada viewport sempit.
+- [ ] Empty state ditampilkan ketika belum ada catatan.
+
+### Build dan sintaks
+- [ ] `npm ci` selesai dengan baik ketika aset perlu dibangun ulang.
+- [ ] `npm run build` selesai dengan baik.
+- [ ] File PHP lolos pemeriksaan sintaks melalui PHP CLI.
+
+Contoh perintah pada Windows dengan XAMPP yang terpasang di `C:\\xampp`:
 
 ```powershell
 Get-ChildItem -Recurse -Filter *.php |
@@ -811,63 +811,63 @@ ForEach-Object {
 }
 ```
 
-A successful PHP lint reports `No syntax errors detected` for each file. Syntax checks do not replace browser and database integration tests.
+Pemeriksaan PHP yang berhasil akan menampilkan `No syntax errors detected` untuk setiap file. Pemeriksaan sintaks tidak menggantikan pengujian integrasi dengan browser dan database.
 
 ---
 
-## 14. Troubleshooting
+## 14. Pemecahan Masalah
 
-| Symptom | What to check |
+| Gejala | Hal yang perlu diperiksa |
 |---|---|
-| Spendly shows a database configuration message | Confirm that `config/database.php` was copied from `config/database.example.php` |
-| Database connection error | Confirm MySQL is running, `spendly_db` exists, the port is correct, and the credentials match |
-| `could not find driver` | Confirm the PHP `pdo_mysql` extension is enabled in the PHP installation used by Apache |
-| phpMyAdmin cannot import the schema | Confirm the SQL file is selected and the MySQL account can create/use the database |
-| Apache does not start | Check whether another application is using the Apache ports |
-| MySQL does not start | Check for another MySQL service or a port conflict |
-| Material Web elements appear as unknown HTML elements | Confirm `assets/js/material-web.bundle.js` exists and the build completed |
-| Old styling remains after a change | Refresh the page and confirm that the CSS asset path and file are being served from the current project directory |
-| Login redirects repeatedly | Confirm PHP sessions are enabled and the browser accepts session cookies |
+| Spendly menampilkan pesan konfigurasi database | Pastikan `config/database.php` sudah disalin dari `config/database.example.php` |
+| Terjadi database connection error | Pastikan MySQL aktif, `spendly_db` tersedia, port benar, dan kredensial sesuai |
+| Muncul pesan `could not find driver` | Pastikan ekstensi PHP `pdo_mysql` aktif pada instalasi PHP yang digunakan Apache |
+| phpMyAdmin gagal mengimpor schema | Pastikan file SQL sudah dipilih dan akun MySQL memiliki izin membuat/menggunakan database |
+| Apache tidak dapat dijalankan | Periksa apakah aplikasi lain sedang menggunakan port Apache |
+| MySQL tidak dapat dijalankan | Periksa apakah ada service MySQL lain atau konflik port |
+| Komponen Material Web tampil sebagai elemen HTML yang tidak dikenali | Pastikan `assets/js/material-web.bundle.js` tersedia dan build selesai |
+| Styling lama masih terlihat setelah perubahan | Refresh halaman dan pastikan path aset CSS mengarah ke direktori proyek yang benar |
+| Login terus-menerus melakukan redirect | Pastikan PHP session aktif dan browser menerima cookie session |
 
 ---
 
-## 15. Current Implementation Notes
+## 15. Catatan Implementasi Saat Ini
 
-These notes prevent the documentation from being mistaken for a promise of functionality that is not present in the repository:
+Catatan berikut mencegah dokumentasi disalahartikan sebagai janji atas fitur yang sebenarnya belum tersedia di repositori:
 
-- Spendly is a server-rendered PHP application, not a SPA.
-- There is no separate REST API service.
-- Transactions are entered manually; no bank or payment-provider integration is configured.
-- IDR is the initial display currency. Currency conversion is not implemented.
-- Reports are calculated from saved database records and rendered in the PHP page.
-- The Material Web bundle is built locally from pinned npm dependencies.
-- The repository does not define a PHP unit-test command in `package.json`; the npm scripts build frontend assets.
-- The current logout handler clears the session but does not enforce POST-only plus CSRF validation; see Section 8.1.
-- Local XAMPP setup is documented. A public deployment requires additional security and operational hardening.
+- Spendly merupakan aplikasi PHP multi-halaman dengan rendering di sisi server, bukan SPA.
+- Tidak ada layanan REST API terpisah.
+- Transaksi dimasukkan secara manual; tidak ada integrasi bank atau penyedia pembayaran.
+- IDR adalah mata uang tampilan awal. Konversi mata uang belum diimplementasikan.
+- Laporan dihitung dari catatan database yang tersimpan dan dirender melalui halaman PHP.
+- Bundle Material Web dibangun secara lokal dari dependency npm yang versinya dikunci.
+- Repositori tidak mendefinisikan perintah PHP unit test di `package.json`; script npm yang tersedia digunakan untuk membangun aset frontend.
+- Handler logout saat ini mengakhiri session, tetapi belum menerapkan pembatasan POST-only dan validasi CSRF. Lihat Bagian 8.1.
+- Setup XAMPP lokal telah didokumentasikan. Deployment publik memerlukan penguatan keamanan dan operasional tambahan.
 
 ---
 
-## 16. Reference Files
+## 16. File Referensi
 
-For source-level details, use these repository files as the implementation references:
+Untuk detail pada tingkat kode sumber, gunakan file repositori berikut sebagai acuan implementasi:
 
-| Topic | Source files |
+| Topik | File sumber |
 |---|---|
-| Database schema | `database/schema.sql` |
-| Local database settings | `config/database.example.php`, `includes/db.php` |
-| Authentication and registration seeding | `includes/auth.php`, `login.php`, `register.php`, `logout.php` |
-| Sessions and shared helpers | `includes/functions.php` |
+| Skema database | `database/schema.sql` |
+| Pengaturan database lokal | `config/database.example.php`, `includes/db.php` |
+| Autentikasi dan pembuatan data awal saat registrasi | `includes/auth.php`, `login.php`, `register.php`, `logout.php` |
+| Session dan helper bersama | `includes/functions.php` |
 | CSRF | `includes/csrf.php` |
-| Transactions | `includes/transactions.php`, transaction page controllers |
-| Budgets | `includes/budgets.php`, budget page controllers |
-| Categories and payment methods | `includes/catalog.php`, category and payment-method page controllers |
-| Reports | `includes/reports.php`, `reports.php` |
-| Shared layout | `includes/header.php`, `includes/footer.php` |
-| Browser behavior | `assets/js/app.js` |
-| Material Web build | `package.json`, `package-lock.json`, `assets/js/material-web.entry.js` |
-| Styling and design tokens | `assets/css/app.css`, `design-system.md` |
-| Project summary and quick setup | `README.md` |
+| Transaksi | `includes/transactions.php`, controller halaman transaksi |
+| Anggaran | `includes/budgets.php`, controller halaman anggaran |
+| Kategori dan metode pembayaran | `includes/catalog.php`, controller halaman kategori dan metode pembayaran |
+| Laporan | `includes/reports.php`, `reports.php` |
+| Layout bersama | `includes/header.php`, `includes/footer.php` |
+| Perilaku browser | `assets/js/app.js` |
+| Build Material Web | `package.json`, `package-lock.json`, `assets/js/material-web.entry.js` |
+| Styling dan design token | `assets/css/app.css`, `design-system.md` |
+| Ringkasan proyek dan setup singkat | `README.md` |
 
 ---
 
-**End of Spendly Technical Documentation**
+**Akhir Dokumentasi Teknis Spendly**

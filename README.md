@@ -8,9 +8,9 @@
 
 Spendly is a lightweight, responsive web application designed for personal income and expense tracking, category budgeting, and financial summaries. Built with native PHP, MySQL, vanilla JavaScript, and selectively bundled Material Web components, it remains easy to run locally while using official Material 3 controls.
 
-## Technical Documentation
+## Dokumentasi Teknis
 
-For the complete project explanation, architecture, database design, feature flows, security notes, and step-by-step XAMPP setup, read **[Technical Documentation](docs/TECHNICAL_DOCUMENTATION.md)**.
+Untuk penjelasan lengkap mengenai proyek, arsitektur, desain database, alur fitur, catatan keamanan, serta panduan instalasi XAMPP langkah demi langkah, baca **[Dokumentasi Teknis](docs/TECHNICAL_DOCUMENTATION.md)**.
 
 ---
 
