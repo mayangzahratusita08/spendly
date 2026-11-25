@@ -12,6 +12,8 @@ Spendly is a lightweight, responsive web application designed for personal incom
 
 Untuk penjelasan singkat tentang proyek, teknologi, struktur kode, database, dan cara menjalankan aplikasi, baca **[Panduan Teknis Spendly](docs/TECHNICAL_DOCUMENTATION.md)**.
 
+Untuk memahami implementasi setiap bagian kode secara bertahap, baca **[Penjelasan Kode Spendly](docs/PENJELASAN_KODE.md)**.
+
 ---
 
 ## 1. Stack and Architecture
