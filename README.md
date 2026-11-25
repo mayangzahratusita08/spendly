@@ -4,9 +4,15 @@
 > **Target Environment:** XAMPP (Apache + MySQL / MariaDB + PHP 8.x)  
 > **Language:** English  
 > **Initial Currency:** IDR (Rp)  
-> **Milestone Status:** **Milestone 6 — Design System v1 & Dashboard Redesign Implemented**
+> **Project Status:** Core features and Material 3 redesign implemented; see the technical documentation for architecture, code structure, and local setup.
 
 Spendly is a lightweight, responsive web application designed for personal income and expense tracking, category budgeting, and financial summaries. Built with native PHP, MySQL, vanilla JavaScript, and selectively bundled Material Web components, it remains easy to run locally while using official Material 3 controls.
+
+## Dokumentasi Teknis
+
+Untuk penjelasan singkat tentang proyek, teknologi, struktur kode, database, dan cara menjalankan aplikasi, baca **[Panduan Teknis Spendly](docs/TECHNICAL_DOCUMENTATION.md)**.
+
+Untuk memahami implementasi setiap bagian kode secara bertahap, baca **[Penjelasan Kode Spendly](docs/PENJELASAN_KODE.md)**.
 
 ---
 
