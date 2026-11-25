@@ -34,25 +34,29 @@ Spendly menggunakan PHP biasa tanpa framework frontend. Halaman dibuat oleh PHP 
 
 ## 3. Cara Kerja Aplikasi
 
-Alur sederhananya:
+Diagram berikut menunjukkan alur ketika pengguna membuka halaman Spendly:
 
-```text
-Browser
-   |
-   v
-Apache (XAMPP)
-   |
-   v
-PHP
-   |
-   v
-PDO
-   |
-   v
-MySQL / MariaDB
+```mermaid
+flowchart TD
+    A[Pengguna membuka halaman] --> B[Browser mengirim request]
+    B --> C[Apache menerima request]
+    C --> D[PHP menjalankan file halaman]
+    D --> E{Halaman memerlukan login?}
+    E -->|Ya| F[Periksa session pengguna]
+    E -->|Tidak| H[Proses halaman]
+    F --> G{Sudah login?}
+    G -->|Tidak| I[Alihkan ke halaman login]
+    G -->|Ya| H
+    H --> J[PHP memvalidasi input dan menyiapkan data]
+    J --> K[PDO menjalankan query]
+    K --> L[(MySQL / MariaDB)]
+    L --> M[Hasil query dikembalikan ke PHP]
+    M --> N[PHP membuat HTML]
+    N --> O[Browser menampilkan halaman]
+    O --> P[CSS dan JavaScript mengatur tampilan dan interaksi]
 ```
 
-Ketika pengguna membuka halaman, Apache meneruskan request ke PHP. PHP memeriksa session pengguna, memproses data, dan mengambil atau menyimpan informasi melalui PDO. Hasilnya kemudian ditampilkan kembali di browser.
+Secara sederhana, PHP menangani proses aplikasi dan komunikasi database. Browser menampilkan hasilnya.
 
 ## 4. Struktur Folder
 
@@ -109,7 +113,55 @@ Database Spendly bernama `spendly_db` dan memiliki lima tabel:
 | `transactions` | Catatan pemasukan dan pengeluaran |
 | `budgets` | Anggaran bulanan berdasarkan kategori |
 
-Setiap data keuangan terhubung dengan pengguna pemiliknya. Transaksi juga terhubung dengan kategori dan dapat memiliki metode pembayaran. Anggaran terhubung dengan kategori pengeluaran.
+Hubungan antar tabel:
+
+```mermaid
+erDiagram
+    USERS ||--o{ CATEGORIES : memiliki
+    USERS ||--o{ PAYMENT_METHODS : memiliki
+    USERS ||--o{ TRANSACTIONS : mencatat
+    USERS ||--o{ BUDGETS : membuat
+    CATEGORIES ||--o{ TRANSACTIONS : mengelompokkan
+    CATEGORIES ||--o{ BUDGETS : membatasi
+    PAYMENT_METHODS o|--o{ TRANSACTIONS : digunakan
+
+    USERS {
+        BIGINT id PK
+        VARCHAR full_name
+        VARCHAR email
+        VARCHAR password_hash
+    }
+    CATEGORIES {
+        BIGINT id PK
+        BIGINT user_id FK
+        VARCHAR name
+        ENUM type
+        VARCHAR color
+    }
+    PAYMENT_METHODS {
+        BIGINT id PK
+        BIGINT user_id FK
+        VARCHAR name
+    }
+    TRANSACTIONS {
+        BIGINT id PK
+        BIGINT user_id FK
+        BIGINT category_id FK
+        BIGINT payment_method_id FK
+        ENUM type
+        DECIMAL amount
+        DATE transaction_date
+    }
+    BUDGETS {
+        BIGINT id PK
+        BIGINT user_id FK
+        BIGINT category_id FK
+        DATE budget_month
+        DECIMAL amount_limit
+    }
+```
+
+Setiap data keuangan terhubung dengan pengguna pemiliknya. Transaksi terhubung dengan kategori dan dapat memiliki metode pembayaran. Anggaran terhubung dengan kategori pengeluaran.
 
 Struktur database tersedia di `database/schema.sql`. File ini digunakan saat membuat database untuk pertama kali.
 
@@ -119,9 +171,29 @@ Struktur database tersedia di `database/schema.sql`. File ini digunakan saat mem
 
 Pastikan XAMPP sudah terpasang dan menyediakan Apache, MySQL, PHP, serta phpMyAdmin.
 
-### Langkah 1: Letakkan proyek
+### Alur instalasi
 
-Clone repositori:
+```mermaid
+flowchart TD
+    A[Mulai] --> B[Clone repositori Spendly]
+    B --> C[Pindahkan folder ke htdocs]
+    C --> D[Jalankan Apache dan MySQL di XAMPP]
+    D --> E[Buka phpMyAdmin]
+    E --> F[Impor database/schema.sql]
+    F --> G[Salin database.example.php]
+    G --> H[Atur kredensial database]
+    H --> I[Buka localhost/spendly]
+    I --> J{Sudah memiliki akun?}
+    J -->|Belum| K[Daftar akun baru]
+    K --> L[Spendly membuat kategori dan metode pembayaran awal]
+    L --> M[Masuk ke akun]
+    J -->|Sudah| M
+    M --> N[Dashboard Spendly]
+```
+
+### Clone repositori
+
+Jalankan perintah berikut:
 
 ```bash
 git clone https://github.com/mayangzahratusita08/spendly.git
@@ -133,30 +205,30 @@ Letakkan folder `spendly` di dalam folder `htdocs` XAMPP. Contoh lokasi Windows:
 C:\xampp\htdocs\spendly
 ```
 
-### Langkah 2: Jalankan XAMPP
+### Jalankan XAMPP
 
 Buka XAMPP Control Panel, kemudian jalankan **Apache** dan **MySQL**.
 
-### Langkah 3: Buat database
+### Impor database
 
 1. Buka `http://localhost/phpmyadmin/`.
-2. Buka menu **Import**.
+2. Pilih menu **Import**.
 3. Pilih file `database/schema.sql` dari folder Spendly.
 4. Jalankan proses import.
 
 File schema akan membuat database `spendly_db` beserta tabel-tabel yang diperlukan.
 
-### Langkah 4: Atur koneksi database
+### Atur koneksi database
 
 Salin file `config/database.example.php` menjadi `config/database.php`.
 
-Windows PowerShell:
+**Windows PowerShell:**
 
 ```powershell
 Copy-Item config/database.example.php config/database.php
 ```
 
-Linux atau macOS:
+**Linux atau macOS:**
 
 ```bash
 cp config/database.example.php config/database.php
@@ -166,21 +238,33 @@ Buka `config/database.php`, lalu sesuaikan host, nama database, username, dan pa
 
 **Jangan unggah `config/database.php` ke GitHub**, karena file tersebut berisi kredensial lokal.
 
-### Langkah 5: Jalankan aplikasi
+### Buka aplikasi
 
-Buka browser dan akses:
+Setelah konfigurasi selesai, buka alamat berikut di browser:
 
 ```text
 http://localhost/spendly/
 ```
 
-Pengguna akan diarahkan ke halaman login. Buat akun melalui menu registrasi, kemudian masuk untuk mulai menggunakan Spendly.
+Pengguna akan diarahkan ke halaman login. Buat akun melalui menu registrasi jika belum memiliki akun.
 
 ## 7. Build Aset (Opsional)
 
-Bundle Material Web sudah tersedia di repositori, jadi langkah ini biasanya tidak diperlukan untuk sekadar menjalankan aplikasi.
+Bundle Material Web sudah tersedia di repositori. Karena itu, langkah ini biasanya tidak diperlukan untuk sekadar menjalankan aplikasi.
 
-Apabila ingin membangun ulang aset frontend, gunakan Node.js versi 20 atau lebih baru:
+Alur build aset:
+
+```mermaid
+flowchart TD
+    A[Mulai] --> B{Perlu mengubah komponen Material Web?}
+    B -->|Tidak| C[Gunakan bundle yang tersedia]
+    B -->|Ya| D[Pasang Node.js 20 atau lebih baru]
+    D --> E[jalankan npm ci]
+    E --> F[jalankan npm run build]
+    F --> G[material-web.bundle.js diperbarui]
+```
+
+Perintah build:
 
 ```bash
 npm ci
