@@ -10,7 +10,7 @@ Spendly is a lightweight, responsive web application designed for personal incom
 
 ## Dokumentasi Teknis
 
-Untuk penjelasan lengkap mengenai proyek, arsitektur, desain database, alur fitur, catatan keamanan, serta panduan instalasi XAMPP langkah demi langkah, baca **[Dokumentasi Teknis](docs/TECHNICAL_DOCUMENTATION.md)**.
+Untuk penjelasan singkat tentang proyek, teknologi, struktur kode, database, dan cara menjalankan aplikasi, baca **[Panduan Teknis Spendly](docs/TECHNICAL_DOCUMENTATION.md)**.
 
 ---
 
